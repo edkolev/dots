@@ -1,0 +1,255 @@
+let mapleader = ","
+" Vundle config
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+
+" colours
+Bundle 'molokai'
+Bundle 'sickill/vim-monokai'
+Bundle 'peaksea'
+Bundle 'twilight'
+Bundle 'jellybeans.vim'
+Bundle 'Solarized'
+Bundle 'herald.vim'
+Bundle 'Wombat'
+Bundle 'Zenburn'
+Bundle 'phd'
+Bundle 'xoria256.vim'
+Bundle 'paintbox'
+Bundle 'sift'
+Bundle 'Mustang2'
+Bundle 'badwolf'
+Bundle 'darktango.vim'
+Bundle 'ironman.vim'
+Bundle 'Atom'
+Bundle 'w0ng/vim-hybrid'
+Bundle 'noahfrederick/Hemisu'
+Bundle 'jeetsukumaran/vim-buffergator'
+Bundle 'Lucius'
+Bundle 'ZoomWin'
+
+" code assistance
+" Bundle 'fholgado/minibufexpl.vim'
+Bundle 'The-NERD-tree'
+Bundle 'surround.vim'
+Bundle 'localvimrc'
+Bundle 'Syntastic'
+Bundle 'Align'
+" Bundle 'Lokaltog/vim-powerline'
+Bundle 'Tagbar'
+Bundle 'ctrlp.vim'
+Bundle 'project.tar.gz'
+Bundle 'mbbill/undotree'
+Bundle 'scratch.vim'
+Bundle 'ack.vim'
+Bundle 'repeat.vim'
+Bundle 'NrrwRgn'
+Bundle 'commentary.vim'
+Bundle 'UltiSnips'
+Bundle 'yankstack'
+Bundle 'mihaifm/vimpanel'
+Bundle 'bufexplorer.zip'
+Bundle 'kana/vim-textobj-user'
+Bundle 'kana/vim-textobj-lastpat'
+Bundle 'kana/vim-textobj-entire'
+Bundle 'nelstrom/vim-visual-star-search'
+Bundle 'tpope/vim-abolish'
+Bundle 'nelstrom/vim-qargs'
+Bundle 'leshill/vim-json'
+Bundle 'tracwiki'
+" Bundle 'Shougo/vimshell'
+" Bundle 'troydm/easybuffer.vim'
+
+filetype plugin indent on
+" end of Vundle config
+
+let g:localvimrc_whitelist = 'dev/.lvimrc'
+let g:localvimrc_sandbox = 0
+
+let g:nrrw_rgn_nohl = 1
+let g:easytags_auto_update = 0
+
+let g:UltiSnipsSnippetDirectories=["bundle/UltiSnips/UltiSnips/"]
+
+let g:ctrlp_switch_buffer = 2
+let g:ctrlp_working_path_mode = 2
+let g:ctrlp_open_multiple_files = '0vt'
+let g:ctrlp_dotfiles = 1
+let g:ctrlp_custom_ignore = '\Files$\|\.svn$'
+
+let g:nrrw_rgn_wdth = 50
+" let g:Powerline_theme = 'skwp'
+let g:buffergator_suppress_keymaps = 1
+let g:buffergator_sort_regime = 'mru'
+
+nmap <Leader>U :UndotreeToggle<CR>
+nmap <Leader>n :NERDTreeToggle<CR>
+nmap <Leader>g :TagbarToggle<CR>
+nmap <silent> <Leader>E :Project<CR>
+" nmap <Leader>e :EasyBuffer<CR>
+nmap <Leader>e :BufExplorer<CR>
+
+let g:NERDTreeWinPos = "right"
+let g:NERDTreeShowBookmarks = 1
+let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeChDirMode = 1
+let g:proj_flags='imstc'
+
+nmap <Leader>t :CtrlPBufTag<CR>
+nmap <Leader>r :CtrlPMRUFiles<CR>
+nmap <Leader>f :CtrlP .<CR>
+" nmap <Leader>b :CtrlPBookmarkDir<CR>
+
+let g:syntastic_check_on_open=0
+let g:syntastic_enable_balloons = 0
+let g:syntastic_enable_highlighting = 0
+let g:syntastic_auto_jump=1
+let g:syntastic_mode_map = { 'mode': 'passive' ,
+                           \ 'active_filetypes': ['erlang'],
+                           \ 'passive_filetypes': ['perl'] }
+
+let g:yankstack_map_keys = 0
+nmap <leader>p <Plug>yankstack_substitute_older_paste
+nmap <leader>P <Plug>yankstack_substitute_newer_paste
+
+call yankstack#setup()
+nmap Y y$
+
+syntax enable
+if has('gui_running')
+   set cursorline
+   set guioptions-=T " no toolbar
+   set guioptions-=M " no menu
+   set guioptions-=r " no right scrollbar
+   set guioptions-=L " no left scrollbar
+   set guitablabel=%m\ %t
+   set guifont=Inconsolata:h13
+   colo darktango
+   " colo ironman
+
+   " tab names set to file names
+endif
+
+set laststatus=2   " Always show the statusline
+set encoding=utf-8 " Necessary to show Unicode glyphs
+
+
+set autoindent
+set smartindent
+set noswapfile " no .swp files
+inoremap # #
+
+set shiftwidth=4
+set tabstop=4
+set expandtab
+
+set scrolloff=20
+set sidescrolloff=20
+
+set wildmode=longest:full
+set wildmenu
+
+" always show tabar
+" set showtabline=2
+set nowrap
+
+nmap <Leader>V :source $MYVIMRC
+nmap <Leader>v :vsplit $MYVIMRC<CR>
+
+set ignorecase
+set smartcase
+
+set diffopt+=vertical
+
+set complete-=i
+set complete-=t
+
+" speed up shift-o
+" set timeout timeoutlen=5000 ttimeoutlen=100
+
+" allow backspacing over everything in insert mode
+" set backspace=indent,eol,start
+
+set history=50 " keep 50 lines of command line history
+set showcmd    " display incomplete commands
+set incsearch  " do incremental searching
+
+" nmap <Leader>s :w<CR>:! svn diff %<CR>
+
+" Moving around windows 
+map <C-j> <C-w>j<C-w><Esc>
+map <C-k> <C-w>k<C-w><Esc>
+map <C-l> <C-w>l<C-w><Esc>
+map <C-h> <C-w>h<C-w><Esc>
+  
+" alias :W to :w
+nnoremap ; :
+vnoremap ; :
+
+" " open help in a new tab
+" cabbrev help tab help
+cnoremap help vert help
+
+" use normal regexes
+nnoremap / /\v
+vnoremap / /\v
+nnoremap <leader><space> :noh<cr>
+
+set gdefault " replace all matches on the line e.g. s///g
+set showmatch
+set hls
+nohls
+au FocusLost * silent! wa
+au FocusLost,TabLeave * call feedkeys("\<C-\>\<C-n>")
+
+nmap <Leader># :%s///n<CR> " count matches
+nmap <Leader>D :%s///g<CR> " delete matches
+
+" nmap <Leader>Y :"*yiw " copy iw to system clipboard
+
+map [t :tabprevious<CR>
+map ]t :tabnext<CR>
+map [T :tabfirst<CR>
+map ]T :tablast<CR>
+
+map [b :bprevious<CR>
+map ]b :bnext<CR>
+map [B :bfirst<CR>
+map ]B :blast<CR>
+
+nnoremap <leader>w <C-w>v<C-w>l
+
+" show line numbers in current window only
+set relativenumber
+" au WinEnter * :setlocal relativenumber
+" au WinLeave * :setlocal norelativenumber
+
+" Automatically resize vertical splits.
+au WinEnter * :set winfixheight
+" :au WinEnter * :wincmd =
+" set hidden
+"
+" source the .vimrc file on save to apply all changes immediately
+if has("autocmd")
+  autocmd! bufwritepost .vimrc source $MYVIMRC
+endif
+
+set list lcs=trail:·,tab:»·
+
+" hit g& to re-run last s/// on the whole file
+" :&&   rerun last s///
+" /ze to end the match i.e. /Pragmatic\ze Vim
+" nnoremap & :&&<CR>
+" xnoremap & :&&<CR>
+
+hi Search guibg=peru guifg=wheat
+
+
+nmap <C-]> g<C-]>
+
+" set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%#ErrorMsg#%*%=%-14.(%l,%c%V%)\ %l/%L
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%#ErrorMsg#%*%=%-14.(%V%)\ %c\ %l/%L
+
