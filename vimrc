@@ -7,19 +7,16 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " colours
-Bundle 'molokai'
-Bundle 'sickill/vim-monokai'
 Bundle 'peaksea'
 Bundle 'twilight'
 Bundle 'jellybeans.vim'
-Bundle 'Solarized'
 Bundle 'herald.vim'
 Bundle 'Wombat'
 Bundle 'Zenburn'
 Bundle 'phd'
 Bundle 'xoria256.vim'
 Bundle 'paintbox'
-Bundle 'sift'
+Bundle 'Sift'
 Bundle 'Mustang2'
 Bundle 'badwolf'
 Bundle 'darktango.vim'
@@ -27,9 +24,8 @@ Bundle 'ironman.vim'
 Bundle 'Atom'
 Bundle 'w0ng/vim-hybrid'
 Bundle 'noahfrederick/Hemisu'
-Bundle 'jeetsukumaran/vim-buffergator'
 Bundle 'Lucius'
-Bundle 'ZoomWin'
+Bundle 'Solarized'
 
 " code assistance
 " Bundle 'fholgado/minibufexpl.vim'
@@ -37,7 +33,7 @@ Bundle 'The-NERD-tree'
 Bundle 'surround.vim'
 Bundle 'localvimrc'
 Bundle 'Syntastic'
-Bundle 'Align'
+" Bundle 'Align'
 " Bundle 'Lokaltog/vim-powerline'
 Bundle 'Tagbar'
 Bundle 'ctrlp.vim'
@@ -48,7 +44,7 @@ Bundle 'ack.vim'
 Bundle 'repeat.vim'
 Bundle 'NrrwRgn'
 Bundle 'commentary.vim'
-Bundle 'UltiSnips'
+" Bundle 'UltiSnips'
 Bundle 'yankstack'
 Bundle 'mihaifm/vimpanel'
 Bundle 'bufexplorer.zip'
@@ -60,8 +56,7 @@ Bundle 'tpope/vim-abolish'
 Bundle 'nelstrom/vim-qargs'
 Bundle 'leshill/vim-json'
 Bundle 'tracwiki'
-" Bundle 'Shougo/vimshell'
-" Bundle 'troydm/easybuffer.vim'
+Bundle 'xolox/vim-notes'
 
 filetype plugin indent on
 " end of Vundle config
@@ -78,30 +73,25 @@ let g:ctrlp_switch_buffer = 2
 let g:ctrlp_working_path_mode = 2
 let g:ctrlp_open_multiple_files = '0vt'
 let g:ctrlp_dotfiles = 1
-let g:ctrlp_custom_ignore = '\Files$\|\.svn$'
+let g:ctrlp_custom_ignore = 'Img$\|Images$\|Files$\|\.svn$\|\.jpg$\|\.png$\|\.gif$'
 
 let g:nrrw_rgn_wdth = 50
-" let g:Powerline_theme = 'skwp'
-let g:buffergator_suppress_keymaps = 1
-let g:buffergator_sort_regime = 'mru'
 
 nmap <Leader>U :UndotreeToggle<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
-nmap <Leader>g :TagbarToggle<CR>
 nmap <silent> <Leader>E :Project<CR>
-" nmap <Leader>e :EasyBuffer<CR>
 nmap <Leader>e :BufExplorer<CR>
 
 let g:NERDTreeWinPos = "right"
 let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeChDirMode = 1
+let g:NERDTreeDirArrows=0
 let g:proj_flags='imstc'
 
 nmap <Leader>t :CtrlPBufTag<CR>
 nmap <Leader>r :CtrlPMRUFiles<CR>
 nmap <Leader>f :CtrlP .<CR>
-" nmap <Leader>b :CtrlPBookmarkDir<CR>
 
 let g:syntastic_check_on_open=0
 let g:syntastic_enable_balloons = 0
@@ -118,6 +108,8 @@ nmap <leader>P <Plug>yankstack_substitute_newer_paste
 call yankstack#setup()
 nmap Y y$
 
+:let g:notes_tab_indents = 0
+
 syntax enable
 if has('gui_running')
    set cursorline
@@ -127,19 +119,22 @@ if has('gui_running')
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
    set guifont=Inconsolata:h13
-   colo darktango
-   " colo ironman
+   colo lucius
+else
+   colo lucius
+   hi Search cterm=NONE ctermbg=grey
+endif
 
-   " tab names set to file names
+if &diff
+  " colo hybrid
 endif
 
 set laststatus=2   " Always show the statusline
-set encoding=utf-8 " Necessary to show Unicode glyphs
-
+set encoding=utf-8
 
 set autoindent
 set smartindent
-set noswapfile " no .swp files
+set noswapfile
 inoremap # #
 
 set shiftwidth=4
@@ -167,11 +162,11 @@ set diffopt+=vertical
 set complete-=i
 set complete-=t
 
-" speed up shift-o
-" set timeout timeoutlen=5000 ttimeoutlen=100
+" same terminal
+set notimeout ttimeout ttimeoutlen=10
 
 " allow backspacing over everything in insert mode
-" set backspace=indent,eol,start
+set backspace=indent,eol,start
 
 set history=50 " keep 50 lines of command line history
 set showcmd    " display incomplete commands
@@ -220,7 +215,7 @@ map ]b :bnext<CR>
 map [B :bfirst<CR>
 map ]B :blast<CR>
 
-nnoremap <leader>w <C-w>v<C-w>l
+nnoremap <leader>w :vnew<cr>
 
 " show line numbers in current window only
 set relativenumber
@@ -231,25 +226,39 @@ set relativenumber
 au WinEnter * :set winfixheight
 " :au WinEnter * :wincmd =
 " set hidden
-"
+
 " source the .vimrc file on save to apply all changes immediately
 if has("autocmd")
   autocmd! bufwritepost .vimrc source $MYVIMRC
 endif
 
-set list lcs=trail:·,tab:»·
-
-" hit g& to re-run last s/// on the whole file
-" :&&   rerun last s///
-" /ze to end the match i.e. /Pragmatic\ze Vim
-" nnoremap & :&&<CR>
-" xnoremap & :&&<CR>
-
-hi Search guibg=peru guifg=wheat
+" set list lcs=trail:·,tab:»·
 
 
-nmap <C-]> g<C-]>
+nmap <C-]> g<C-]>     " jump to tag if one, show list otherwise
 
-" set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%#ErrorMsg#%*%=%-14.(%l,%c%V%)\ %l/%L
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%#ErrorMsg#%*%=%-14.(%V%)\ %c\ %l/%L
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%*%=%-14.(%c%V%)%c\ \ %l/%L
 
+autocmd InsertEnter * :setlocal nohlsearch
+autocmd InsertLeave * :setlocal hlsearch
+
+augroup cline
+    au!
+    au WinLeave * set nocursorline
+    au WinEnter * set cursorline
+    au InsertEnter * set nocursorline
+    au InsertLeave * set cursorline
+augroup END
+
+set splitbelow splitright
+
+nnoremap j gj
+nnoremap k gk
+nnoremap J mzJ`z
+
+" set autowrite
+" set autoread
+set ttyfast
+set synmaxcol=800
+set completeopt=longest,menuone,preview
+au VimResized * :wincmd =
