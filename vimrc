@@ -56,6 +56,7 @@ Bundle 'nelstrom/vim-qargs'
 Bundle 'leshill/vim-json'
 Bundle 'tracwiki'
 Bundle 'xolox/vim-notes'
+Bundle 'godlygeek/tabular'
 
 filetype plugin indent on
 " end of Vundle config
@@ -75,6 +76,9 @@ let g:ctrlp_dotfiles = 1
 let g:ctrlp_custom_ignore = 'Img$\|Images$\|Files$\|\.svn$\|\.jpg$\|\.png$\|\.gif$'
 
 let g:nrrw_rgn_wdth = 50
+
+vmap <Leader>= :Tabularize/=<CR>
+vmap <Leader>> :Tabularize/=><CR>
 
 nmap <Leader>U :UndotreeToggle<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
