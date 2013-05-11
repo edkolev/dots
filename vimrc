@@ -28,7 +28,6 @@ Bundle 'Lucius'
 Bundle 'Solarized'
 
 " code assistance
-" Bundle 'fholgado/minibufexpl.vim'
 Bundle 'The-NERD-tree'
 Bundle 'surround.vim'
 Bundle 'localvimrc'
