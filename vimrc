@@ -57,6 +57,7 @@ Bundle 'leshill/vim-json'
 Bundle 'tracwiki'
 Bundle 'xolox/vim-notes'
 Bundle 'godlygeek/tabular'
+Bundle 'tomtom/quickfixsigns_vim'
 
 filetype plugin indent on
 " end of Vundle config
