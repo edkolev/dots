@@ -9,7 +9,7 @@ function last_error {
 set -o vi
 export CLICOLOR=1
 
-PS1='$(last_error)$(box_name):\w \$'
+PS1='$(last_error)$(box_name):\w \$ '
 
 [ -d ~/bin ] && export PATH="~/bin:$PATH"
 [ -f ~/.box_bashrc ] && source ~/.box_bashrc
