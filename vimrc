@@ -25,15 +25,13 @@ Bundle 'Atom'
 Bundle 'w0ng/vim-hybrid'
 Bundle 'noahfrederick/Hemisu'
 Bundle 'Lucius'
-Bundle 'Solarized'
+Bundle 'altercation/vim-colors-solarized'
 
 " code assistance
 Bundle 'The-NERD-tree'
 Bundle 'surround.vim'
 Bundle 'localvimrc'
 Bundle 'Syntastic'
-" Bundle 'Align'
-" Bundle 'Lokaltog/vim-powerline'
 Bundle 'Tagbar'
 Bundle 'ctrlp.vim'
 Bundle 'project.tar.gz'
@@ -43,7 +41,6 @@ Bundle 'ack.vim'
 Bundle 'repeat.vim'
 Bundle 'NrrwRgn'
 Bundle 'commentary.vim'
-" Bundle 'UltiSnips'
 Bundle 'yankstack'
 Bundle 'mihaifm/vimpanel'
 Bundle 'bufexplorer.zip'
@@ -57,7 +54,7 @@ Bundle 'leshill/vim-json'
 Bundle 'tracwiki'
 Bundle 'xolox/vim-notes'
 Bundle 'godlygeek/tabular'
-Bundle 'tomtom/quickfixsigns_vim'
+" Bundle 'tomtom/quickfixsigns_vim'
 
 filetype plugin indent on
 " end of Vundle config
@@ -125,8 +122,8 @@ if has('gui_running')
    set guifont=Inconsolata:h13
    colo lucius
 else
-   colo lucius
-   hi Search cterm=NONE ctermbg=grey
+   let g:solarized_termtrans = 1
+   colo solarized
 endif
 
 if &diff
@@ -184,12 +181,9 @@ map <C-k> <C-w>k<C-w><Esc>
 map <C-l> <C-w>l<C-w><Esc>
 map <C-h> <C-w>h<C-w><Esc>
   
-" alias :W to :w
 nnoremap ; :
 vnoremap ; :
 
-" " open help in a new tab
-" cabbrev help tab help
 cnoremap help vert help
 
 " use normal regexes
@@ -206,8 +200,6 @@ au FocusLost,TabLeave * call feedkeys("\<C-\>\<C-n>")
 
 nmap <Leader># :%s///n<CR> " count matches
 nmap <Leader>D :%s///g<CR> " delete matches
-
-" nmap <Leader>Y :"*yiw " copy iw to system clipboard
 
 map [t :tabprevious<CR>
 map ]t :tabnext<CR>
@@ -266,3 +258,11 @@ set ttyfast
 set synmaxcol=800
 set completeopt=longest,menuone,preview
 au VimResized * :wincmd =
+
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
