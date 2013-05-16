@@ -253,7 +253,7 @@ nnoremap k gk
 nnoremap J mzJ`z
 
 " set autowrite
-" set autoread
+set autoread
 set ttyfast
 set synmaxcol=800
 set completeopt=longest,menuone,preview
@@ -266,3 +266,11 @@ augroup line_return
         \     execute 'normal! g`"zvzz' |
         \ endif
 augroup END
+
+" disable cursor blink
+set gcr=a:blinkon0
+
+" persistent undo history
+silent !mkdir ~/.vim/backups > /dev/null 2>&1
+set undodir=~/.vim/backups
+set undofile
