@@ -54,6 +54,7 @@ Bundle 'leshill/vim-json'
 Bundle 'tracwiki'
 Bundle 'xolox/vim-notes'
 Bundle 'godlygeek/tabular'
+" Bundle 'tpope/vim-unimpaired'
 " Bundle 'tomtom/quickfixsigns_vim'
 
 filetype plugin indent on
@@ -274,3 +275,5 @@ set gcr=a:blinkon0
 silent !mkdir ~/.vim/backups > /dev/null 2>&1
 set undodir=~/.vim/backups
 set undofile
+
+inoremap <C-U> <C-G>u<C-U>
