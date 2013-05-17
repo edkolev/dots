@@ -56,9 +56,13 @@ Bundle 'xolox/vim-notes'
 Bundle 'godlygeek/tabular'
 " Bundle 'tpope/vim-unimpaired'
 " Bundle 'tomtom/quickfixsigns_vim'
+Bundle 'tpope/vim-eunuch'
+Bundle 'spolu/dwm.vim'
 
 filetype plugin indent on
 " end of Vundle config
+
+let g:dwm_map_keys=0
 
 let g:localvimrc_whitelist = 'dev/.lvimrc'
 let g:localvimrc_sandbox = 0

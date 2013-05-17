@@ -13,3 +13,5 @@ PS1='$(last_error)$(box_name):\w \$ '
 
 [ -d ~/bin ] && export PATH="~/bin:$PATH"
 [ -f ~/.box_bashrc ] && source ~/.box_bashrc
+
+alias vi=vim
