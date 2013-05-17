@@ -15,3 +15,6 @@ PS1='$(last_error)$(box_name):\w \$ '
 [ -f ~/.box_bashrc ] && source ~/.box_bashrc
 
 alias vi=vim
+
+# avoid duplicates in history
+export HISTCONTROL=ignoredups
