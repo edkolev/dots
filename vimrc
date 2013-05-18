@@ -1,66 +1,55 @@
 let mapleader = ","
-" Vundle config
+
+" Vundle config {{{
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
 
-" colours
-Bundle 'peaksea'
+" Themes
 Bundle 'twilight'
 Bundle 'jellybeans.vim'
 Bundle 'herald.vim'
-Bundle 'Wombat'
 Bundle 'Zenburn'
-Bundle 'phd'
-Bundle 'xoria256.vim'
-Bundle 'paintbox'
-Bundle 'Sift'
 Bundle 'Mustang2'
 Bundle 'badwolf'
 Bundle 'darktango.vim'
 Bundle 'ironman.vim'
 Bundle 'Atom'
 Bundle 'w0ng/vim-hybrid'
-Bundle 'noahfrederick/Hemisu'
-Bundle 'Lucius'
+Bundle 'jonathanfilip/lucius'
 Bundle 'altercation/vim-colors-solarized'
 
-" code assistance
+" Plugins
 Bundle 'The-NERD-tree'
 Bundle 'surround.vim'
 Bundle 'localvimrc'
-Bundle 'Syntastic'
-Bundle 'Tagbar'
 Bundle 'ctrlp.vim'
-Bundle 'project.tar.gz'
 Bundle 'mbbill/undotree'
-Bundle 'scratch.vim'
-Bundle 'ack.vim'
 Bundle 'repeat.vim'
 Bundle 'NrrwRgn'
-Bundle 'commentary.vim'
-Bundle 'yankstack'
-Bundle 'mihaifm/vimpanel'
+Bundle 'tpope/vim-commentary'
+Bundle 'maxbrunsfeld/vim-yankstack'
 Bundle 'bufexplorer.zip'
 Bundle 'kana/vim-textobj-user'
 Bundle 'kana/vim-textobj-lastpat'
 Bundle 'kana/vim-textobj-entire'
 Bundle 'nelstrom/vim-visual-star-search'
 Bundle 'tpope/vim-abolish'
-Bundle 'nelstrom/vim-qargs'
 Bundle 'leshill/vim-json'
 Bundle 'tracwiki'
 Bundle 'xolox/vim-notes'
 Bundle 'godlygeek/tabular'
-" Bundle 'tpope/vim-unimpaired'
-" Bundle 'tomtom/quickfixsigns_vim'
 Bundle 'tpope/vim-eunuch'
 Bundle 'spolu/dwm.vim'
+Bundle 'tpope/vim-obsession'
+Bundle 'tpope/vim-tbone'
 
 filetype plugin indent on
-" end of Vundle config
+" }}}
+
+" Plugin Config {{{
 
 let g:dwm_map_keys=0
 
@@ -68,26 +57,23 @@ let g:localvimrc_whitelist = 'dev/.lvimrc'
 let g:localvimrc_sandbox = 0
 
 let g:nrrw_rgn_nohl = 1
-let g:easytags_auto_update = 0
+let g:nrrw_rgn_wdth = 50
 
-let g:UltiSnipsSnippetDirectories=["bundle/UltiSnips/UltiSnips/"]
-
+let g:ctrlp_max_height = 20
 let g:ctrlp_switch_buffer = 2
 let g:ctrlp_working_path_mode = 2
 let g:ctrlp_open_multiple_files = '0vt'
 let g:ctrlp_dotfiles = 1
-let g:ctrlp_custom_ignore = 'Img$\|Images$\|Files$\|\.svn$\|\.jpg$\|\.png$\|\.gif$'
+let g:ctrlp_custom_ignore = 'Img$\|^Images$\|Files$\|\.svn$\|\.jpg$\|\.png$\|\.gif$'
+let g:ctrlp_map = '<leader>,'
 
-let g:nrrw_rgn_wdth = 50
+vmap <leader>= :Tabularize/=<CR>
+vmap <leader>> :Tabularize/=><CR>
 
-vmap <Leader>= :Tabularize/=<CR>
-vmap <Leader>> :Tabularize/=><CR>
+nmap <leader>U :UndotreeToggle<CR>
+nmap <leader>e :BufExplorer<CR>
 
-nmap <Leader>U :UndotreeToggle<CR>
-nmap <Leader>n :NERDTreeToggle<CR>
-nmap <silent> <Leader>E :Project<CR>
-nmap <Leader>e :BufExplorer<CR>
-
+nmap <leader>n :NERDTreeToggle<CR>
 let g:NERDTreeWinPos = "right"
 let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeQuitOnOpen = 1
@@ -95,37 +81,30 @@ let g:NERDTreeChDirMode = 1
 let g:NERDTreeDirArrows=0
 let g:proj_flags='imstc'
 
-nmap <Leader>t :CtrlPBufTag<CR>
-nmap <Leader>r :CtrlPMRUFiles<CR>
-nmap <Leader>f :CtrlP .<CR>
+nmap <leader>t :CtrlPBufTag<CR>
+nmap <leader>r :CtrlPMRUFiles<CR>
+nmap <leader>f :CtrlP .<CR>
 
-let g:syntastic_check_on_open=0
-let g:syntastic_enable_balloons = 0
-let g:syntastic_enable_highlighting = 0
-let g:syntastic_auto_jump=1
-let g:syntastic_mode_map = { 'mode': 'passive' ,
-                           \ 'active_filetypes': ['erlang'],
-                           \ 'passive_filetypes': ['perl'] }
-
-let g:yankstack_map_keys = 0
 nmap <leader>p <Plug>yankstack_substitute_older_paste
 nmap <leader>P <Plug>yankstack_substitute_newer_paste
-
+let g:yankstack_map_keys = 0
 call yankstack#setup()
 nmap Y y$
 
 :let g:notes_tab_indents = 0
+:let g:notes_directory = "~/.vim/notes"
 
-syntax enable
+" }}}
+
+" UI {{{
 if has('gui_running')
-   set cursorline
    set guioptions-=T " no toolbar
    set guioptions-=M " no menu
    set guioptions-=r " no right scrollbar
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
    set guifont=Inconsolata:h13
-   colo lucius
+   colo solarized
 else
    let g:solarized_termtrans = 1
    colo solarized
@@ -135,30 +114,29 @@ if &diff
   " colo hybrid
 endif
 
+syntax enable
+" }}}
+
+" Set's {{{
+
 set laststatus=2   " Always show the statusline
 set encoding=utf-8
 
 set autoindent
 set smartindent
 set noswapfile
-inoremap # #
 
 set shiftwidth=4
 set tabstop=4
 set expandtab
 
-set scrolloff=20
-set sidescrolloff=20
+set scrolloff=10
+set sidescrolloff=5
 
 set wildmode=longest:full
 set wildmenu
 
-" always show tabar
-" set showtabline=2
 set nowrap
-
-nmap <Leader>V :source $MYVIMRC
-nmap <Leader>v :vsplit $MYVIMRC<CR>
 
 set ignorecase
 set smartcase
@@ -168,19 +146,47 @@ set diffopt+=vertical
 set complete-=i
 set complete-=t
 
-" same terminal
+" sane terminal
 set notimeout ttimeout ttimeoutlen=10
 
-" allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-set history=50 " keep 50 lines of command line history
-set showcmd    " display incomplete commands
-set incsearch  " do incremental searching
+set history=500
+set showcmd
+set incsearch
 
-" nmap <Leader>s :w<CR>:! svn diff %<CR>
+set hidden
+set relativenumber
+set splitbelow splitright
+set gdefault " replace all matches on the line e.g. s///g
+set showmatch
+set hls
+set autoread
+set autowrite
+set ttyfast
+set synmaxcol=500
+set completeopt=longest,menuone,preview
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%*%=%-14.(%c%V%)%c\ \ %l/%L
+nohls
 
-" Moving around windows 
+" disable cursor blink
+set gcr=a:blinkon0
+
+" persistent undo history
+silent !mkdir ~/.vim/backups > /dev/null 2>&1
+set undodir=~/.vim/backups
+set undofile
+
+" }}}
+
+" Mappings {{{
+
+" use normal regexes
+nnoremap / /\v
+vnoremap / /\v
+
+
+" Move faster around windows 
 map <C-j> <C-w>j<C-w><Esc>
 map <C-k> <C-w>k<C-w><Esc>
 map <C-l> <C-w>l<C-w><Esc>
@@ -191,20 +197,9 @@ vnoremap ; :
 
 cnoremap help vert help
 
-" use normal regexes
-nnoremap / /\v
-vnoremap / /\v
-nnoremap <leader><space> :noh<cr>
 
-set gdefault " replace all matches on the line e.g. s///g
-set showmatch
-set hls
-nohls
-au FocusLost * silent! wa
-au FocusLost,TabLeave * call feedkeys("\<C-\>\<C-n>")
-
-nmap <Leader># :%s///n<CR> " count matches
-nmap <Leader>D :%s///g<CR> " delete matches
+nmap <leader># :%s///n<CR> " count matches
+nmap <leader>D :%s///g<CR> " delete matches
 
 map [t :tabprevious<CR>
 map ]t :tabnext<CR>
@@ -218,30 +213,45 @@ map ]B :blast<CR>
 
 nnoremap <leader>w :vnew<cr>
 
-" show line numbers in current window only
-set relativenumber
-" au WinEnter * :setlocal relativenumber
-" au WinLeave * :setlocal norelativenumber
+nmap <leader>V :source $MYVIMRC
+nmap <leader>v :vsplit $MYVIMRC<CR>
+nnoremap <leader><space> :noh<cr>
 
-" Automatically resize vertical splits.
-au WinEnter * :set winfixheight
-" :au WinEnter * :wincmd =
-" set hidden
+nmap <C-]> g<C-]>  " jump to tag if one, show list otherwise
 
-" source the .vimrc file on save to apply all changes immediately
-if has("autocmd")
-  autocmd! bufwritepost .vimrc source $MYVIMRC
-endif
+noremap H ^
+noremap L $
+nnoremap j gj
+nnoremap k gk
 
-" set list lcs=trail:·,tab:»·
+nnoremap J mzJ`z
+nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
+inoremap # X<BS>#
 
+inoremap <c-f> <c-x><c-f>
+inoremap <c-]> <c-x><c-]>
 
-nmap <C-]> g<C-]>     " jump to tag if one, show list otherwise
+" stay in the middle of the window when moving around
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap g; g;zz
+nnoremap g, g,zz
+nnoremap <c-o> <c-o>zz
 
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%*%=%-14.(%c%V%)%c\ \ %l/%L
+inoremap <C-U> <C-G>u<C-U>
+vnoremap z :fold<CR>
+" }}}
 
-autocmd InsertEnter * :setlocal nohlsearch
-autocmd InsertLeave * :setlocal hlsearch
+" Auto Commands {{{
+
+" return to same line on reopen
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
 
 augroup cline
     au!
@@ -251,33 +261,20 @@ augroup cline
     au InsertLeave * set cursorline
 augroup END
 
-set splitbelow splitright
+autocmd InsertEnter * :setlocal nohlsearch
+autocmd InsertLeave * :setlocal hlsearch
 
-nnoremap j gj
-nnoremap k gk
-nnoremap J mzJ`z
-
-" set autowrite
-set autoread
-set ttyfast
-set synmaxcol=800
-set completeopt=longest,menuone,preview
+au WinEnter * :set winfixheight
 au VimResized * :wincmd =
 
-augroup line_return
+" source the .vimrc file on save to apply all changes immediately
+autocmd! bufwritepost .vimrc source $MYVIMRC
+
+augroup vimrc
     au!
-    au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
-        \ endif
+    au FileType vim setlocal foldmethod=marker
 augroup END
+" }}}
 
-" disable cursor blink
-set gcr=a:blinkon0
+runtime macros/matchit.vim
 
-" persistent undo history
-silent !mkdir ~/.vim/backups > /dev/null 2>&1
-set undodir=~/.vim/backups
-set undofile
-
-inoremap <C-U> <C-G>u<C-U>
