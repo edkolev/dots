@@ -22,7 +22,7 @@ Bundle 'jonathanfilip/lucius'
 Bundle 'altercation/vim-colors-solarized'
 
 " Plugins
-Bundle 'The-NERD-tree'
+Bundle 'scrooloose/nerdtree'
 Bundle 'surround.vim'
 Bundle 'localvimrc'
 Bundle 'ctrlp.vim'
@@ -66,6 +66,9 @@ let g:ctrlp_open_multiple_files = '0vt'
 let g:ctrlp_dotfiles = 1
 let g:ctrlp_custom_ignore = 'Img$\|^Images$\|Files$\|\.svn$\|\.jpg$\|\.png$\|\.gif$'
 let g:ctrlp_map = '<leader>,'
+nmap <leader>t :CtrlPBufTag<CR>
+nmap <leader>r :CtrlPMRUFiles<CR>
+nmap <leader>f :CtrlP .<CR>
 
 vmap <leader>= :Tabularize/=<CR>
 vmap <leader>> :Tabularize/=><CR>
@@ -81,10 +84,6 @@ let g:NERDTreeChDirMode = 1
 let g:NERDTreeDirArrows=0
 let g:proj_flags='imstc'
 
-nmap <leader>t :CtrlPBufTag<CR>
-nmap <leader>r :CtrlPMRUFiles<CR>
-nmap <leader>f :CtrlP .<CR>
-
 nmap <leader>p <Plug>yankstack_substitute_older_paste
 nmap <leader>P <Plug>yankstack_substitute_newer_paste
 let g:yankstack_map_keys = 0
@@ -92,7 +91,7 @@ call yankstack#setup()
 nmap Y y$
 
 :let g:notes_tab_indents = 0
-:let g:notes_directory = "~/.vim/notes"
+:let g:notes_directories = ['~/.vim/notes']
 
 " }}}
 
@@ -197,7 +196,6 @@ vnoremap ; :
 
 cnoremap help vert help
 
-
 nmap <leader># :%s///n<CR> " count matches
 nmap <leader>D :%s///g<CR> " delete matches
 
@@ -278,3 +276,4 @@ augroup END
 
 runtime macros/matchit.vim
 
+" nnoremap <leader><leader> <c-^>

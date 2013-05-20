@@ -1,3 +1,5 @@
+[ -z "$PS1" ] && return
+
 function box_name {
     [ -f ~/.box_name ] && cat ~/.box_name || hostname -s
 }
