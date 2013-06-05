@@ -45,6 +45,7 @@ Bundle 'tpope/vim-eunuch'
 Bundle 'spolu/dwm.vim'
 Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-tbone'
+Bundle 'tpope/vim-markdown'
 
 filetype plugin indent on
 " }}}
@@ -222,19 +223,11 @@ noremap L $
 nnoremap j gj
 nnoremap k gk
 
-nnoremap J mzJ`z
-nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
 inoremap # X<BS>#
 
 inoremap <c-f> <c-x><c-f>
 inoremap <c-]> <c-x><c-]>
 
-" stay in the middle of the window when moving around
-nnoremap n nzzzv
-nnoremap N Nzzzv
-nnoremap g; g;zz
-nnoremap g, g,zz
-nnoremap <c-o> <c-o>zz
 
 inoremap <C-U> <C-G>u<C-U>
 vnoremap z :fold<CR>
