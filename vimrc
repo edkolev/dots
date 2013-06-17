@@ -60,7 +60,7 @@ let g:localvimrc_sandbox = 0
 let g:nrrw_rgn_nohl = 1
 let g:nrrw_rgn_wdth = 50
 
-let g:ctrlp_max_height = 20
+let g:ctrlp_max_height = 25
 let g:ctrlp_switch_buffer = 2
 let g:ctrlp_working_path_mode = 2
 let g:ctrlp_open_multiple_files = '0vt'
@@ -70,6 +70,7 @@ let g:ctrlp_map = '<leader>,'
 nmap <leader>t :CtrlPBufTag<CR>
 nmap <leader>r :CtrlPMRUFiles<CR>
 nmap <leader>f :CtrlP .<CR>
+nmap <leader>T :CtrlPTag<CR>
 
 vmap <leader>= :Tabularize/=<CR>
 vmap <leader>> :Tabularize/=><CR>
@@ -103,7 +104,8 @@ if has('gui_running')
    set guioptions-=r " no right scrollbar
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
-   set guifont=Inconsolata:h13
+   set guifont=Inconsolata-dz:h11
+   " set guifont=Inconsolata:h13
    colo solarized
 else
    let g:solarized_termtrans = 1
@@ -130,7 +132,7 @@ set shiftwidth=4
 set tabstop=4
 set expandtab
 
-set scrolloff=10
+set scrolloff=15
 set sidescrolloff=5
 
 set wildmode=longest:full
@@ -176,6 +178,10 @@ set gcr=a:blinkon0
 silent !mkdir ~/.vim/backups > /dev/null 2>&1
 set undodir=~/.vim/backups
 set undofile
+
+set wildignore+=.hg,.git,.svn
+set wildignore+=*.beam
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 
 " }}}
 
@@ -244,6 +250,7 @@ augroup line_return
         \ endif
 augroup END
 
+" cursorline on active windows only
 augroup cline
     au!
     au WinLeave * set nocursorline
@@ -265,6 +272,14 @@ augroup vimrc
     au!
     au FileType vim setlocal foldmethod=marker
 augroup END
+
+augroup tracwiki
+    au!
+    au FileType tracwiki setlocal shiftwidth=2 tabstop=2
+augroup END
+
+autocmd FileType erlang set commentstring=%\ %s
+
 " }}}
 
 runtime macros/matchit.vim
