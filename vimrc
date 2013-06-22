@@ -22,7 +22,6 @@ Bundle 'jonathanfilip/lucius'
 Bundle 'altercation/vim-colors-solarized'
 
 " Plugins
-Bundle 'scrooloose/nerdtree'
 Bundle 'surround.vim'
 Bundle 'localvimrc'
 Bundle 'ctrlp.vim'
@@ -42,17 +41,16 @@ Bundle 'tracwiki'
 Bundle 'xolox/vim-notes'
 Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-eunuch'
-Bundle 'spolu/dwm.vim'
 Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-tbone'
 Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'christoomey/vim-tmux-navigator'
 
 filetype plugin indent on
 " }}}
 
 " Plugin Config {{{
-
-let g:dwm_map_keys=0
 
 let g:localvimrc_whitelist = 'dev/.lvimrc'
 let g:localvimrc_sandbox = 0
@@ -78,13 +76,6 @@ vmap <leader>> :Tabularize/=><CR>
 nmap <leader>U :UndotreeToggle<CR>
 nmap <leader>e :BufExplorer<CR>
 
-nmap <leader>n :NERDTreeToggle<CR>
-let g:NERDTreeWinPos = "right"
-let g:NERDTreeShowBookmarks = 1
-let g:NERDTreeQuitOnOpen = 1
-let g:NERDTreeChDirMode = 1
-let g:NERDTreeDirArrows=0
-let g:proj_flags='imstc'
 
 nmap <leader>p <Plug>yankstack_substitute_older_paste
 nmap <leader>P <Plug>yankstack_substitute_newer_paste
@@ -104,8 +95,7 @@ if has('gui_running')
    set guioptions-=r " no right scrollbar
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
-   set guifont=Inconsolata-dz:h11
-   " set guifont=Inconsolata:h13
+   set guifont=Inconsolata:h12
    colo solarized
 else
    let g:solarized_termtrans = 1
@@ -160,7 +150,6 @@ set incsearch
 set hidden
 set relativenumber
 set splitbelow splitright
-set gdefault " replace all matches on the line e.g. s///g
 set showmatch
 set hls
 set autoread
@@ -191,12 +180,6 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 nnoremap / /\v
 vnoremap / /\v
 
-
-" Move faster around windows 
-map <C-j> <C-w>j<C-w><Esc>
-map <C-k> <C-w>k<C-w><Esc>
-map <C-l> <C-w>l<C-w><Esc>
-map <C-h> <C-w>h<C-w><Esc>
   
 nnoremap ; :
 vnoremap ; :
