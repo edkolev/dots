@@ -9,3 +9,5 @@
 	tool = vimdiff
 [push]
 	default = simple
+[core]
+	editor = vim

@@ -38,14 +38,19 @@ Bundle 'nelstrom/vim-visual-star-search'
 Bundle 'tpope/vim-abolish'
 Bundle 'leshill/vim-json'
 Bundle 'tracwiki'
-Bundle 'xolox/vim-notes'
 Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-eunuch'
 Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-tbone'
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-fugitive'
 Bundle 'christoomey/vim-tmux-navigator'
+
+if has('gui_running')
+  Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+  Bundle 'xolox/vim-notes'
+endif
 
 filetype plugin indent on
 " }}}
@@ -95,7 +100,7 @@ if has('gui_running')
    set guioptions-=r " no right scrollbar
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
-   set guifont=Inconsolata:h12
+   set guifont=Inconsolata\ for\ Powerline:h12
    colo solarized
 else
    let g:solarized_termtrans = 1
