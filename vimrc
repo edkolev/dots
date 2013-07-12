@@ -233,7 +233,7 @@ vnoremap z :fold<CR>
 augroup line_return
     au!
     au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \ if line("'\"") > 0 && line("'\"") <= line("$") && !&diff |
         \     execute 'normal! g`"zvzz' |
         \ endif
 augroup END
@@ -272,4 +272,5 @@ autocmd FileType erlang set commentstring=%\ %s
 
 runtime macros/matchit.vim
 
-" nnoremap <leader><leader> <c-^>
+
+nnoremap <leader>s :update<cr>
