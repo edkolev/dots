@@ -107,10 +107,6 @@ else
    colo solarized
 endif
 
-if &diff
-  " colo hybrid
-endif
-
 syntax enable
 " }}}
 
@@ -185,7 +181,6 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 nnoremap / /\v
 vnoremap / /\v
 
-  
 nnoremap ; :
 vnoremap ; :
 
@@ -205,31 +200,28 @@ map [B :bfirst<CR>
 map ]B :blast<CR>
 
 nnoremap <leader>w :vnew<cr>
-
-nmap <leader>V :source $MYVIMRC
+nnoremap <leader>s :update<cr>
 nmap <leader>v :vsplit $MYVIMRC<CR>
+nmap <leader>V :vsplit $MYVIMRC.local<CR>
 nnoremap <leader><space> :noh<cr>
 
 nmap <C-]> g<C-]>  " jump to tag if one, show list otherwise
 
-noremap H ^
-noremap L $
 nnoremap j gj
 nnoremap k gk
 
 inoremap # X<BS>#
+noremap 0 ^
 
-inoremap <c-f> <c-x><c-f>
-inoremap <c-]> <c-x><c-]>
-
+inoremap <c-f> <c-x><c-f> " file completion
+inoremap <c-]> <c-x><c-]> " tag completion
 
 inoremap <C-U> <C-G>u<C-U>
-vnoremap z :fold<CR>
 " }}}
 
 " Auto Commands {{{
 
-" return to same line on reopen
+" return to same line on reopen, unless diffing
 augroup line_return
     au!
     au BufReadPost *
@@ -253,8 +245,9 @@ autocmd InsertLeave * :setlocal hlsearch
 au WinEnter * :set winfixheight
 au VimResized * :wincmd =
 
-" source the .vimrc file on save to apply all changes immediately
+" source .vimrc on save
 autocmd! bufwritepost .vimrc source $MYVIMRC
+autocmd! bufwritepost .vimrc.local source $MYVIMRC
 
 augroup vimrc
     au!
@@ -273,4 +266,6 @@ autocmd FileType erlang set commentstring=%\ %s
 runtime macros/matchit.vim
 
 
-nnoremap <leader>s :update<cr>
+if filereadable(glob("~/.vimrc.local")) 
+    source ~/.vimrc.local
+endif
