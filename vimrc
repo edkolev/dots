@@ -8,22 +8,14 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " Themes
-Bundle 'twilight'
-Bundle 'jellybeans.vim'
-Bundle 'herald.vim'
-Bundle 'Zenburn'
-Bundle 'Mustang2'
 Bundle 'badwolf'
-Bundle 'darktango.vim'
 Bundle 'ironman.vim'
-Bundle 'Atom'
 Bundle 'w0ng/vim-hybrid'
 Bundle 'jonathanfilip/lucius'
 Bundle 'altercation/vim-colors-solarized'
 
 " Plugins
 Bundle 'surround.vim'
-Bundle 'localvimrc'
 Bundle 'ctrlp.vim'
 Bundle 'mbbill/undotree'
 Bundle 'repeat.vim'
@@ -112,6 +104,7 @@ syntax enable
 
 " Set's {{{
 
+set cursorline
 set laststatus=2   " Always show the statusline
 set encoding=utf-8
 
@@ -201,6 +194,7 @@ map ]B :blast<CR>
 
 nnoremap <leader>w :vnew<cr>
 nnoremap <leader>s :update<cr>
+nnoremap <cr> :update<cr>
 nmap <leader>v :vsplit $MYVIMRC<CR>
 nmap <leader>V :vsplit $MYVIMRC.local<CR>
 nnoremap <leader><space> :noh<cr>
@@ -213,8 +207,10 @@ nnoremap k gk
 inoremap # X<BS>#
 noremap 0 ^
 
-inoremap <c-f> <c-x><c-f> " file completion
-inoremap <c-]> <c-x><c-]> " tag completion
+" file, tag, line completion
+inoremap <c-f> <c-x><c-f>
+inoremap <c-]> <c-x><c-]>
+inoremap <c-l> <c-x><c-l>
 
 inoremap <C-U> <C-G>u<C-U>
 " }}}
@@ -233,10 +229,8 @@ augroup END
 " cursorline on active windows only
 augroup cline
     au!
-    au WinLeave * set nocursorline
-    au WinEnter * set cursorline
-    au InsertEnter * set nocursorline
-    au InsertLeave * set cursorline
+    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    au WinLeave * setlocal nocursorline
 augroup END
 
 autocmd InsertEnter * :setlocal nohlsearch
@@ -261,6 +255,8 @@ augroup END
 
 autocmd FileType erlang set commentstring=%\ %s
 
+autocmd FileType perl compiler perl
+
 " }}}
 
 runtime macros/matchit.vim
@@ -269,3 +265,4 @@ runtime macros/matchit.vim
 if filereadable(glob("~/.vimrc.local")) 
     source ~/.vimrc.local
 endif
+
