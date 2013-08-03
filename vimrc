@@ -116,7 +116,7 @@ set shiftwidth=4
 set tabstop=4
 set expandtab
 
-set scrolloff=15
+set scrolloff=25
 set sidescrolloff=5
 
 set wildmode=longest:full
@@ -128,6 +128,7 @@ set ignorecase
 set smartcase
 
 set diffopt+=vertical
+set diffopt+=iwhite
 
 set complete-=i
 set complete-=t
@@ -148,7 +149,6 @@ set showmatch
 set hls
 set autoread
 set autowrite
-set ttyfast
 set synmaxcol=500
 set completeopt=longest,menuone,preview
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%*%=%-14.(%c%V%)%c\ \ %l/%L
@@ -256,6 +256,8 @@ augroup END
 autocmd FileType erlang set commentstring=%\ %s
 
 autocmd FileType perl compiler perl
+
+autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " }}}
 
