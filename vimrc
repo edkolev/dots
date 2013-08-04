@@ -17,7 +17,6 @@ Bundle 'altercation/vim-colors-solarized'
 " Plugins
 Bundle 'surround.vim'
 Bundle 'ctrlp.vim'
-Bundle 'mbbill/undotree'
 Bundle 'repeat.vim'
 Bundle 'NrrwRgn'
 Bundle 'tpope/vim-commentary'
@@ -34,10 +33,15 @@ Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-eunuch'
 Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-tbone'
-Bundle 'tpope/vim-markdown'
+
 Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-fugitive'
+Bundle 'gregsexton/gitv'
 Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'sjl/gundo.vim'
+Bundle 'bogado/file-line'
+
 
 if has('gui_running')
   Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
@@ -70,7 +74,7 @@ nmap <leader>T :CtrlPTag<CR>
 vmap <leader>= :Tabularize/=<CR>
 vmap <leader>> :Tabularize/=><CR>
 
-nmap <leader>U :UndotreeToggle<CR>
+nmap <leader>U :GundoToggle<CR>
 nmap <leader>e :BufExplorer<CR>
 
 
