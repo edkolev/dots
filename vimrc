@@ -15,6 +15,8 @@ Bundle 'jonathanfilip/lucius'
 Bundle 'altercation/vim-colors-solarized'
 
 " Plugins
+Bundle 'tpope/vim-sensible'
+
 Bundle 'surround.vim'
 Bundle 'ctrlp.vim'
 Bundle 'repeat.vim'
@@ -33,7 +35,6 @@ Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-eunuch'
 Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-tbone'
-
 Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-fugitive'
@@ -41,6 +42,7 @@ Bundle 'gregsexton/gitv'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'sjl/gundo.vim'
 Bundle 'bogado/file-line'
+Bundle 'tpope/vim-dispatch'
 
 
 if has('gui_running')
@@ -107,12 +109,9 @@ syntax enable
 " }}}
 
 " Set's {{{
-
 set cursorline
-set laststatus=2   " Always show the statusline
 set encoding=utf-8
 
-set autoindent
 set smartindent
 set noswapfile
 
@@ -124,7 +123,6 @@ set scrolloff=25
 set sidescrolloff=5
 
 set wildmode=longest:full
-set wildmenu
 
 set nowrap
 
@@ -137,25 +135,22 @@ set diffopt+=iwhite
 set complete-=i
 set complete-=t
 
-" sane terminal
-set notimeout ttimeout ttimeoutlen=10
-
-set backspace=indent,eol,start
-
-set history=500
-set showcmd
-set incsearch
-
 set hidden
 set relativenumber
 set splitbelow splitright
 set showmatch
 set hls
-set autoread
 set autowrite
 set synmaxcol=500
 set completeopt=longest,menuone,preview
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%*%=%-14.(%c%V%)%c\ \ %l/%L
+
+set statusline=
+set statusline+=[%n%H%R%W]%*\               " buf number and flags
+set statusline+=%f%m\                       " file and modified flag
+set statusline+=%{fugitive#statusline()}\   " branch
+set statusline+=%=
+set statusline+=%c:%l\ of\ %L               " col:line tatol lines
+
 nohls
 
 " disable cursor blink
@@ -215,8 +210,6 @@ noremap 0 ^
 inoremap <c-f> <c-x><c-f>
 inoremap <c-]> <c-x><c-]>
 inoremap <c-l> <c-x><c-l>
-
-inoremap <C-U> <C-G>u<C-U>
 " }}}
 
 " Auto Commands {{{
