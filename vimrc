@@ -43,10 +43,10 @@ Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'sjl/gundo.vim'
 Bundle 'bogado/file-line'
 Bundle 'tpope/vim-dispatch'
+Bundle 'bling/vim-airline'
 
 
 if has('gui_running')
-  Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
   Bundle 'xolox/vim-notes'
 endif
 
@@ -90,6 +90,28 @@ nmap Y y$
 :let g:notes_directories = ['~/.vim/notes']
 
 let g:Gitv_DoNotMapCtrlKey = 1
+
+" airline
+let g:airline_theme='solarized'
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_branch_prefix = ' '
+
+let g:airline_section_y = "%2c:%-3l"
+let g:airline_section_z = "%P %L"
+
+let g:airline_mode_map = {
+      \ 'n'  : 'N',
+      \ 'i'  : 'I',
+      \ 'R'  : 'R',
+      \ 'v'  : 'V',
+      \ 'V'  : 'V-LN',
+      \ 'c'  : 'CMD   ',
+      \ '' : 'V-BL',
+      \ 's'  : 'SEL',
+      \ 'S'  : 'S-LN',
+      \ '' : 'S-BL',
+      \ }
 " }}}
 
 " UI {{{
@@ -102,7 +124,7 @@ if has('gui_running')
    set guifont=Inconsolata\ for\ Powerline:h12
    colo solarized
 else
-   let g:solarized_termtrans = 1
+   " let g:solarized_termtrans = 1
    colo solarized
 endif
 
@@ -110,6 +132,7 @@ syntax enable
 " }}}
 
 " Set's {{{
+set noshowmode
 set cursorline
 set encoding=utf-8
 
@@ -144,13 +167,6 @@ set hls
 set autowrite
 set synmaxcol=500
 set completeopt=longest,menuone,preview
-
-set statusline=
-set statusline+=[%n%H%R%W]%*\               " buf number and flags
-set statusline+=%f%m\                       " file and modified flag
-set statusline+=%{fugitive#statusline()}\   " branch
-set statusline+=%=
-set statusline+=%c:%l\ of\ %L               " col:line tatol lines
 
 nohls
 
@@ -262,7 +278,7 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 runtime macros/matchit.vim
 
 
-if filereadable(glob("~/.vimrc.local")) 
+if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
 
