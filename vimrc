@@ -89,6 +89,7 @@ nmap Y y$
 :let g:notes_tab_indents = 0
 :let g:notes_directories = ['~/.vim/notes']
 
+let g:Gitv_DoNotMapCtrlKey = 1
 " }}}
 
 " UI {{{
