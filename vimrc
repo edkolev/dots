@@ -23,7 +23,6 @@ Bundle 'repeat.vim'
 Bundle 'NrrwRgn'
 Bundle 'tpope/vim-commentary'
 Bundle 'maxbrunsfeld/vim-yankstack'
-Bundle 'bufexplorer.zip'
 Bundle 'kana/vim-textobj-user'
 Bundle 'kana/vim-textobj-lastpat'
 Bundle 'kana/vim-textobj-entire'
@@ -77,8 +76,7 @@ vmap <leader>= :Tabularize/=<CR>
 vmap <leader>> :Tabularize/=><CR>
 
 nmap <leader>U :GundoToggle<CR>
-nmap <leader>e :BufExplorer<CR>
-
+nmap <leader>e :CtrlPBuffer<CR>
 
 nmap <leader>p <Plug>yankstack_substitute_older_paste
 nmap <leader>P <Plug>yankstack_substitute_newer_paste
@@ -101,16 +99,16 @@ let g:airline_section_y = "%2c:%-3l"
 let g:airline_section_z = "%P %L"
 
 let g:airline_mode_map = {
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'v'  : 'V',
-      \ 'V'  : 'V-LN',
-      \ 'c'  : 'CMD   ',
-      \ '' : 'V-BL',
-      \ 's'  : 'SEL',
-      \ 'S'  : 'S-LN',
-      \ '' : 'S-BL',
+      \ 'n'  : 'N ',
+      \ 'i'  : 'I ',
+      \ 'R'  : 'R ',
+      \ 'v'  : 'V ',
+      \ 'V'  : 'VL',
+      \ 'c'  : 'CM',
+      \ '' : 'VB',
+      \ 's'  : 'S ',
+      \ 'S'  : 'SL',
+      \ '' : 'SB',
       \ }
 " }}}
 
