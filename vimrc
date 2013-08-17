@@ -43,6 +43,7 @@ Bundle 'bogado/file-line'
 Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
 Bundle 'Shougo/unite.vim'
+Bundle 'Raimondi/delimitMate'
 
 if has('gui_running')
   Bundle 'xolox/vim-notes'
@@ -56,8 +57,9 @@ filetype plugin indent on
 let g:localvimrc_whitelist = 'dev/.lvimrc'
 let g:localvimrc_sandbox = 0
 
+let g:nrrw_rgn_vert = 1
 let g:nrrw_rgn_nohl = 1
-let g:nrrw_rgn_wdth = 50
+let g:nrrw_rgn_wdth = 80
 
 let g:ctrlp_max_height = 25
 let g:ctrlp_switch_buffer = 2
