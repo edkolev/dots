@@ -22,7 +22,6 @@ Bundle 'ctrlp.vim'
 Bundle 'repeat.vim'
 Bundle 'NrrwRgn'
 Bundle 'tpope/vim-commentary'
-Bundle 'maxbrunsfeld/vim-yankstack'
 Bundle 'kana/vim-textobj-user'
 Bundle 'kana/vim-textobj-lastpat'
 Bundle 'kana/vim-textobj-entire'
@@ -43,7 +42,7 @@ Bundle 'sjl/gundo.vim'
 Bundle 'bogado/file-line'
 Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
-
+Bundle 'Shougo/unite.vim'
 
 if has('gui_running')
   Bundle 'xolox/vim-notes'
@@ -78,38 +77,43 @@ vmap <leader>> :Tabularize/=><CR>
 nmap <leader>U :GundoToggle<CR>
 nmap <leader>e :CtrlPBuffer<CR>
 
-nmap <leader>p <Plug>yankstack_substitute_older_paste
-nmap <leader>P <Plug>yankstack_substitute_newer_paste
-let g:yankstack_map_keys = 0
-call yankstack#setup()
-nmap Y y$
-
-:let g:notes_tab_indents = 0
-:let g:notes_directories = ['~/.vim/notes']
+let g:notes_tab_indents = 0
+let g:notes_directories = ['~/.vim/notes']
 
 let g:Gitv_DoNotMapCtrlKey = 1
 
-" airline
 let g:airline_theme='solarized'
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_branch_prefix = ' '
+let g:airline_readonly_symbol = ''
 
 let g:airline_section_y = "%2c:%-3l"
 let g:airline_section_z = "%P %L"
+let g:airline_inactive_collapse=0
 
 let g:airline_mode_map = {
+      \ '__' : '- ',
       \ 'n'  : 'N ',
       \ 'i'  : 'I ',
       \ 'R'  : 'R ',
       \ 'v'  : 'V ',
       \ 'V'  : 'VL',
-      \ 'c'  : 'CM',
+      \ 'c'  : 'C ',
       \ '' : 'VB',
       \ 's'  : 'S ',
       \ 'S'  : 'SL',
       \ '' : 'SB',
       \ }
+
+let g:unite_source_history_yank_enable = 1
+nnoremap <leader>p :Unite history/yank<cr>
+
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()
+   nmap <buffer> <ESC>      <Plug>(unite_exit)
+endfunction
+
 " }}}
 
 " UI {{{
@@ -225,6 +229,8 @@ noremap 0 ^
 inoremap <c-f> <c-x><c-f>
 inoremap <c-]> <c-x><c-]>
 inoremap <c-l> <c-x><c-l>
+
+nmap Y y$
 " }}}
 
 " Auto Commands {{{
@@ -272,9 +278,6 @@ autocmd FileType perl compiler perl
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " }}}
-
-runtime macros/matchit.vim
-
 
 if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
