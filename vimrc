@@ -35,6 +35,7 @@ Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-tbone'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-git'
+Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-fugitive'
 Bundle 'gregsexton/gitv'
 Bundle 'christoomey/vim-tmux-navigator'
@@ -43,7 +44,6 @@ Bundle 'bogado/file-line'
 Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
 Bundle 'Shougo/unite.vim'
-Bundle 'Raimondi/delimitMate'
 
 if has('gui_running')
   Bundle 'xolox/vim-notes'
@@ -93,6 +93,8 @@ let g:airline_readonly_symbol = ''
 let g:airline_section_y = "%2c:%-3l"
 let g:airline_section_z = "%P %L"
 let g:airline_inactive_collapse=0
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#ctrlp#color_template = 'normal'
 
 let g:airline_mode_map = {
       \ '__' : '- ',
@@ -125,7 +127,7 @@ if has('gui_running')
    set guioptions-=r " no right scrollbar
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
-   set guifont=Inconsolata\ for\ Powerline:h12
+   set guifont=Inconsolata:h11
    colo solarized
 else
    " let g:solarized_termtrans = 1
