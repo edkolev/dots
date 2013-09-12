@@ -43,7 +43,8 @@ Bundle 'sjl/gundo.vim'
 Bundle 'bogado/file-line'
 Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
-Bundle 'Shougo/unite.vim'
+
+" Bundle 'tpope/vim-scriptease'
 
 if has('gui_running')
   Bundle 'xolox/vim-notes'
@@ -72,12 +73,12 @@ nmap <leader>t :CtrlPBufTag<CR>
 nmap <leader>r :CtrlPMRUFiles<CR>
 nmap <leader>f :CtrlP .<CR>
 nmap <leader>T :CtrlPTag<CR>
+nmap <leader>e :CtrlPBuffer<CR>
 
 vmap <leader>= :Tabularize/=<CR>
 vmap <leader>> :Tabularize/=><CR>
 
 nmap <leader>U :GundoToggle<CR>
-nmap <leader>e :CtrlPBuffer<CR>
 
 let g:notes_tab_indents = 0
 let g:notes_directories = ['~/.vim/notes']
@@ -87,15 +88,15 @@ let g:Gitv_DoNotMapCtrlKey = 1
 let g:airline_theme='solarized'
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-let g:airline_branch_prefix = ' '
-let g:airline_readonly_symbol = ''
+let g:airline_symbols = {}
+let g:airline_symbols.branch = ''
 
-let g:airline_section_y = "%2c:%-3l"
+let g:airline_section_y = "%2v:%-3l"
 let g:airline_section_z = "%P %L"
 let g:airline_inactive_collapse=0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#ctrlp#color_template = 'normal'
-
+       
 let g:airline_mode_map = {
       \ '__' : '- ',
       \ 'n'  : 'N ',
@@ -110,12 +111,15 @@ let g:airline_mode_map = {
       \ '' : 'SB',
       \ }
 
-let g:unite_source_history_yank_enable = 1
-nnoremap <leader>p :Unite history/yank<cr>
-
-autocmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()
-   nmap <buffer> <ESC>      <Plug>(unite_exit)
+let g:airline_theme_patch_func = 'AirlineThemePatch'
+function! AirlineThemePatch(palette)
+    if g:airline_theme == 'solarized'
+        " base1 instead of base00
+        let a:palette.normal.airline_b[3] = 14
+        let a:palette.normal.airline_y[3] = 14
+        let a:palette.normal.airline_b[1] = '#93a1a1'
+        let a:palette.normal.airline_y[1] = '#93a1a1'
+    endif
 endfunction
 
 " }}}
@@ -127,10 +131,9 @@ if has('gui_running')
    set guioptions-=r " no right scrollbar
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
-   set guifont=Inconsolata:h11
+   set guifont=Inconsolata\ for\ Powerline:h12
    colo solarized
 else
-   " let g:solarized_termtrans = 1
    colo solarized
 endif
 
@@ -204,16 +207,6 @@ cnoremap help vert help
 nmap <leader># :%s///n<CR> " count matches
 nmap <leader>D :%s///g<CR> " delete matches
 
-map [t :tabprevious<CR>
-map ]t :tabnext<CR>
-map [T :tabfirst<CR>
-map ]T :tablast<CR>
-
-map [b :bprevious<CR>
-map ]b :bnext<CR>
-map [B :bfirst<CR>
-map ]B :blast<CR>
-
 nnoremap <leader>w :vnew<cr>
 nnoremap <leader>s :update<cr>
 nnoremap <cr> :update<cr>
@@ -239,7 +232,7 @@ nmap Y y$
 
 " Auto Commands {{{
 
-" return to same line on reopen, unless diffing
+" return to same line on reopen, unless diff-ing
 augroup line_return
     au!
     au BufReadPost *
