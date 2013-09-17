@@ -43,6 +43,8 @@ Bundle 'sjl/gundo.vim'
 Bundle 'bogado/file-line'
 Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
+Bundle 'michaeljsmith/vim-indent-object'
+Bundle 'nelstrom/vim-markdown-folding'
 
 " Bundle 'tpope/vim-scriptease'
 
@@ -86,13 +88,20 @@ let g:notes_directories = ['~/.vim/notes']
 let g:Gitv_DoNotMapCtrlKey = 1
 
 let g:airline_theme='solarized'
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
 let g:airline_symbols = {}
 let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.paste = ''
 
-let g:airline_section_y = "%2v:%-3l"
-let g:airline_section_z = "%P %L"
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
 let g:airline_inactive_collapse=0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#ctrlp#color_template = 'normal'
@@ -121,6 +130,12 @@ function! AirlineThemePatch(palette)
         let a:palette.normal.airline_y[1] = '#93a1a1'
     endif
 endfunction
+
+function! AirlineInit()
+    let g:airline_section_y = airline#section#create_right(['%v', '%l'])
+    let g:airline_section_z = airline#section#create_right(['%P', '%L'])
+endfunction
+autocmd VimEnter * call AirlineInit()
 
 " }}}
 
@@ -158,6 +173,7 @@ set sidescrolloff=5
 set wildmode=longest:full
 
 set nowrap
+set linebreak
 
 set ignorecase
 set smartcase
@@ -172,12 +188,9 @@ set hidden
 set relativenumber
 set splitbelow splitright
 set showmatch
-set hls
 set autowrite
 set synmaxcol=500
 set completeopt=longest,menuone,preview
-
-nohls
 
 " disable cursor blink
 set gcr=a:blinkon0
@@ -199,10 +212,8 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 nnoremap / /\v
 vnoremap / /\v
 
-nnoremap ; :
-vnoremap ; :
-
-cnoremap help vert help
+cnoremap <C-k> <Up>
+cnoremap <C-j> <Down>
 
 nmap <leader># :%s///n<CR> " count matches
 nmap <leader>D :%s///g<CR> " delete matches
@@ -258,9 +269,11 @@ au VimResized * :wincmd =
 autocmd! bufwritepost .vimrc source $MYVIMRC
 autocmd! bufwritepost .vimrc.local source $MYVIMRC
 
-augroup vimrc
+augroup vim
     au!
     au FileType vim setlocal foldmethod=marker
+    au FileType help setlocal textwidth=78
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
 
 augroup tracwiki
