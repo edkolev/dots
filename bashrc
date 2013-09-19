@@ -1,6 +1,19 @@
 [ -z "$PS1" ] && return
 [[ $- != *i* ]] && return
 
+set -o vi
+export CLICOLOR=1
+
+PS1='$(last_error)$(box_name):$(cwd)$(vcs_branch) \$ '
+
+[ -d ~/bin ] && export PATH="~/bin:$PATH"
+[ -f ~/.box_bashrc ] && source ~/.box_bashrc
+
+alias vi=vim
+
+# avoid duplicates in history
+export HISTCONTROL=ignoredups
+
 function box_name {
     [ -f ~/.box_name ] && cat ~/.box_name || hostname -s
 }
@@ -60,15 +73,10 @@ function vcs_branch {
    git_branch || svn_branch
 }
 
-set -o vi
-export CLICOLOR=1
+function cwd {
+    local cwd
+    cwd=$(pwd | sed -e "s,^$HOME,~," | sed -e 's#\([a-zA-Z]\)[a-zA-Z]*[^/]*/#\1/#g')
+    
+    printf '%s' "$cwd"
+}
 
-PS1='$(last_error)$(box_name):\w$(vcs_branch) \$ '
-
-[ -d ~/bin ] && export PATH="~/bin:$PATH"
-[ -f ~/.box_bashrc ] && source ~/.box_bashrc
-
-alias vi=vim
-
-# avoid duplicates in history
-export HISTCONTROL=ignoredups
