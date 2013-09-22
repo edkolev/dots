@@ -102,6 +102,9 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#ctrlp#show_adjacent_modes = 0
+
 let g:airline_inactive_collapse=0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#ctrlp#color_template = 'normal'
@@ -120,17 +123,6 @@ let g:airline_mode_map = {
       \ '' : 'SB',
       \ }
 
-let g:airline_theme_patch_func = 'AirlineThemePatch'
-function! AirlineThemePatch(palette)
-    if g:airline_theme == 'solarized'
-        " base1 instead of base00
-        let a:palette.normal.airline_b[3] = 14
-        let a:palette.normal.airline_y[3] = 14
-        let a:palette.normal.airline_b[1] = '#93a1a1'
-        let a:palette.normal.airline_y[1] = '#93a1a1'
-    endif
-endfunction
-
 function! AirlineInit()
     let g:airline_section_y = airline#section#create_right(['%v', '%l'])
     let g:airline_section_z = airline#section#create_right(['%P', '%L'])
@@ -146,7 +138,8 @@ if has('gui_running')
    set guioptions-=r " no right scrollbar
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
-   set guifont=Inconsolata\ for\ Powerline:h12
+   set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
+
    colo solarized
 else
    colo solarized
