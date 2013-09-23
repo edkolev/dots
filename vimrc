@@ -45,6 +45,11 @@ Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
 Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'nelstrom/vim-markdown-folding'
+Bundle 'majutsushi/tagbar'
+
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:tagbar_autoclose = 1
 
 " Bundle 'tpope/vim-scriptease'
 
