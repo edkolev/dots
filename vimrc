@@ -51,6 +51,7 @@ let g:tagbar_autoclose = 1
 
 if has('gui_running')
   Bundle 'xolox/vim-notes'
+  Bundle 'xolox/vim-misc'
 endif
 
 filetype plugin indent on
