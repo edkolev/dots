@@ -8,7 +8,6 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " Themes
-Bundle 'badwolf'
 Bundle 'ironman.vim'
 Bundle 'w0ng/vim-hybrid'
 Bundle 'jonathanfilip/lucius'
@@ -16,7 +15,6 @@ Bundle 'altercation/vim-colors-solarized'
 
 " Plugins
 Bundle 'tpope/vim-sensible'
-
 Bundle 'surround.vim'
 Bundle 'ctrlp.vim'
 Bundle 'repeat.vim'
@@ -47,8 +45,6 @@ Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'majutsushi/tagbar'
 
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
 let g:tagbar_autoclose = 1
 
 " Bundle 'tpope/vim-scriptease'
@@ -61,9 +57,6 @@ filetype plugin indent on
 " }}}
 
 " Plugin Config {{{
-
-let g:localvimrc_whitelist = 'dev/.lvimrc'
-let g:localvimrc_sandbox = 0
 
 let g:nrrw_rgn_vert = 1
 let g:nrrw_rgn_nohl = 1
@@ -93,27 +86,11 @@ let g:notes_directories = ['~/.vim/notes']
 let g:Gitv_DoNotMapCtrlKey = 1
 
 let g:airline_theme='solarized'
-let g:airline_symbols = {}
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.paste = ''
-
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#ctrlp#show_adjacent_modes = 0
-
+let g:airline_powerline_fonts = 1
 let g:airline_inactive_collapse=0
-let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#ctrlp#color_template = 'normal'
-       
 let g:airline_mode_map = {
       \ '__' : '- ',
       \ 'n'  : 'N ',
@@ -210,6 +187,8 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 nnoremap / /\v
 vnoremap / /\v
 
+vnoremap . :normal .<CR>
+
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 
@@ -217,6 +196,7 @@ nmap <leader># :%s///n<CR> " count matches
 nmap <leader>D :%s///g<CR> " delete matches
 
 nnoremap <leader>w :vnew<cr>
+nnoremap <leader>W :new<cr>
 nnoremap <leader>s :update<cr>
 nnoremap <cr> :update<cr>
 nmap <leader>v :vsplit $MYVIMRC<CR>
@@ -285,9 +265,9 @@ autocmd FileType perl compiler perl
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
-" }}}
-
 if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
+
+" }}}
 
