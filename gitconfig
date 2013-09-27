@@ -13,7 +13,7 @@
 	editor = vim
 [alias]
 	st = status
-    one = log --pretty=oneline
+    one = log --pretty=oneline --reverse
     vst = !vim -c Gstatus .
     vdiff = !vim -c Gdiff $1
 

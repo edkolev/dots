@@ -4,7 +4,7 @@
 set -o vi
 export CLICOLOR=1
 
-PS1='$(last_error)$(box_name):$(cwd)$(vcs_branch) \$ '
+PS1='$(last_error)$(box_name):$(cwd)$(vcs_branch)$(job_count) \$ '
 
 [ -d ~/bin ] && export PATH="~/bin:$PATH"
 [ -f ~/.box_bashrc ] && source ~/.box_bashrc
@@ -71,6 +71,16 @@ function git_branch {
 # http://blog.sanctum.geek.nz/bash-prompts/
 function vcs_branch {
    git_branch || svn_branch
+}
+
+function job_count {
+    local jobc=0
+    while read -r _; do
+        ((jobc++))
+    done < <(jobs -p)
+    if ((jobc > 0)); then
+        printf ' {%d}' "$jobc"
+    fi
 }
 
 function cwd {
