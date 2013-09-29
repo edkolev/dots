@@ -1,19 +1,17 @@
 let mapleader = ","
-
-" Vundle config {{{
 set nocompatible
+
+" Plugins {{{
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
 
-" Themes
 Bundle 'ironman.vim'
 Bundle 'w0ng/vim-hybrid'
 Bundle 'jonathanfilip/lucius'
 Bundle 'altercation/vim-colors-solarized'
 
-" Plugins
 Bundle 'tpope/vim-sensible'
 Bundle 'surround.vim'
 Bundle 'ctrlp.vim'
@@ -45,7 +43,8 @@ Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'majutsushi/tagbar'
 
-let g:tagbar_autoclose = 1
+runtime ftplugin/man.vim
+runtime macros/matchit.vim
 
 " Bundle 'tpope/vim-scriptease'
 
@@ -58,6 +57,8 @@ filetype plugin indent on
 " }}}
 
 " Plugin Config {{{
+
+let g:tagbar_autoclose = 1
 
 let g:nrrw_rgn_vert = 1
 let g:nrrw_rgn_nohl = 1
@@ -269,6 +270,9 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
+
+:autocmd CmdwinEnter * nnoremap <CR> <CR>
+:autocmd BufReadPost quickfix nnoremap <CR> <CR>
 
 " }}}
 
