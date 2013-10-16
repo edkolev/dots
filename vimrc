@@ -42,11 +42,13 @@ Bundle 'bling/vim-airline'
 Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'majutsushi/tagbar'
+Bundle 'paradigm/TextObjectify'
 
 runtime ftplugin/man.vim
 runtime macros/matchit.vim
 
 " Bundle 'tpope/vim-scriptease'
+" Bundle 'kana/vim-vspec'
 
 if has('gui_running')
   Bundle 'xolox/vim-notes'
@@ -162,7 +164,9 @@ set complete-=i
 set complete-=t
 
 set hidden
+set number
 set relativenumber
+set numberwidth=1
 set splitbelow splitright
 set showmatch
 set autowrite
@@ -239,9 +243,6 @@ augroup cline
     au WinLeave * setlocal nocursorline
 augroup END
 
-autocmd InsertEnter * :setlocal nohlsearch
-autocmd InsertLeave * :setlocal hlsearch
-
 au WinEnter * :set winfixheight
 au VimResized * :wincmd =
 
@@ -271,8 +272,10 @@ if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
 
-:autocmd CmdwinEnter * nnoremap <CR> <CR>
-:autocmd BufReadPost quickfix nnoremap <CR> <CR>
+autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+
+autocmd BufWritePost * if &diff == 1 | diffupdate | endif
 
 " }}}
 

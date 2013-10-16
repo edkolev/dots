@@ -17,3 +17,5 @@
     vst = !vim -c Gstatus .
     vdiff = !vim -c Gdiff $1
 
+[color]
+	ui = auto
