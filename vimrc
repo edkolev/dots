@@ -73,7 +73,7 @@ let g:ctrlp_switch_buffer = 2
 let g:ctrlp_working_path_mode = 2
 let g:ctrlp_open_multiple_files = '0vt'
 let g:ctrlp_dotfiles = 1
-let g:ctrlp_custom_ignore = 'Img$\|^Images$\|Files$\|\.svn$\|\.jpg$\|\.png$\|\.gif$'
+let g:ctrlp_custom_ignore = 'Img$\|^Images$\|Files$\|\.svn$\|\.jpg$\|\.png$\|\.gif$\|\.txt$\|\.swf$\|\.css$'
 let g:ctrlp_map = '<leader>,'
 nmap <leader>t :CtrlPBufTag<CR>
 nmap <leader>r :CtrlPMRUFiles<CR>
@@ -199,7 +199,7 @@ vnoremap . :normal .<CR>
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 
-nmap <leader># :%s///n<CR> " count matches
+nmap <leader># :%s///ng<CR> " count matches
 nmap <leader>D :%s///g<CR> " delete matches
 
 nnoremap <leader>w :vnew<cr>
