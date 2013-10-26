@@ -40,9 +40,11 @@ Bundle 'bogado/file-line'
 Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
 Bundle 'michaeljsmith/vim-indent-object'
-Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'majutsushi/tagbar'
 Bundle 'paradigm/TextObjectify'
+Bundle 'vim-scripts/Css-Pretty'
+Bundle 'tpope/vim-rsi'
+Bundle 'vim-scripts/ReplaceWithRegister'
 
 runtime ftplugin/man.vim
 runtime macros/matchit.vim
@@ -89,7 +91,6 @@ let g:notes_directories = ['~/.vim/notes']
 
 let g:Gitv_DoNotMapCtrlKey = 1
 
-let g:airline_theme='solarized'
 let g:airline_powerline_fonts = 1
 let g:airline_inactive_collapse=0
 let g:airline#extensions#tabline#enabled = 1
@@ -278,4 +279,9 @@ autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 autocmd BufWritePost * if &diff == 1 | diffupdate | endif
 
 " }}}
+
+let g:netrw_banner       = 0
+let g:netrw_liststyle    = 3
+let g:netrw_sort_options = 'i'
+let g:netrw_keepdir      = 0
 
