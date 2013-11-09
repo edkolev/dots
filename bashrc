@@ -4,10 +4,11 @@
 set -o vi
 export CLICOLOR=1
 
-PS1='$(last_error)$(box_name):$(cwd)$(vcs_branch)$(job_count) \$ '
+PS1='$(last_error)$(box_name):$(cwd)$(vcs_branch)$(job_count \j) \$ '
 
 [ -d ~/bin ] && export PATH="~/bin:$PATH"
 [ -f ~/.box_bashrc ] && source ~/.box_bashrc
+[ -f ~/dots/z/z.sh ] && source ~/dots/z/z.sh
 
 alias vi=vim
 
@@ -74,19 +75,13 @@ function vcs_branch {
 }
 
 function job_count {
-    local jobc=0
-    while read -r _; do
-        ((jobc++))
-    done < <(jobs -p)
-    if ((jobc > 0)); then
-        printf ' {%d}' "$jobc"
-    fi
+  [ $1 -gt 0 ] && printf " {$1}"
 }
 
 function cwd {
     local cwd
     cwd=$(pwd | sed -e "s,^$HOME,~," | sed -e 's#\([a-zA-Z]\)[a-zA-Z]*[^/]*/#\1/#g')
-    
+
     printf '%s' "$cwd"
 }
 
