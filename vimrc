@@ -11,6 +11,9 @@ Bundle 'ironman.vim'
 Bundle 'w0ng/vim-hybrid'
 Bundle 'jonathanfilip/lucius'
 Bundle 'altercation/vim-colors-solarized'
+Bundle "daylerees/colour-schemes", { "rtp": "vim-themes/" }
+Bundle 'jonathanfilip/vim-lucius'
+Bundle 'jnurmine/Zenburn'
 
 Bundle 'tpope/vim-sensible'
 Bundle 'surround.vim'
@@ -41,16 +44,20 @@ Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
 Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'majutsushi/tagbar'
-Bundle 'paradigm/TextObjectify'
 Bundle 'vim-scripts/Css-Pretty'
 Bundle 'tpope/vim-rsi'
 Bundle 'vim-scripts/ReplaceWithRegister'
+Bundle 'moll/vim-bbye'
+Bundle 'elzr/vim-json'
+Bundle 'edkolev/tmuxline.vim'
 
 runtime ftplugin/man.vim
 runtime macros/matchit.vim
 
 " Bundle 'tpope/vim-scriptease'
 " Bundle 'kana/vim-vspec'
+" Bundle 'xolox/vim-misc'
+" Bundle 'xolox/vim-reload'
 
 if has('gui_running')
   Bundle 'xolox/vim-notes'
@@ -68,7 +75,7 @@ let g:nrrw_rgn_vert = 1
 let g:nrrw_rgn_nohl = 1
 let g:nrrw_rgn_wdth = 80
 
-let g:ctrlp_max_height = 25
+let g:ctrlp_max_height = 45
 let g:ctrlp_switch_buffer = 2
 let g:ctrlp_working_path_mode = 2
 let g:ctrlp_open_multiple_files = '0vt'
@@ -127,9 +134,9 @@ if has('gui_running')
    set guitablabel=%m\ %t
    set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
 
-   colo solarized
+   colo zenburn
 else
-   colo solarized
+   colo zenburn
 endif
 
 syntax enable
@@ -143,14 +150,15 @@ set encoding=utf-8
 set smartindent
 set noswapfile
 
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
 set expandtab
 
 set scrolloff=25
 set sidescrolloff=5
 
-set wildmode=longest:full
+set wildmode=list:longest,full
 
 set nowrap
 set linebreak
@@ -185,6 +193,7 @@ set undofile
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.beam
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
+set showbreak=↪
 
 " }}}
 
@@ -255,7 +264,7 @@ augroup vim
     au!
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | vertical resize 80 | endif
 augroup END
 
 augroup tracwiki
@@ -278,10 +287,12 @@ autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
 autocmd BufWritePost * if &diff == 1 | diffupdate | endif
 
+au BufWinEnter *.md set ft=markdown
+au BufWinEnter *.conf set ft=conf
+
 " }}}
 
 let g:netrw_banner       = 0
 let g:netrw_liststyle    = 3
 let g:netrw_sort_options = 'i'
-let g:netrw_keepdir      = 0
 
