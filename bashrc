@@ -12,6 +12,10 @@ PS1='$(last_error)$(box_name):$(cwd)$(vcs_branch)$(job_count \j) \$ '
 
 alias vi=vim
 
+function vman {
+  vim -c "Man $1" -c on
+}
+
 # avoid duplicates in history
 export HISTCONTROL=ignoredups
 
