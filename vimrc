@@ -50,6 +50,7 @@ Bundle 'vim-scripts/ReplaceWithRegister'
 Bundle 'moll/vim-bbye'
 Bundle 'elzr/vim-json'
 Bundle 'edkolev/tmuxline.vim'
+Bundle 'kana/vim-textobj-line'
 
 runtime ftplugin/man.vim
 runtime macros/matchit.vim
@@ -194,6 +195,7 @@ set wildignore+=.hg,.git,.svn
 set wildignore+=*.beam
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 set showbreak=↪
+set fillchars=""
 
 " }}}
 
@@ -295,4 +297,10 @@ au BufWinEnter *.conf set ft=conf
 let g:netrw_banner       = 0
 let g:netrw_liststyle    = 3
 let g:netrw_sort_options = 'i'
+
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching = 0
+endif
 
