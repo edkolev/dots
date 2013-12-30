@@ -14,6 +14,8 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle "daylerees/colour-schemes", { "rtp": "vim-themes/" }
 Bundle 'jonathanfilip/vim-lucius'
 Bundle 'jnurmine/Zenburn'
+Bundle 'twilight256.vim'
+Bundle 'jellybeans.vim'
 
 Bundle 'tpope/vim-sensible'
 Bundle 'surround.vim'
@@ -51,6 +53,11 @@ Bundle 'moll/vim-bbye'
 Bundle 'elzr/vim-json'
 Bundle 'edkolev/tmuxline.vim'
 Bundle 'kana/vim-textobj-line'
+Bundle 'mbbill/undotree'
+Bundle 'tpope/vim-vinegar'
+Bundle 'mattn/gist-vim'
+Bundle 'mattn/webapi-vim'
+Bundle 'edkolev/promptline.vim'
 
 runtime ftplugin/man.vim
 runtime macros/matchit.vim
@@ -63,6 +70,7 @@ runtime macros/matchit.vim
 if has('gui_running')
   Bundle 'xolox/vim-notes'
   Bundle 'xolox/vim-misc'
+  nnoremap <leader>n :execute 'Note ' . tolower(strftime('%b%d'))<CR>
 endif
 
 filetype plugin indent on
@@ -76,13 +84,19 @@ let g:nrrw_rgn_vert = 1
 let g:nrrw_rgn_nohl = 1
 let g:nrrw_rgn_wdth = 80
 
+let g:ctrlp_map = '<space>'
 let g:ctrlp_max_height = 45
 let g:ctrlp_switch_buffer = 2
 let g:ctrlp_working_path_mode = 2
 let g:ctrlp_open_multiple_files = '0vt'
 let g:ctrlp_dotfiles = 1
 let g:ctrlp_custom_ignore = 'Img$\|^Images$\|Files$\|\.svn$\|\.jpg$\|\.png$\|\.gif$\|\.txt$\|\.swf$\|\.css$'
-let g:ctrlp_map = '<leader>,'
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching = 0
+endif
+
 nmap <leader>t :CtrlPBufTag<CR>
 nmap <leader>r :CtrlPMRUFiles<CR>
 nmap <leader>f :CtrlP .<CR>
@@ -96,6 +110,7 @@ nmap <leader>U :GundoToggle<CR>
 
 let g:notes_tab_indents = 0
 let g:notes_directories = ['~/.vim/notes']
+let g:notes_shadowdir = '/Users/edkolev/.vim/notes/shadow'
 
 let g:Gitv_DoNotMapCtrlKey = 1
 
@@ -137,13 +152,15 @@ if has('gui_running')
 
    colo zenburn
 else
-   colo zenburn
+   colo lucius
+   let g:airline_theme = 'tomorrow'
 endif
 
 syntax enable
 " }}}
 
 " Set's {{{
+set noshowcmd
 set noshowmode
 set cursorline
 set encoding=utf-8
@@ -159,20 +176,13 @@ set expandtab
 set scrolloff=25
 set sidescrolloff=5
 
-set wildmode=list:longest,full
-
 set nowrap
 set linebreak
 
 set ignorecase
 set smartcase
-
 set diffopt+=vertical
 set diffopt+=iwhite
-
-set complete-=i
-set complete-=t
-
 set hidden
 set number
 set relativenumber
@@ -182,14 +192,17 @@ set showmatch
 set autowrite
 set synmaxcol=500
 set completeopt=longest,menuone,preview
+set complete=.,b,u,t
+set wildmode=list:longest,full
 
 " disable cursor blink
 set gcr=a:blinkon0
 
 " persistent undo history
-silent !mkdir ~/.vim/backups > /dev/null 2>&1
-set undodir=~/.vim/backups
-set undofile
+if filewritable('~/.vim/undodir')
+  set undodir=~/.vim/backups
+  set undofile
+endif
 
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.beam
@@ -207,11 +220,15 @@ vnoremap / /\v
 
 vnoremap . :normal .<CR>
 
+map Q gq
+nmap \ g;
+map \| g,
+
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 
-nmap <leader># :%s///ng<CR> " count matches
-nmap <leader>D :%s///g<CR> " delete matches
+nmap <leader># :%s///ng<CR>
+nmap <leader>D :%s///g<CR>
 
 nnoremap <leader>w :vnew<cr>
 nnoremap <leader>W :new<cr>
@@ -219,9 +236,9 @@ nnoremap <leader>s :update<cr>
 nnoremap <cr> :update<cr>
 nmap <leader>v :vsplit $MYVIMRC<CR>
 nmap <leader>V :vsplit $MYVIMRC.local<CR>
-nnoremap <leader><space> :noh<cr>
 
-nmap <C-]> g<C-]>  " jump to tag if one, show list otherwise
+" jump to tag if one, show list otherwise
+nmap <C-]> g<C-]>
 
 nnoremap j gj
 nnoremap k gk
@@ -280,6 +297,8 @@ autocmd FileType perl compiler perl
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
+autocmd FileType gitcommit setlocal spell
+
 if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
@@ -294,13 +313,23 @@ au BufWinEnter *.conf set ft=conf
 
 " }}}
 
-let g:netrw_banner       = 0
-let g:netrw_liststyle    = 3
-let g:netrw_sort_options = 'i'
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching = 0
-endif
+function! StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+let g:promptline_preset = {
+        \'b' : [ promptline#slices#cwd() ],
+        \'c' : [ promptline#slices#vcs_branch(), promptline#slices#jobs() ],
+        \'warn' : [ promptline#slices#last_exit_code(), promptline#slices#battery() ]}
+
+let g:tmuxline_preset = 'full'
+
 
