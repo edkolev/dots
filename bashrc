@@ -9,6 +9,7 @@ PS1='$(last_error)$(box_name):$(cwd)$(vcs_branch)$(job_count \j) \$ '
 [ -d ~/bin ] && export PATH="~/bin:$PATH"
 [ -f ~/.box_bashrc ] && source ~/.box_bashrc
 [ -f ~/dots/z/z.sh ] && source ~/dots/z/z.sh
+[ -f ~/.promptline.sh ] && source ~/.promptline.sh
 
 alias vi=vim
 

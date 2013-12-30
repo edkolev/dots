@@ -1,21 +1,23 @@
 [user]
-	name = Evgeni Kolev
-	email = evgenysw@gmail.com
+  name = Evgeni Kolev
+  email = evgenysw@gmail.com
 [diff]
-	tool = vimdiff
+  tool = vimdiff
 [difftool]
-	prompt = false
+  prompt = false
 [merge]
-	tool = vimdiff
+  tool = vimdiff
 [push]
-	default = simple
+  default = simple
 [core]
-	editor = vim
+  editor = vim
 [alias]
-	st = status
-    one = log --pretty=oneline --reverse -10
-    vst = !vim -c Gstatus .
-    vdiff = !vim -c Gdiff $1
-
+  st = status
+  one = log --pretty=oneline --reverse -10
+  vst = !vim -c Gstatus .
+  vdiff = !vim -c Gdiff $1
+  graph = log --oneline --color --graph --decorate
 [color]
-	ui = auto
+  ui = auto
+[github]
+  user = edkolev
