@@ -16,6 +16,9 @@ Bundle 'jonathanfilip/vim-lucius'
 Bundle 'jnurmine/Zenburn'
 Bundle 'twilight256.vim'
 Bundle 'jellybeans.vim'
+Bundle 'zeis/vim-kolor'
+Bundle 'paranoida/vim-airlineish'
+Bundle 'wombat256.vim'
 
 Bundle 'tpope/vim-sensible'
 Bundle 'surround.vim'
@@ -58,19 +61,21 @@ Bundle 'tpope/vim-vinegar'
 Bundle 'mattn/gist-vim'
 Bundle 'mattn/webapi-vim'
 Bundle 'edkolev/promptline.vim'
+Bundle 'junegunn/goyo.vim'
+Bundle 'lunaru/vim-less'
+Bundle 'chriskempson/vim-tomorrow-theme'
 
 runtime ftplugin/man.vim
 runtime macros/matchit.vim
 
 " Bundle 'tpope/vim-scriptease'
-" Bundle 'kana/vim-vspec'
 " Bundle 'xolox/vim-misc'
 " Bundle 'xolox/vim-reload'
 
 if has('gui_running')
   Bundle 'xolox/vim-notes'
   Bundle 'xolox/vim-misc'
-  nnoremap <leader>n :execute 'Note ' . tolower(strftime('%b%d'))<CR>
+  nnoremap <leader>n :execute 'Note ' . tolower(strftime('%b-%d-%Y'))<CR>
 endif
 
 filetype plugin indent on
@@ -153,7 +158,6 @@ if has('gui_running')
    colo zenburn
 else
    colo lucius
-   let g:airline_theme = 'tomorrow'
 endif
 
 syntax enable
@@ -199,8 +203,11 @@ set wildmode=list:longest,full
 set gcr=a:blinkon0
 
 " persistent undo history
-if filewritable('~/.vim/undodir')
-  set undodir=~/.vim/backups
+if !filewritable(expand('~/.vim/undo'))
+  call mkdir(expand('~/.vim/undo'))
+endif
+if filewritable(expand('~/.vim/undo'))
+  set undodir=~/.vim/undo
   set undofile
 endif
 
@@ -220,7 +227,7 @@ vnoremap / /\v
 
 vnoremap . :normal .<CR>
 
-map Q gq
+map Q gw
 nmap \ g;
 map \| g,
 
@@ -230,9 +237,7 @@ cnoremap <C-j> <Down>
 nmap <leader># :%s///ng<CR>
 nmap <leader>D :%s///g<CR>
 
-nnoremap <leader>w :vnew<cr>
-nnoremap <leader>W :new<cr>
-nnoremap <leader>s :update<cr>
+nnoremap <leader>w :vsplit<cr>
 nnoremap <cr> :update<cr>
 nmap <leader>v :vsplit $MYVIMRC<CR>
 nmap <leader>V :vsplit $MYVIMRC.local<CR>
