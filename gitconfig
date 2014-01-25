@@ -15,6 +15,7 @@
   st = status
   one = log --pretty=oneline --reverse -10
   ahead = log --pretty=oneline --reverse @{u}..
+  behind = log --pretty=oneline --reverse ..@{u}
   vst = !vim -c Gstatus .
   vdiff = !vim -c Gdiff $1
   graph = log --oneline --color --graph --decorate
