@@ -1,7 +1,12 @@
-let mapleader = ","
-set nocompatible
 
 " Plugins {{{
+
+if !isdirectory(expand("~/.vim/bundle/vundle/"))
+  !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+endif
+
+let mapleader = ","
+set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -9,7 +14,6 @@ Bundle 'gmarik/vundle'
 
 Bundle 'ironman.vim'
 Bundle 'w0ng/vim-hybrid'
-Bundle 'jonathanfilip/lucius'
 Bundle 'altercation/vim-colors-solarized'
 Bundle "daylerees/colour-schemes", { "rtp": "vim-themes/" }
 Bundle 'jonathanfilip/vim-lucius'
@@ -17,8 +21,9 @@ Bundle 'jnurmine/Zenburn'
 Bundle 'twilight256.vim'
 Bundle 'jellybeans.vim'
 Bundle 'zeis/vim-kolor'
-Bundle 'paranoida/vim-airlineish'
 Bundle 'wombat256.vim'
+Bundle 'chriskempson/vim-tomorrow-theme'
+Bundle 'junegunn/seoul256.vim'
 
 Bundle 'tpope/vim-sensible'
 Bundle 'surround.vim'
@@ -27,11 +32,9 @@ Bundle 'repeat.vim'
 Bundle 'NrrwRgn'
 Bundle 'tpope/vim-commentary'
 Bundle 'kana/vim-textobj-user'
-Bundle 'kana/vim-textobj-lastpat'
 Bundle 'kana/vim-textobj-entire'
 Bundle 'nelstrom/vim-visual-star-search'
 Bundle 'tpope/vim-abolish'
-Bundle 'leshill/vim-json'
 Bundle 'tracwiki'
 Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-eunuch'
@@ -43,13 +46,11 @@ Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-fugitive'
 Bundle 'gregsexton/gitv'
 Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'sjl/gundo.vim'
 Bundle 'bogado/file-line'
 Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
 Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'majutsushi/tagbar'
-Bundle 'vim-scripts/Css-Pretty'
 Bundle 'tpope/vim-rsi'
 Bundle 'vim-scripts/ReplaceWithRegister'
 Bundle 'moll/vim-bbye'
@@ -63,10 +64,8 @@ Bundle 'mattn/webapi-vim'
 Bundle 'edkolev/promptline.vim'
 Bundle 'junegunn/goyo.vim'
 Bundle 'lunaru/vim-less'
-Bundle 'chriskempson/vim-tomorrow-theme'
-
-runtime ftplugin/man.vim
-runtime macros/matchit.vim
+Bundle 'scrooloose/syntastic'
+Bundle 'wellle/targets.vim'
 
 " Bundle 'tpope/vim-scriptease'
 " Bundle 'xolox/vim-misc'
@@ -77,6 +76,9 @@ if has('gui_running')
   Bundle 'xolox/vim-misc'
   nnoremap <leader>n :execute 'Note ' . tolower(strftime('%b-%d-%Y'))<CR>
 endif
+
+runtime ftplugin/man.vim
+runtime macros/matchit.vim
 
 filetype plugin indent on
 " }}}
@@ -144,6 +146,13 @@ function! AirlineInit()
 endfunction
 autocmd VimEnter * call AirlineInit()
 
+let g:promptline_preset = {
+        \'b' : [ promptline#slices#cwd() ],
+        \'c' : [ promptline#slices#vcs_branch(), promptline#slices#git_status(), promptline#slices#jobs() ],
+        \'warn' : [ promptline#slices#last_exit_code(), promptline#slices#battery() ]}
+
+let g:tmuxline_preset = 'full'
+
 " }}}
 
 " UI {{{
@@ -155,7 +164,7 @@ if has('gui_running')
    set guitablabel=%m\ %t
    set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
 
-   colo zenburn
+   colo lucius
 else
    colo lucius
 endif
@@ -217,19 +226,24 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 set showbreak=↪
 set fillchars=""
 
+set exrc
+set secure
+
 " }}}
 
-" Mappings {{{
+" Mappings & Commands {{{
 
-" use normal regexes
 nnoremap / /\v
 vnoremap / /\v
 
 vnoremap . :normal .<CR>
 
-map Q gw
+map Q gwap
+" TODO remove either one of these
 nmap \ g;
 map \| g,
+nmap [. g;
+map ]. g,
 
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
@@ -248,7 +262,6 @@ nmap <C-]> g<C-]>
 nnoremap j gj
 nnoremap k gk
 
-inoremap # X<BS>#
 noremap 0 ^
 
 " file, tag, line completion
@@ -257,6 +270,21 @@ inoremap <c-]> <c-x><c-]>
 inoremap <c-l> <c-x><c-l>
 
 nmap Y y$
+
+nmap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+command! -nargs=+ -complete=file -bar Grep silent! grep! <args>|cwindow|redraw!
+nnoremap <leader>/ :Grep<SPACE>
+
+function! ClearWhitespace()
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
+command! -nargs=0 ClearWhitespace call ClearWhitespace()
+
 " }}}
 
 " Auto Commands {{{
@@ -287,7 +315,6 @@ autocmd! bufwritepost .vimrc.local source $MYVIMRC
 augroup vim
     au!
     au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | vertical resize 80 | endif
 augroup END
 
@@ -317,24 +344,4 @@ au BufWinEnter *.md set ft=markdown
 au BufWinEnter *.conf set ft=conf
 
 " }}}
-
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-function! StripTrailingWhitespaces()
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
-endfunction
-
-let g:promptline_preset = {
-        \'b' : [ promptline#slices#cwd() ],
-        \'c' : [ promptline#slices#vcs_branch(), promptline#slices#jobs() ],
-        \'warn' : [ promptline#slices#last_exit_code(), promptline#slices#battery() ]}
-
-let g:tmuxline_preset = 'full'
-
 
