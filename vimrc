@@ -66,6 +66,9 @@ Bundle 'junegunn/goyo.vim'
 Bundle 'lunaru/vim-less'
 Bundle 'scrooloose/syntastic'
 Bundle 'wellle/targets.vim'
+Bundle 'tpope/vim-jdaddy'
+Bundle 'tommcdo/vim-lion'
+Bundle 'tommcdo/vim-exchange'
 
 " Bundle 'tpope/vim-scriptease'
 " Bundle 'xolox/vim-misc'
@@ -284,6 +287,8 @@ function! ClearWhitespace()
     call cursor(l, c)
 endfunction
 command! -nargs=0 ClearWhitespace call ClearWhitespace()
+
+command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 
 " }}}
 
