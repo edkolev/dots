@@ -35,7 +35,6 @@ Bundle 'kana/vim-textobj-user'
 Bundle 'kana/vim-textobj-entire'
 Bundle 'tpope/vim-abolish'
 Bundle 'tracwiki'
-Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-eunuch'
 Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-tbone'
@@ -118,9 +117,6 @@ nmap <leader>r :CtrlPMRUFiles<CR>
 nmap <leader>f :CtrlP .<CR>
 nmap <leader>T :CtrlPTag<CR>
 nmap <leader>e :CtrlPBuffer<CR>
-
-vmap <leader>= :Tabularize/=<CR>
-vmap <leader>> :Tabularize/=><CR>
 
 nmap <leader>U :GundoToggle<CR>
 
