@@ -12,13 +12,20 @@
 [core]
   editor = vim
 [alias]
-  st = status
+  st = status -sb
   one = log --pretty=oneline --reverse -10
   ahead = log --pretty=oneline --reverse @{u}..
   behind = log --pretty=oneline --reverse ..@{u}
   vst = !vim -c Gstatus .
   vdiff = !vim -c Gdiff $1
+  tags = tag -l
+  branches = branch -a
+  remotes = remote -v
+
+  # TODO figure out which works best for me
   graph = log --oneline --color --graph --decorate
+  graph2 = log --all --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	graph3 = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 [color]
   ui = auto
 [github]
