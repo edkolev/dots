@@ -15,7 +15,7 @@ Bundle 'gmarik/vundle'
 Bundle 'ironman.vim'
 Bundle 'w0ng/vim-hybrid'
 Bundle 'altercation/vim-colors-solarized'
-Bundle "daylerees/colour-schemes", { "rtp": "vim-themes/" }
+Bundle "daylerees/colour-schemes", { "rtp": "vim/" }
 Bundle 'jonathanfilip/vim-lucius'
 Bundle 'jnurmine/Zenburn'
 Bundle 'twilight256.vim'
@@ -33,7 +33,6 @@ Bundle 'NrrwRgn'
 Bundle 'tpope/vim-commentary'
 Bundle 'kana/vim-textobj-user'
 Bundle 'kana/vim-textobj-entire'
-Bundle 'nelstrom/vim-visual-star-search'
 Bundle 'tpope/vim-abolish'
 Bundle 'tracwiki'
 Bundle 'godlygeek/tabular'
@@ -69,6 +68,11 @@ Bundle 'wellle/targets.vim'
 Bundle 'tpope/vim-jdaddy'
 Bundle 'tommcdo/vim-lion'
 Bundle 'tommcdo/vim-exchange'
+Bundle 'junegunn/vader.vim'
+Bundle 'wellle/tmux-complete.vim'
+Bundle 'DirDiff.vim'
+Bundle 'junegunn/vim-pseudocl'
+Bundle 'junegunn/vim-oblique'
 
 " Bundle 'tpope/vim-scriptease'
 " Bundle 'xolox/vim-misc'
@@ -76,7 +80,6 @@ Bundle 'tommcdo/vim-exchange'
 
 if has('gui_running')
   Bundle 'xolox/vim-notes'
-  Bundle 'xolox/vim-misc'
   nnoremap <leader>n :execute 'Note ' . tolower(strftime('%b-%d-%Y'))<CR>
 endif
 
@@ -87,6 +90,9 @@ filetype plugin indent on
 " }}}
 
 " Plugin Config {{{
+
+let g:airline#extensions#tabline#show_tab_type = 1
+let g:airline#extensions#tabline#close_symbol = 'Y'
 
 let g:tagbar_autoclose = 1
 
@@ -131,30 +137,28 @@ let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#ctrlp#color_template = 'normal'
 let g:airline_mode_map = {
       \ '__' : '- ',
-      \ 'n'  : 'N ',
-      \ 'i'  : 'I ',
-      \ 'R'  : 'R ',
-      \ 'v'  : 'V ',
-      \ 'V'  : 'VL',
-      \ 'c'  : 'C ',
-      \ '' : 'VB',
-      \ 's'  : 'S ',
-      \ 'S'  : 'SL',
-      \ '' : 'SB',
+      \ 'n'  : 'n ',
+      \ 'i'  : 'i ',
+      \ 'R'  : 'r ',
+      \ 'v'  : 'v ',
+      \ 'V'  : 'vl',
+      \ 'c'  : 'c ',
+      \ '' : 'vb',
+      \ 's'  : 's ',
+      \ 'S'  : 'sl',
+      \ '' : 'sb',
       \ }
 
-function! AirlineInit()
-    let g:airline_section_y = airline#section#create_right(['%v', '%l'])
-    let g:airline_section_z = airline#section#create_right(['%P', '%L'])
-endfunction
-autocmd VimEnter * call AirlineInit()
-
 let g:promptline_preset = {
-        \'b' : [ promptline#slices#cwd() ],
-        \'c' : [ promptline#slices#vcs_branch(), promptline#slices#git_status(), promptline#slices#jobs() ],
-        \'warn' : [ promptline#slices#last_exit_code(), promptline#slices#battery() ]}
+        \'a' : [ promptline#slices#vcs_branch(), promptline#slices#git_status() ],
+        \'c' : [ promptline#slices#cwd() ],
+        \'options': {
+          \'left_sections' : [ 'a', 'c' ],
+          \'left_only_sections' : [ 'a', 'c' ]}}
 
 let g:tmuxline_preset = 'full'
+
+let g:syntastic_mode_map = { 'mode': 'passive' }
 
 " }}}
 
@@ -166,11 +170,9 @@ if has('gui_running')
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
    set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
-
-   colo lucius
 else
-   colo lucius
 endif
+colo lucius
 
 syntax enable
 " }}}
@@ -231,13 +233,12 @@ set fillchars=""
 
 set exrc
 set secure
+set wrapscan
+set lazyredraw
 
 " }}}
 
 " Mappings & Commands {{{
-
-nnoremap / /\v
-vnoremap / /\v
 
 vnoremap . :normal .<CR>
 
@@ -290,6 +291,11 @@ command! -nargs=0 ClearWhitespace call ClearWhitespace()
 
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 
+if executable('tidyp')
+  command! TidyHTML :%!tidyp -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
+endif
+
+
 " }}}
 
 " Auto Commands {{{
@@ -310,7 +316,6 @@ augroup cline
     au WinLeave * setlocal nocursorline
 augroup END
 
-au WinEnter * :set winfixheight
 au VimResized * :wincmd =
 
 " source .vimrc on save
@@ -320,7 +325,6 @@ autocmd! bufwritepost .vimrc.local source $MYVIMRC
 augroup vim
     au!
     au FileType vim setlocal foldmethod=marker
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | vertical resize 80 | endif
 augroup END
 
 augroup tracwiki
@@ -347,6 +351,13 @@ autocmd BufWritePost * if &diff == 1 | diffupdate | endif
 
 au BufWinEnter *.md set ft=markdown
 au BufWinEnter *.conf set ft=conf
+
+augroup fast_quit
+  au!
+  au FileType help nnoremap <buffer> q :q<cr>
+  au FileType qf nnoremap <buffer> q :q<cr>
+  au CmdwinEnter * nnoremap <buffer> q :q<cr>
+augroup END
 
 " }}}
 
