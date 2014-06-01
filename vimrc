@@ -14,27 +14,15 @@ Bundle 'gmarik/vundle'
 
 Bundle 'ironman.vim'
 Bundle 'w0ng/vim-hybrid'
-Bundle 'altercation/vim-colors-solarized'
 Bundle "daylerees/colour-schemes", { "rtp": "vim/" }
 Bundle 'jonathanfilip/vim-lucius'
 Bundle 'jnurmine/Zenburn'
 Bundle 'twilight256.vim'
 Bundle 'jellybeans.vim'
-Bundle 'zeis/vim-kolor'
 Bundle 'wombat256.vim'
-Bundle 'chriskempson/vim-tomorrow-theme'
-Bundle 'junegunn/seoul256.vim'
 
 Bundle 'tpope/vim-sensible'
-Bundle 'surround.vim'
-Bundle 'ctrlp.vim'
-Bundle 'repeat.vim'
-Bundle 'NrrwRgn'
 Bundle 'tpope/vim-commentary'
-Bundle 'kana/vim-textobj-user'
-Bundle 'kana/vim-textobj-entire'
-Bundle 'tpope/vim-abolish'
-Bundle 'tracwiki'
 Bundle 'tpope/vim-eunuch'
 Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-tbone'
@@ -42,36 +30,37 @@ Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-dispatch'
+Bundle 'tpope/vim-rsi'
+Bundle 'tpope/vim-vinegar'
+Bundle 'tpope/vim-jdaddy'
+Bundle 'surround.vim'
+Bundle 'ctrlp.vim'
+Bundle 'repeat.vim'
+Bundle 'NrrwRgn'
+Bundle 'tracwiki'
 Bundle 'gregsexton/gitv'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'bogado/file-line'
-Bundle 'tpope/vim-dispatch'
 Bundle 'bling/vim-airline'
 Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'majutsushi/tagbar'
-Bundle 'tpope/vim-rsi'
 Bundle 'vim-scripts/ReplaceWithRegister'
 Bundle 'moll/vim-bbye'
 Bundle 'elzr/vim-json'
 Bundle 'edkolev/tmuxline.vim'
-Bundle 'kana/vim-textobj-line'
 Bundle 'mbbill/undotree'
-Bundle 'tpope/vim-vinegar'
-Bundle 'mattn/gist-vim'
-Bundle 'mattn/webapi-vim'
 Bundle 'edkolev/promptline.vim'
 Bundle 'junegunn/goyo.vim'
-Bundle 'lunaru/vim-less'
-Bundle 'scrooloose/syntastic'
 Bundle 'wellle/targets.vim'
-Bundle 'tpope/vim-jdaddy'
 Bundle 'tommcdo/vim-lion'
 Bundle 'tommcdo/vim-exchange'
 Bundle 'junegunn/vader.vim'
 Bundle 'wellle/tmux-complete.vim'
 Bundle 'DirDiff.vim'
-Bundle 'junegunn/vim-pseudocl'
-Bundle 'junegunn/vim-oblique'
+Bundle 'nelstrom/vim-visual-star-search'
+Bundle 'AndrewRadev/splitjoin.vim'
+Bundle 'AndrewRadev/linediff.vim'
 
 " Bundle 'tpope/vim-scriptease'
 " Bundle 'xolox/vim-misc'
@@ -285,12 +274,15 @@ function! ClearWhitespace()
 endfunction
 command! -nargs=0 ClearWhitespace call ClearWhitespace()
 
-command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
+command! DiffOrig lefta vnew | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 
 if executable('tidyp')
   command! TidyHTML :%!tidyp -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
 endif
 
+" 'entire' text object
+onoremap ie :<c-u>normal! ggvG$<cr>
+xnoremap ie :<c-u>normal! ggvG$<cr>
 
 " }}}
 
@@ -356,4 +348,3 @@ augroup fast_quit
 augroup END
 
 " }}}
-
