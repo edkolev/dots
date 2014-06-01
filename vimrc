@@ -1,80 +1,105 @@
 
 " Plugins {{{
 
-if !isdirectory(expand("~/.vim/bundle/vundle/"))
-  !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+let g:plugin_dir = '~/.vim/bundle'
+let g:plugin_list = []
+
+" Poor man's plugin downloader {{{
+function! Pl(...)
+  let g:plugin_list += map(copy(a:000), "substitute(v:val,\"'\",\"\",\"g\")")
+endfunction
+command! -nargs=+ Pl call Pl(<f-args>)
+
+function! ClonePlugins(update_plugins) abort
+  if !isdirectory(expand(g:plugin_dir))
+    call mkdir(expand(g:plugin_dir))
+  endif
+
+  for plugin in g:plugin_list
+    let output_dir = expand(g:plugin_dir . '/' . fnamemodify(plugin, ":t"), ':p')
+    let is_plugin_installed = isdirectory(output_dir)
+    if is_plugin_installed && !a:update_plugins
+      continue
+    endif
+
+    let command = is_plugin_installed ? printf("cd %s && git pull -q", output_dir) : printf("git clone -q %s %s", "git://github.com/" . plugin . '.git', output_dir)
+    let output = system(command)
+    if strlen(output) > 0 | echohl ErrorMsg | echo "ClonePlugins: '" . plugin . "' failed" |  echo output | echohl None | else | echo "ClonePlugins: installed " . plugin | endif
+  endfor
+endfunction
+command! -nargs=0 -bang ClonePlugins call ClonePlugins(strlen("<bang>"))
+" }}}
+
+Pl 'vim-scripts/ironman.vim'
+Pl 'w0ng/vim-hybrid'
+Pl 'jonathanfilip/vim-lucius'
+Pl 'jnurmine/Zenburn'
+Pl 'vim-scripts/twilight256.vim'
+Pl 'vim-scripts/jellybeans.vim'
+Pl 'vim-scripts/wombat256.vim'
+
+Pl 'tpope/vim-sensible'
+Pl 'tpope/vim-commentary'
+Pl 'tpope/vim-eunuch'
+Pl 'tpope/vim-obsession'
+Pl 'tpope/vim-tbone'
+Pl 'tpope/vim-unimpaired'
+Pl 'tpope/vim-git'
+Pl 'tpope/vim-markdown'
+Pl 'tpope/vim-fugitive'
+Pl 'tpope/vim-dispatch'
+Pl 'tpope/vim-rsi'
+Pl 'tpope/vim-vinegar'
+Pl 'tpope/vim-jdaddy'
+Pl 'tpope/vim-surround'
+Pl 'tpope/vim-pathogen'
+Pl 'kien/ctrlp.vim'
+Pl 'tpope/vim-repeat'
+Pl 'vim-scripts/NrrwRgn'
+Pl 'vim-scripts/tracwiki'
+Pl 'gregsexton/gitv'
+Pl 'christoomey/vim-tmux-navigator'
+Pl 'bogado/file-line'
+Pl 'bling/vim-airline'
+Pl 'michaeljsmith/vim-indent-object'
+Pl 'majutsushi/tagbar'
+Pl 'vim-scripts/ReplaceWithRegister'
+Pl 'moll/vim-bbye'
+Pl 'elzr/vim-json'
+Pl 'edkolev/tmuxline.vim'
+Pl 'mbbill/undotree'
+Pl 'edkolev/promptline.vim'
+Pl 'junegunn/goyo.vim'
+Pl 'wellle/targets.vim'
+Pl 'tommcdo/vim-lion'
+Pl 'tommcdo/vim-exchange'
+Pl 'junegunn/vader.vim'
+Pl 'wellle/tmux-complete.vim'
+Pl 'vim-scripts/DirDiff.vim'
+Pl 'nelstrom/vim-visual-star-search'
+Pl 'AndrewRadev/splitjoin.vim'
+Pl 'AndrewRadev/linediff.vim'
+if has('gui_running')
+  Pl 'xolox/vim-notes'
 endif
+" Pl 'tpope/vim-scriptease'
+" Pl 'xolox/vim-misc'
+" Pl 'xolox/vim-reload'
+
+ClonePlugins
+
+execute "source " . g:plugin_dir . '/vim-pathogen/autoload/pathogen.vim'
+execute pathogen#infect(g:plugin_dir . '/{}')
+
+set nocompatible
+syntax on
+filetype plugin indent on
 
 let mapleader = ","
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-
-Bundle 'ironman.vim'
-Bundle 'w0ng/vim-hybrid'
-Bundle "daylerees/colour-schemes", { "rtp": "vim/" }
-Bundle 'jonathanfilip/vim-lucius'
-Bundle 'jnurmine/Zenburn'
-Bundle 'twilight256.vim'
-Bundle 'jellybeans.vim'
-Bundle 'wombat256.vim'
-
-Bundle 'tpope/vim-sensible'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-eunuch'
-Bundle 'tpope/vim-obsession'
-Bundle 'tpope/vim-tbone'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-git'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-dispatch'
-Bundle 'tpope/vim-rsi'
-Bundle 'tpope/vim-vinegar'
-Bundle 'tpope/vim-jdaddy'
-Bundle 'surround.vim'
-Bundle 'ctrlp.vim'
-Bundle 'repeat.vim'
-Bundle 'NrrwRgn'
-Bundle 'tracwiki'
-Bundle 'gregsexton/gitv'
-Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'bogado/file-line'
-Bundle 'bling/vim-airline'
-Bundle 'michaeljsmith/vim-indent-object'
-Bundle 'majutsushi/tagbar'
-Bundle 'vim-scripts/ReplaceWithRegister'
-Bundle 'moll/vim-bbye'
-Bundle 'elzr/vim-json'
-Bundle 'edkolev/tmuxline.vim'
-Bundle 'mbbill/undotree'
-Bundle 'edkolev/promptline.vim'
-Bundle 'junegunn/goyo.vim'
-Bundle 'wellle/targets.vim'
-Bundle 'tommcdo/vim-lion'
-Bundle 'tommcdo/vim-exchange'
-Bundle 'junegunn/vader.vim'
-Bundle 'wellle/tmux-complete.vim'
-Bundle 'DirDiff.vim'
-Bundle 'nelstrom/vim-visual-star-search'
-Bundle 'AndrewRadev/splitjoin.vim'
-Bundle 'AndrewRadev/linediff.vim'
-
-" Bundle 'tpope/vim-scriptease'
-" Bundle 'xolox/vim-misc'
-" Bundle 'xolox/vim-reload'
-
-if has('gui_running')
-  Bundle 'xolox/vim-notes'
-  nnoremap <leader>n :execute 'Note ' . tolower(strftime('%b-%d-%Y'))<CR>
-endif
 
 runtime ftplugin/man.vim
 runtime macros/matchit.vim
 
-filetype plugin indent on
 " }}}
 
 " Plugin Config {{{
@@ -242,8 +267,8 @@ nmap <leader>D :%s///g<CR>
 
 nnoremap <leader>w :vsplit<cr>
 nnoremap <cr> :update<cr>
-nmap <leader>v :vsplit $MYVIMRC<CR>
-nmap <leader>V :vsplit $MYVIMRC.local<CR>
+nmap <leader>v :e $MYVIMRC<CR>
+nmap <leader>V :e $MYVIMRC.local<CR>
 
 " jump to tag if one, show list otherwise
 nmap <C-]> g<C-]>
