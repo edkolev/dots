@@ -22,7 +22,7 @@ function! ClonePlugins(update_plugins) abort
       continue
     endif
 
-    let command = is_plugin_installed ? printf("cd %s && git pull -q", output_dir) : printf("git clone -q %s %s", "git://github.com/" . plugin . '.git', output_dir)
+    let command = is_plugin_installed ? printf("cd %s && git pull -q", output_dir) : printf("git clone -q %s %s", "https://github.com/" . plugin . '.git', output_dir)
     let output = system(command)
     if strlen(output) > 0 | echohl ErrorMsg | echo "ClonePlugins: '" . plugin . "' failed" |  echo output | echohl None | else | echo "ClonePlugins: installed " . plugin | endif
   endfor
@@ -113,7 +113,6 @@ let g:nrrw_rgn_vert = 1
 let g:nrrw_rgn_nohl = 1
 let g:nrrw_rgn_wdth = 80
 
-let g:ctrlp_map = '<space>'
 let g:ctrlp_max_height = 45
 let g:ctrlp_switch_buffer = 2
 let g:ctrlp_working_path_mode = 2
@@ -169,6 +168,11 @@ let g:promptline_preset = {
 let g:tmuxline_preset = 'full'
 
 let g:syntastic_mode_map = { 'mode': 'passive' }
+
+autocmd FileType perl
+         \ let b:endwise_addition = '}' |
+         \ let b:endwise_words = 'if,else,sub,while' |
+         \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
 
 " }}}
 
@@ -246,6 +250,8 @@ set secure
 set wrapscan
 set lazyredraw
 
+set foldopen-=block
+
 " }}}
 
 " Mappings & Commands {{{
@@ -275,6 +281,8 @@ nmap <C-]> g<C-]>
 
 nnoremap j gj
 nnoremap k gk
+vnoremap j gj
+vnoremap k gk
 
 noremap 0 ^
 
@@ -289,7 +297,7 @@ nmap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 command! -nargs=+ -complete=file -bar Grep silent! grep! <args>|cwindow|redraw!
 nnoremap <leader>/ :Grep<SPACE>
 
-function! ClearWhitespace()
+function! ChompWhitespace()
     let _s=@/
     let l = line(".")
     let c = col(".")
@@ -297,7 +305,7 @@ function! ClearWhitespace()
     let @/=_s
     call cursor(l, c)
 endfunction
-command! -nargs=0 ClearWhitespace call ClearWhitespace()
+command! -nargs=0 ChompWhitespace call ChompWhitespace()
 
 command! DiffOrig lefta vnew | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 
