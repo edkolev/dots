@@ -6,7 +6,7 @@ let g:plugin_list = []
 
 " Poor man's plugin downloader {{{
 function! Pl(...)
-  let g:plugin_list += map(copy(a:000), "substitute(v:val,\"'\",\"\",\"g\")")
+  let g:plugin_list += map(copy(a:000), 'substitute(v:val, ''''''\|"'', "", "g")')
 endfunction
 command! -nargs=+ Pl call Pl(<f-args>)
 
