@@ -2,30 +2,38 @@
 " Plugins {{{
 
 let g:plugin_dir = '~/.vim/bundle'
-let g:plugin_list = []
+let g:plugin_hash = {}
+let g:pathogen_blacklist = []
 
 " Poor man's plugin downloader {{{
 function! Pl(...)
-  let g:plugin_list += map(copy(a:000), 'substitute(v:val, ''''''\|"'', "", "g")')
+  for plugin in map(copy(a:000), 'substitute(v:val, ''''''\|"'', "", "g")')
+    let g:plugin_hash[ fnamemodify(plugin, ':t') ] = plugin
+  endfor
 endfunction
 command! -nargs=+ Pl call Pl(<f-args>)
 
 function! ClonePlugins(update_plugins) abort
-  if !isdirectory(expand(g:plugin_dir))
-    call mkdir(expand(g:plugin_dir))
+  let g:plugin_dir = expand(g:plugin_dir, ':p')
+  if !isdirectory(g:plugin_dir)
+    call mkdir(g:plugin_dir)
   endif
 
-  for plugin in g:plugin_list
-    let output_dir = expand(g:plugin_dir . '/' . fnamemodify(plugin, ":t"), ':p')
+  for plugin in values(g:plugin_hash)
+    let output_dir = g:plugin_dir . '/' . fnamemodify(plugin, ":t")
     let is_plugin_installed = isdirectory(output_dir)
     if is_plugin_installed && !a:update_plugins
       continue
     endif
 
-    let command = is_plugin_installed ? printf("cd %s && git pull -q", output_dir) : printf("git clone -q %s %s", "https://github.com/" . plugin . '.git', output_dir)
+    let command = is_plugin_installed
+          \ ? printf("cd %s && git pull -q", output_dir)
+          \ : printf("git clone -q %s %s", "https://github.com/" . plugin . '.git', output_dir)
     let output = system(command)
     if strlen(output) > 0 | echohl ErrorMsg | echo "ClonePlugins: '" . plugin . "' failed" |  echo output | echohl None | else | echo "ClonePlugins: installed " . plugin | endif
   endfor
+
+  let g:pathogen_blacklist += filter(map(glob(g:plugin_dir . '/*', 1, 1),'fnamemodify(v:val,":t")'), '!has_key(g:plugin_hash, v:val)')
 endfunction
 command! -nargs=0 -bang ClonePlugins call ClonePlugins(strlen("<bang>"))
 " }}}
