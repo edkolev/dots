@@ -33,7 +33,7 @@ function! ClonePlugins(update_plugins) abort
     if strlen(output) > 0 | echohl ErrorMsg | echo "ClonePlugins: '" . plugin . "' failed" |  echo output | echohl None | else | echo "ClonePlugins: installed " . plugin | endif
   endfor
 
-  let g:pathogen_blacklist += filter(map(glob(g:plugin_dir . '/*', 1, 1),'fnamemodify(v:val,":t")'), '!has_key(g:plugin_hash, v:val)')
+  let g:pathogen_blacklist += filter(map(split(glob(g:plugin_dir . '/*', 1), "\n"),'fnamemodify(v:val,":t")'), '!has_key(g:plugin_hash, v:val)')
 endfunction
 command! -nargs=0 -bang ClonePlugins call ClonePlugins(strlen("<bang>"))
 " }}}
@@ -61,6 +61,7 @@ Pl 'jeetsukumaran/vim-filebeagle'
 Pl 'tpope/vim-jdaddy'
 Pl 'tpope/vim-surround'
 Pl 'tpope/vim-pathogen'
+Pl 'tpope/vim-endwise'
 Pl 'kien/ctrlp.vim'
 Pl 'tpope/vim-repeat'
 Pl 'vim-scripts/NrrwRgn'
@@ -173,7 +174,11 @@ let g:promptline_preset = {
           \'left_sections' : [ 'a', 'c' ],
           \'left_only_sections' : [ 'a', 'c' ]}}
 
-let g:tmuxline_preset = 'full'
+let g:tmuxline_preset = {
+      \ 'b'   : '#h',
+      \ 'win' : ['#I', '#W'],
+      \ 'cwin': ['#I', '#W'],
+      \ 'y'   : '%R'}
 
 let g:syntastic_mode_map = { 'mode': 'passive' }
 
@@ -224,8 +229,6 @@ set smartcase
 set diffopt+=vertical
 set diffopt+=iwhite
 set hidden
-set number
-set relativenumber
 set numberwidth=1
 set splitbelow splitright
 set showmatch
@@ -320,6 +323,8 @@ command! DiffOrig lefta vnew | set bt=nofile | r ++edit # | 0d_ | diffthis | win
 if executable('tidyp')
   command! TidyHTML :%!tidyp -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
 endif
+
+nmap gn :%normal 
 
 " 'entire' text object
 onoremap ie :<c-u>normal! ggvG$<cr>
