@@ -1,41 +1,41 @@
 
 " Plugins {{{
 
-let g:plugin_dir = '~/.vim/bundle'
+let g:plugin_dir = expand('~/.vim/bundle', ':p')
 let g:plugin_hash = {}
 let g:pathogen_blacklist = []
 
 " Poor man's plugin downloader {{{
-function! Pl(...)
-  for plugin in map(copy(a:000), 'substitute(v:val, ''''''\|"'', "", "g")')
-    let g:plugin_hash[ fnamemodify(plugin, ':t') ] = plugin
-  endfor
-endfunction
-command! -nargs=+ Pl call Pl(<f-args>)
+if !isdirectory(g:plugin_dir) | call mkdir(g:plugin_dir, "p") | endif
 
-function! ClonePlugins(update_plugins) abort
-  let g:plugin_dir = expand(g:plugin_dir, ':p')
-  if !isdirectory(g:plugin_dir)
-    call mkdir(g:plugin_dir)
+function! DownloadPluginIfMissing(plugin) abort
+  let output_dir = g:plugin_dir . '/' . fnamemodify(a:plugin, ":t")
+  if isdirectory(output_dir) || !executable('git')
+    return
   endif
-
-  for plugin in values(g:plugin_hash)
-    let output_dir = g:plugin_dir . '/' . fnamemodify(plugin, ":t")
-    let is_plugin_installed = isdirectory(output_dir)
-    if is_plugin_installed && !a:update_plugins
-      continue
-    endif
-
-    let command = is_plugin_installed
-          \ ? printf("cd %s && git pull -q", output_dir)
-          \ : printf("git clone -q %s %s", "https://github.com/" . plugin . '.git', output_dir)
-    let output = system(command)
-    if strlen(output) > 0 | echohl ErrorMsg | echo "ClonePlugins: '" . plugin . "' failed" |  echo output | echohl None | else | echo "ClonePlugins: installed " . plugin | endif
-  endfor
-
-  let g:pathogen_blacklist += filter(map(split(glob(g:plugin_dir . '/*', 1), "\n"),'fnamemodify(v:val,":t")'), '!has_key(g:plugin_hash, v:val)')
+  let command = printf("git clone -q %s %s", "https://github.com/" . a:plugin . '.git', output_dir)
+  echo "DownloadPluginIfMissing: " . command | echo system(command)
+  silent! execute 'helptags ' . output_dir . '/doc'
 endfunction
-command! -nargs=0 -bang ClonePlugins call ClonePlugins(strlen("<bang>"))
+
+function! UpdatePlugin(plugin) abort
+  let output_dir = g:plugin_dir . '/' . fnamemodify(a:plugin, ":t")
+  if !isdirectory(output_dir) || !executable('git')
+    return
+    endif
+  let command = printf("cd %s && git pull -q", output_dir)
+  echo "UpdatePlugin: " . command | echo system(command)
+endfunction
+
+function! Pl(...) abort
+  for plugin in map(copy(a:000), 'substitute(v:val, ''''''\|"'', "", "g")')
+    let g:plugin_hash[ fnamemodify(plugin, ':t') ] = 1
+    call DownloadPluginIfMissing(plugin)
+  endfor
+endfunction
+
+command! -nargs=+ Pl call Pl(<f-args>)
+command! -nargs=0 UpdatePlugins call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | Helptags
 " }}}
 
 Pl 'vim-scripts/ironman.vim'
@@ -98,6 +98,7 @@ endif
 ClonePlugins
 
 execute "source " . g:plugin_dir . '/vim-pathogen/autoload/pathogen.vim'
+let g:pathogen_blacklist = filter(map(split(glob(g:plugin_dir . '/*', 1), "\n"),'fnamemodify(v:val,":t")'), '!has_key(g:plugin_hash, v:val)')
 execute pathogen#infect(g:plugin_dir . '/{}')
 
 set nocompatible
