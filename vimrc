@@ -197,6 +197,8 @@ if has('gui_running')
    set guioptions-=L " no left scrollbar
    set guitablabel=%m\ %t
    set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
+
+   set gcr=a:blinkon0
 else
 endif
 colo lucius
@@ -236,10 +238,6 @@ set completeopt=longest,menuone,preview
 set complete=.,b,u,t
 set wildmode=list:longest,full
 
-" disable cursor blink
-set gcr=a:blinkon0
-
-" persistent undo history
 if !filewritable(expand('~/.vim/undo'))
   call mkdir(expand('~/.vim/undo'))
 endif
@@ -251,7 +249,7 @@ endif
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.beam
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
-set showbreak=↪
+set showbreak=+++\ 
 set fillchars=""
 
 set exrc
@@ -268,14 +266,11 @@ set foldopen-=block
 vnoremap . :normal .<CR>
 
 map Q gwap
-" TODO remove either one of these
 nmap \ g;
 map \| g,
-nmap [. g;
-map ]. g,
 
-cnoremap <C-k> <Up>
-cnoremap <C-j> <Down>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 
 nmap <leader># :%s///ng<CR>
 nmap <leader>D :%s///g<CR>
@@ -295,16 +290,12 @@ vnoremap k gk
 
 noremap 0 ^
 
-" file, tag, line completion
-inoremap <c-f> <c-x><c-f>
 inoremap <c-]> <c-x><c-]>
 inoremap <c-l> <c-x><c-l>
 
 nmap Y y$
 
 nmap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-command! -nargs=+ -complete=file -bar Grep silent! grep! <args>|cwindow|redraw!
-nnoremap <leader>/ :Grep<SPACE>
 
 function! ChompWhitespace()
     let _s=@/
