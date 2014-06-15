@@ -22,7 +22,7 @@ function! UpdatePlugin(plugin) abort
   let output_dir = g:plugin_dir . '/' . fnamemodify(a:plugin, ":t")
   if !isdirectory(output_dir) || !executable('git')
     return
-    endif
+  endif
   let command = printf("cd %s && git pull -q", output_dir)
   echo "UpdatePlugin: " . command | echo system(command)
 endfunction
@@ -46,24 +46,17 @@ Pl 'vim-scripts/twilight256.vim'
 Pl 'vim-scripts/jellybeans.vim'
 Pl 'vim-scripts/wombat256.vim'
 
-Pl 'tpope/vim-sensible'
-Pl 'tpope/vim-commentary'
-Pl 'tpope/vim-eunuch'
-Pl 'tpope/vim-obsession'
-Pl 'tpope/vim-tbone'
-Pl 'tpope/vim-unimpaired'
-Pl 'tpope/vim-git'
-Pl 'tpope/vim-markdown'
-Pl 'tpope/vim-fugitive'
-Pl 'tpope/vim-dispatch'
-Pl 'tpope/vim-rsi'
-Pl 'jeetsukumaran/vim-filebeagle'
-Pl 'tpope/vim-jdaddy'
-Pl 'tpope/vim-surround'
-Pl 'tpope/vim-pathogen'
+Pl 'tpope/vim-sensible'  'tpope/vim-commentary' 'tpope/vim-eunuch'
+Pl 'tpope/vim-obsession' 'tpope/vim-tbone'      'tpope/vim-unimpaired'
+Pl 'tpope/vim-git'       'tpope/vim-markdown'   'tpope/vim-fugitive'
+Pl 'tpope/vim-dispatch'  'tpope/vim-rsi'        'tpope/vim-repeat'
+Pl 'tpope/vim-jdaddy'    'tpope/vim-surround'   'tpope/vim-sleuth'
 Pl 'tpope/vim-endwise'
+
+Pl 'edkolev/tmuxline.vim'
+Pl 'edkolev/promptline.vim'
+Pl 'jeetsukumaran/vim-filebeagle'
 Pl 'kien/ctrlp.vim'
-Pl 'tpope/vim-repeat'
 Pl 'vim-scripts/NrrwRgn'
 Pl 'vim-scripts/tracwiki'
 Pl 'gregsexton/gitv'
@@ -77,26 +70,22 @@ Pl 'moll/vim-bbye'
 Pl 'elzr/vim-json'
 Pl 'edkolev/tmuxline.vim'
 Pl 'mbbill/undotree'
-Pl 'edkolev/promptline.vim'
 Pl 'junegunn/goyo.vim'
 Pl 'wellle/targets.vim'
 Pl 'tommcdo/vim-lion'
 Pl 'tommcdo/vim-exchange'
 Pl 'junegunn/vader.vim'
-Pl 'wellle/tmux-complete.vim'
-Pl 'vim-scripts/DirDiff.vim'
 Pl 'nelstrom/vim-visual-star-search'
 Pl 'AndrewRadev/splitjoin.vim'
 Pl 'AndrewRadev/linediff.vim'
 if has('gui_running')
-  Pl 'xolox/vim-notes'
+  Pl 'vimwiki/vimwiki'
 endif
 " Pl 'tpope/vim-scriptease'
 " Pl 'xolox/vim-misc'
 " Pl 'xolox/vim-reload'
 
-ClonePlugins
-
+Pl 'tpope/vim-pathogen'
 execute "source " . g:plugin_dir . '/vim-pathogen/autoload/pathogen.vim'
 let g:pathogen_blacklist = filter(map(split(glob(g:plugin_dir . '/*', 1), "\n"),'fnamemodify(v:val,":t")'), '!has_key(g:plugin_hash, v:val)')
 execute pathogen#infect(g:plugin_dir . '/{}')
@@ -193,6 +182,11 @@ autocmd FileType r
          \ let b:endwise_words = 'function,for' |
          \ let b:endwise_syngroups = 'rType,rRepeat'
 
+let g:splitjoin_split_mapping = ''
+let g:splitjoin_join_mapping = ''
+nmap sj :SplitjoinSplit<cr>
+nmap sk :SplitjoinJoin<cr>
+
 " }}}
 
 " UI {{{
@@ -206,8 +200,6 @@ if has('gui_running')
 else
 endif
 colo lucius
-
-syntax enable
 " }}}
 
 " Set's {{{
