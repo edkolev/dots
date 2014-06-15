@@ -187,6 +187,11 @@ autocmd FileType perl
          \ let b:endwise_words = 'if,else,sub,while' |
          \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
 
+autocmd FileType r
+         \ let b:endwise_addition = '}' |
+         \ let b:endwise_words = 'function,for' |
+         \ let b:endwise_syngroups = 'rType,rRepeat'
+
 " }}}
 
 " UI {{{
@@ -367,6 +372,7 @@ augroup tracwiki
 augroup END
 
 autocmd FileType erlang set commentstring=%\ %s
+autocmd FileType R set commentstring=#%s
 
 autocmd FileType perl compiler perl
 
