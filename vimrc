@@ -35,7 +35,7 @@ function! Pl(...) abort
 endfunction
 
 command! -nargs=+ Pl call Pl(<f-args>)
-command! -nargs=0 UpdatePlugins call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | Helptags
+command! -bang -nargs=0 UpdatePlugins if len("<bang>") == 0 | call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | else | execute "Start! vim -c UpdatePlugin -c qa" | endif
 " }}}
 
 Pl 'vim-scripts/ironman.vim'
@@ -205,6 +205,7 @@ colo lucius
 " }}}
 
 " Set's {{{
+set formatoptions=
 set noshowcmd
 set noshowmode
 set cursorline
