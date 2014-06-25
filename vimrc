@@ -132,10 +132,6 @@ nmap <leader>e :CtrlPBuffer<CR>
 
 nmap <leader>U :GundoToggle<CR>
 
-let g:notes_tab_indents = 0
-let g:notes_directories = ['~/.vim/notes']
-let g:notes_shadowdir = '/Users/edkolev/.vim/notes/shadow'
-
 let g:Gitv_DoNotMapCtrlKey = 1
 
 let g:airline_powerline_fonts = 1
@@ -356,14 +352,19 @@ augroup tracwiki
     au FileType tracwiki setlocal shiftwidth=2 tabstop=2
 augroup END
 
-autocmd FileType erlang set commentstring=%\ %s
-autocmd FileType R set commentstring=#%s
+augroup commentstring
+  au!
+  autocmd FileType erlang set commentstring=%\ %s
+  autocmd FileType R set commentstring=#%s
+augroup END
 
 autocmd FileType perl compiler perl
 
-autocmd BufReadPost fugitive://* set bufhidden=delete
-
-autocmd FileType gitcommit setlocal spell
+augroup git
+  au!
+  autocmd BufReadPost fugitive://* set bufhidden=delete
+  autocmd FileType gitcommit setlocal spell
+augroup END
 
 if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
