@@ -45,6 +45,7 @@ Pl 'jnurmine/Zenburn'
 Pl 'vim-scripts/twilight256.vim'
 Pl 'vim-scripts/jellybeans.vim'
 Pl 'vim-scripts/wombat256.vim'
+Pl 'junegunn/seoul256.vim'
 
 Pl 'tpope/vim-sensible'  'tpope/vim-commentary' 'tpope/vim-eunuch'
 Pl 'tpope/vim-obsession' 'tpope/vim-tbone'      'tpope/vim-unimpaired'
@@ -62,7 +63,6 @@ Pl 'vim-scripts/tracwiki'
 Pl 'gregsexton/gitv'
 Pl 'christoomey/vim-tmux-navigator'
 Pl 'bogado/file-line'
-Pl 'bling/vim-airline'
 Pl 'michaeljsmith/vim-indent-object'
 Pl 'majutsushi/tagbar'
 Pl 'vim-scripts/ReplaceWithRegister'
@@ -81,9 +81,7 @@ Pl 'AndrewRadev/linediff.vim'
 if has('gui_running')
   Pl 'vimwiki/vimwiki'
 endif
-" Pl 'tpope/vim-scriptease'
-" Pl 'xolox/vim-misc'
-" Pl 'xolox/vim-reload'
+Pl 'tpope/vim-scriptease'
 
 Pl 'tpope/vim-pathogen'
 execute "source " . g:plugin_dir . '/vim-pathogen/autoload/pathogen.vim'
@@ -197,7 +195,15 @@ if has('gui_running')
    set gcr=a:blinkon0
 else
 endif
-colo lucius
+colo seoul256
+
+set statusline=
+set statusline+=[%n%H%R%W]%*\ 
+set statusline+=%f%m\ 
+set statusline+=%{fugitive#head()}
+set statusline+=%=
+set statusline+=%c:%l\ of\ %L
+
 " }}}
 
 " Set's {{{
@@ -386,3 +392,33 @@ augroup fast_quit
 augroup END
 
 " }}}
+"
+
+function! SaveRegister()
+  echo "save"
+  let line = line('.') | let col = col('.') |
+  execute 'normal gg"' . b:register . 'yG'
+  call cursor(line, col)
+  let &modified = 0
+
+  let @a=substitute(@a, "\n", "", 'g')
+
+  execute 'reg ' . b:register
+endfunction
+
+function! EditRegister(register) abort
+  new
+  execute 'file register://' . a:register
+
+  nnoremap <buffer> q :q<cr>
+  set buftype=acwrite
+  setlocal bufhidden=delete
+  setlocal noswapfile
+
+  execute 'normal "' . a:register . 'p'
+
+  let b:register = a:register
+
+  autocmd BufWriteCmd <buffer> call SaveRegister()
+endfunction
+
