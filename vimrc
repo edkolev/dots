@@ -52,7 +52,7 @@ Pl 'tpope/vim-obsession' 'tpope/vim-tbone'      'tpope/vim-unimpaired'
 Pl 'tpope/vim-git'       'tpope/vim-markdown'   'tpope/vim-fugitive'
 Pl 'tpope/vim-dispatch'  'tpope/vim-rsi'        'tpope/vim-repeat'
 Pl 'tpope/vim-jdaddy'    'tpope/vim-surround'   'tpope/vim-sleuth'
-Pl 'tpope/vim-endwise'
+Pl 'tpope/vim-endwise'   'tpope/vim-abolish'
 
 Pl 'edkolev/tmuxline.vim'
 Pl 'edkolev/promptline.vim'
