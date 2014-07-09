@@ -1,4 +1,16 @@
 
+function fullScreen() {
+  var win = Window.focusedWindow();
+  var screenFrame = Window.focusedWindow().screen().frameWithoutDockOrMenu();
+  win.setFrame(screenFrame);
+}
+
+api.bind( 'f', [ 'cmd', 'alt' ], function() {
+  fullScreen()
+});
+
+
+
 api.bind( 'e', [ 'cmd' ], function() {
   App.focusIfRunning('Google Chrome')
 });
