@@ -83,14 +83,13 @@ if has('gui_running')
 endif
 Pl 'tpope/vim-scriptease'
 
+set nocompatible
+syntax on
+filetype plugin indent on
 Pl 'tpope/vim-pathogen'
 execute "source " . g:plugin_dir . '/vim-pathogen/autoload/pathogen.vim'
 let g:pathogen_blacklist = filter(map(split(glob(g:plugin_dir . '/*', 1), "\n"),'fnamemodify(v:val,":t")'), '!has_key(g:plugin_hash, v:val)')
 execute pathogen#infect(g:plugin_dir . '/{}')
-
-set nocompatible
-syntax on
-filetype plugin indent on
 
 let mapleader = ","
 
@@ -195,7 +194,7 @@ if has('gui_running')
    set gcr=a:blinkon0
 else
 endif
-colo seoul256
+colo seoul256-light
 
 set statusline=
 set statusline+=[%n%H%R%W]%*\ 
