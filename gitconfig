@@ -26,7 +26,10 @@
   graph = log --oneline --color --graph --decorate
   graph2 = log --all --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	graph3 = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	ctags = !.git/hooks/ctags
 [color]
   ui = auto
 [github]
   user = edkolev
+[init]
+	templatedir = ~/.git_template
