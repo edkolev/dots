@@ -116,6 +116,13 @@ nmap <leader>t :CtrlPBufTag<CR>
 nmap <leader>r :CtrlPMRUFiles<CR>
 nmap <leader>T :CtrlPTag<CR>
 
+let g:ctrlp_prompt_mappings = {
+      \ 'PrtHistory(-1)':       ['<c-j>'],
+      \ 'PrtHistory(1)':        ['<c-k>'],
+      \ 'PrtSelectMove("j")':   ['<c-n>', '<down>'],
+      \ 'PrtSelectMove("k")':   ['<c-p>', '<up>'],
+      \ }
+
 let g:Gitv_DoNotMapCtrlKey = 1
 
 let g:promptline_preset = {
@@ -133,7 +140,7 @@ let g:tmuxline_preset = {
 
 autocmd FileType perl
          \ let b:endwise_addition = '}' |
-         \ let b:endwise_words = 'if,else,sub,while' |
+         \ let b:endwise_words = 'if,else,sub,while,for,foreach' |
          \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
 
 autocmd FileType r
