@@ -78,9 +78,7 @@ Pl 'junegunn/vader.vim'
 Pl 'nelstrom/vim-visual-star-search'
 Pl 'AndrewRadev/splitjoin.vim'
 Pl 'AndrewRadev/linediff.vim'
-if has('gui_running')
-  Pl 'vimwiki/vimwiki'
-endif
+Pl 'zweifisch/pipe2eval'
 Pl 'tpope/vim-scriptease'
 
 set nocompatible
@@ -100,14 +98,7 @@ runtime macros/matchit.vim
 
 " Plugin Config {{{
 
-let g:airline#extensions#tabline#show_tab_type = 1
-let g:airline#extensions#tabline#close_symbol = 'Y'
-
 let g:tagbar_autoclose = 1
-
-let g:nrrw_rgn_vert = 1
-let g:nrrw_rgn_nohl = 1
-let g:nrrw_rgn_wdth = 80
 
 let g:ctrlp_max_height = 45
 let g:ctrlp_switch_buffer = 2
@@ -123,32 +114,9 @@ endif
 
 nmap <leader>t :CtrlPBufTag<CR>
 nmap <leader>r :CtrlPMRUFiles<CR>
-nmap <leader>f :CtrlP .<CR>
 nmap <leader>T :CtrlPTag<CR>
-nmap <leader>e :CtrlPBuffer<CR>
-
-nmap <leader>U :GundoToggle<CR>
 
 let g:Gitv_DoNotMapCtrlKey = 1
-
-let g:airline_powerline_fonts = 1
-let g:airline_inactive_collapse=0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#whitespace#enabled = 1
-let g:airline#extensions#ctrlp#color_template = 'normal'
-let g:airline_mode_map = {
-      \ '__' : '- ',
-      \ 'n'  : 'n ',
-      \ 'i'  : 'i ',
-      \ 'R'  : 'r ',
-      \ 'v'  : 'v ',
-      \ 'V'  : 'vl',
-      \ 'c'  : 'c ',
-      \ '' : 'vb',
-      \ 's'  : 's ',
-      \ 'S'  : 'sl',
-      \ '' : 'sb',
-      \ }
 
 let g:promptline_preset = {
         \'a' : [ promptline#slices#vcs_branch(), promptline#slices#git_status() ],
@@ -163,8 +131,6 @@ let g:tmuxline_preset = {
       \ 'cwin': ['#I', '#W'],
       \ 'y'   : '%R'}
 
-let g:syntastic_mode_map = { 'mode': 'passive' }
-
 autocmd FileType perl
          \ let b:endwise_addition = '}' |
          \ let b:endwise_words = 'if,else,sub,while' |
@@ -177,8 +143,8 @@ autocmd FileType r
 
 let g:splitjoin_split_mapping = ''
 let g:splitjoin_join_mapping = ''
-nmap sj :SplitjoinSplit<cr>
-nmap sk :SplitjoinJoin<cr>
+nmap gS :SplitjoinSplit<cr>
+nmap gJ :SplitjoinJoin<cr>
 
 " }}}
 
