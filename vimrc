@@ -78,7 +78,7 @@ Pl 'junegunn/vader.vim'
 Pl 'nelstrom/vim-visual-star-search'
 Pl 'AndrewRadev/splitjoin.vim'
 Pl 'AndrewRadev/linediff.vim'
-Pl 'zweifisch/pipe2eval'
+Pl 'pydave/renamer.vim'
 Pl 'tpope/vim-scriptease'
 
 set nocompatible
