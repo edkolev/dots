@@ -138,16 +138,6 @@ let g:tmuxline_preset = {
       \ 'cwin': ['#I', '#W'],
       \ 'y'   : '%R'}
 
-autocmd FileType perl
-         \ let b:endwise_addition = '}' |
-         \ let b:endwise_words = 'if,else,sub,while,for,foreach' |
-         \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
-
-autocmd FileType r
-         \ let b:endwise_addition = '}' |
-         \ let b:endwise_words = 'function,for' |
-         \ let b:endwise_syngroups = 'rType,rRepeat'
-
 let g:splitjoin_split_mapping = ''
 let g:splitjoin_join_mapping = ''
 nmap gS :SplitjoinSplit<cr>
@@ -167,6 +157,9 @@ if has('gui_running')
    set gcr=a:blinkon0
 else
 endif
+
+let g:seoul256_background = 235
+let g:seoul256_light_background = 253
 colo seoul256-light
 
 set statusline=
@@ -212,6 +205,7 @@ set synmaxcol=500
 set completeopt=longest,menuone,preview
 set complete=.,b,u,t
 set wildmode=list:longest,full
+set path=**
 
 if !filewritable(expand('~/.vim/undo'))
   call mkdir(expand('~/.vim/undo'))
@@ -317,31 +311,10 @@ augroup END
 au VimResized * :wincmd =
 
 " source .vimrc on save
-autocmd! bufwritepost .vimrc source $MYVIMRC
-autocmd! bufwritepost .vimrc.local source $MYVIMRC
-
-augroup vim
-    au!
-    au FileType vim setlocal foldmethod=marker
-augroup END
-
-augroup tracwiki
-    au!
-    au FileType tracwiki setlocal shiftwidth=2 tabstop=2
-augroup END
-
-augroup commentstring
+augroup vimrc
   au!
-  autocmd FileType erlang set commentstring=%\ %s
-  autocmd FileType R set commentstring=#%s
-augroup END
-
-autocmd FileType perl compiler perl
-
-augroup git
-  au!
-  autocmd BufReadPost fugitive://* set bufhidden=delete
-  autocmd FileType gitcommit setlocal spell
+  au! bufwritepost .vimrc source $MYVIMRC
+  au! bufwritepost .vimrc.local source $MYVIMRC
 augroup END
 
 if filereadable(glob("~/.vimrc.local"))
@@ -351,7 +324,10 @@ endif
 autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
-autocmd BufWritePost * if &diff == 1 | diffupdate | endif
+augroup diff_update
+  au!
+  au BufWritePost * if &diff == 1 | diffupdate | endif
+augroup END
 
 au BufWinEnter *.md set ft=markdown
 au BufWinEnter *.conf set ft=conf
@@ -360,37 +336,35 @@ augroup fast_quit
   au!
   au FileType help nnoremap <buffer> q :q<cr>
   au FileType qf nnoremap <buffer> q :q<cr>
+  au FileType man nnoremap <buffer> q :q<cr>
   au CmdwinEnter * nnoremap <buffer> q :q<cr>
+  au BufReadPost fugitive://* nnoremap <buffer> q :q<cr>
 augroup END
 
 " }}}
-"
 
-function! SaveRegister()
-  echo "save"
-  let line = line('.') | let col = col('.') |
-  execute 'normal gg"' . b:register . 'yG'
-  call cursor(line, col)
-  let &modified = 0
+" Per-language config {{{
+augroup filetype_options
+  au!
+  au FileType perl compiler perl
+  au FileType perl
+        \ let b:endwise_addition = '}' |
+        \ let b:endwise_words = 'if,else,sub,while,for,foreach' |
+        \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
 
-  let @a=substitute(@a, "\n", "", 'g')
+  au FileType r set commentstring=#%s
+  au FileType r
+        \ let b:endwise_addition = '}' |
+        \ let b:endwise_words = 'function,for' |
+        \ let b:endwise_syngroups = 'rType,rRepeat'
 
-  execute 'reg ' . b:register
-endfunction
 
-function! EditRegister(register) abort
-  new
-  execute 'file register://' . a:register
+  au FileType tracwiki setlocal shiftwidth=2 tabstop=2
+  au FileType erlang set commentstring=%\ %s
+  au BufReadPost fugitive://* set bufhidden=delete
+  au FileType gitcommit setlocal spell
+  au BufReadPost *vimrc* setlocal foldmethod=marker
+augroup END
+" }}}
 
-  nnoremap <buffer> q :q<cr>
-  set buftype=acwrite
-  setlocal bufhidden=delete
-  setlocal noswapfile
-
-  execute 'normal "' . a:register . 'p'
-
-  let b:register = a:register
-
-  autocmd BufWriteCmd <buffer> call SaveRegister()
-endfunction
 
