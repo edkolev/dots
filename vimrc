@@ -38,7 +38,6 @@ command! -nargs=+ Pl call Pl(<f-args>)
 command! -bang -nargs=0 UpdatePlugins if len("<bang>") == 0 | call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | else | execute "Start! vim -c UpdatePlugin -c qa" | endif
 " }}}
 
-Pl 'vim-scripts/ironman.vim'
 Pl 'w0ng/vim-hybrid'
 Pl 'jonathanfilip/vim-lucius'
 Pl 'jnurmine/Zenburn'
@@ -132,10 +131,11 @@ let g:promptline_preset = {
           \'left_sections' : [ 'a', 'c' ],
           \'left_only_sections' : [ 'a', 'c' ]}}
 
+let g:tmuxline_powerline_separators = 0
 let g:tmuxline_preset = {
-      \ 'b'   : '#h',
-      \ 'win' : ['#I', '#W'],
-      \ 'cwin': ['#I', '#W'],
+      \ 'b'   : '[#S] #h',
+      \ 'win' : ['[#I] #W'],
+      \ 'cwin': ['[#I] #W'],
       \ 'y'   : '%R'}
 
 let g:splitjoin_split_mapping = ''
@@ -162,12 +162,12 @@ let g:seoul256_background = 235
 let g:seoul256_light_background = 253
 colo seoul256-light
 
-set statusline=
+set statusline=\ 
 set statusline+=[%n%H%R%W]%*\ 
 set statusline+=%f%m\ 
 set statusline+=%{fugitive#head()}
 set statusline+=%=
-set statusline+=%c:%l\ of\ %L
+set statusline+=%c:%l\ of\ %L\ 
 
 " }}}
 
@@ -346,6 +346,7 @@ augroup END
 " Per-language config {{{
 augroup filetype_options
   au!
+  au BufReadPost * setlocal path=**
   au FileType perl compiler perl
   au FileType perl
         \ let b:endwise_addition = '}' |
