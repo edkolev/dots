@@ -12,6 +12,8 @@ PS1='$(last_error)$(box_name):$(cwd)$(vcs_branch)$(job_count \j) \$ '
 [ -f ~/.promptline.sh ] && source ~/.promptline.sh
 
 alias vi=vim
+alias -- -='cd -'
+alias -- ..='cd ..'
 
 # better history
 HISTTIMEFORMAT='%F %T '
