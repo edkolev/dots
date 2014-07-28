@@ -142,6 +142,8 @@ let g:splitjoin_join_mapping = ''
 nmap gS :SplitjoinSplit<cr>
 nmap gJ :SplitjoinJoin<cr>
 
+let g:rsi_no_meta = 1
+
 " }}}
 
 " UI {{{
