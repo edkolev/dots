@@ -50,10 +50,9 @@ Pl 'tpope/vim-sensible'  'tpope/vim-commentary' 'tpope/vim-eunuch'
 Pl 'tpope/vim-obsession' 'tpope/vim-tbone'      'tpope/vim-unimpaired'
 Pl 'tpope/vim-git'       'tpope/vim-markdown'   'tpope/vim-fugitive'
 Pl 'tpope/vim-dispatch'  'tpope/vim-rsi'        'tpope/vim-repeat'
-Pl 'tpope/vim-jdaddy'    'tpope/vim-surround'   'tpope/vim-sleuth'
+Pl 'tpope/vim-jdaddy'    'tpope/vim-surround'
 Pl 'tpope/vim-endwise'   'tpope/vim-abolish'
 
-Pl 'edkolev/tmuxline.vim'
 Pl 'edkolev/promptline.vim'
 Pl 'jeetsukumaran/vim-filebeagle'
 Pl 'kien/ctrlp.vim'
@@ -131,7 +130,7 @@ let g:promptline_preset = {
           \'left_sections' : [ 'a', 'c' ],
           \'left_only_sections' : [ 'a', 'c' ]}}
 
-let g:tmuxline_powerline_separators = 0
+let g:tmuxline_powerline_separators = 1
 let g:tmuxline_preset = {
       \ 'b'   : '[#S] #h',
       \ 'win' : ['[#I] #W'],
@@ -207,10 +206,10 @@ set complete=.,b,u,t
 set wildmode=list:longest,full
 set path=**
 
-if !filewritable(expand('~/.vim/undo'))
-  call mkdir(expand('~/.vim/undo'))
+if !isdirectory($HOME . '/.vim/undo')
+  call mkdir($HOME . '/.vim/undo')
 endif
-if filewritable(expand('~/.vim/undo'))
+if isdirectory($HOME . '/.vim/undo')
   set undodir=~/.vim/undo
   set undofile
 endif
@@ -246,7 +245,7 @@ nmap <leader>D :%s///g<CR>
 
 nnoremap <leader>w :vsplit<cr>
 nnoremap <cr> :update<cr>
-nmap <leader>v :e $MYVIMRC<CR>
+nmap <leader>v :e <c-r>=resolve($MYVIMRC)<CR><CR>
 nmap <leader>V :e $MYVIMRC.local<CR>
 
 " jump to tag if one, show list otherwise
@@ -313,8 +312,8 @@ au VimResized * :wincmd =
 " source .vimrc on save
 augroup vimrc
   au!
-  au! bufwritepost .vimrc source $MYVIMRC
-  au! bufwritepost .vimrc.local source $MYVIMRC
+  au! bufwritepost *vimrc source $MYVIMRC
+  au! bufwritepost *vimrc.local source $MYVIMRC
 augroup END
 
 if filereadable(glob("~/.vimrc.local"))
