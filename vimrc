@@ -41,7 +41,6 @@ command! -bang -nargs=0 UpdatePlugins if len("<bang>") == 0 | call map( keys(g:p
 Pl 'w0ng/vim-hybrid'
 Pl 'jonathanfilip/vim-lucius'
 Pl 'jnurmine/Zenburn'
-Pl 'vim-scripts/twilight256.vim'
 Pl 'vim-scripts/jellybeans.vim'
 Pl 'vim-scripts/wombat256.vim'
 Pl 'junegunn/seoul256.vim'
@@ -69,7 +68,7 @@ Pl 'elzr/vim-json'
 Pl 'edkolev/tmuxline.vim'
 Pl 'mbbill/undotree'
 Pl 'junegunn/goyo.vim'
-Pl 'wellle/targets.vim'
+" Pl 'wellle/targets.vim'
 Pl 'tommcdo/vim-lion'
 Pl 'tommcdo/vim-exchange'
 Pl 'junegunn/vader.vim'
@@ -78,6 +77,7 @@ Pl 'AndrewRadev/splitjoin.vim'
 Pl 'AndrewRadev/linediff.vim'
 Pl 'pydave/renamer.vim'
 Pl 'tpope/vim-scriptease'
+Pl 'nelstrom/vim-markdown-folding'
 
 set nocompatible
 syntax on
@@ -161,7 +161,7 @@ endif
 
 let g:seoul256_background = 235
 let g:seoul256_light_background = 253
-colo seoul256-light
+colo seoul256
 
 set statusline=\ 
 set statusline+=[%n%H%R%W]%*\ 
