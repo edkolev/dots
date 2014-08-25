@@ -77,6 +77,8 @@ Pl 'AndrewRadev/linediff.vim'
 Pl 'pydave/renamer.vim'
 Pl 'tpope/vim-scriptease'
 Pl 'nelstrom/vim-markdown-folding'
+Pl 'AndrewRadev/writable_search.vim'
+Pl 'AndrewRadev/inline_edit.vim'
 
 set nocompatible
 syntax on
@@ -276,7 +278,7 @@ function! ChompWhitespace()
 endfunction
 command! -nargs=0 ChompWhitespace call ChompWhitespace()
 
-command! DiffOrig lefta vnew | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
+command! DiffOrig lefta vnew | set bt=nofile bh=delete | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 
 if executable('tidyp')
   command! TidyHTML :%!tidyp -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
@@ -287,6 +289,18 @@ nmap gn :%normal
 " 'entire' text object
 onoremap ie :<c-u>normal! ggvG$<cr>
 xnoremap ie :<c-u>normal! ggvG$<cr>
+
+" 'next' text object, by https://gist.github.com/AndrewRadev/1171559
+onoremap an :<c-u>call <SID>NextTextObject('a')<cr>
+xnoremap an :<c-u>call <SID>NextTextObject('a')<cr>
+onoremap in :<c-u>call <SID>NextTextObject('i')<cr>
+xnoremap in :<c-u>call <SID>NextTextObject('i')<cr>
+
+function! s:NextTextObject(motion)
+  echo
+  let c = nr2char(getchar())
+  exe "normal! f".c."v".a:motion.c
+endfunction
 
 " }}}
 
