@@ -1,16 +1,2 @@
-set editing-mode vi
-
-set keymap vi-command
-Control-o: clear-screen
-
 Control-n: history-search-forward
 Control-p: history-search-backward
-
-set keymap vi-insert
-Control-n: history-search-forward
-Control-p: history-search-backward
-Control-a: beginning-of-line
-Control-e: end-of-line
-Control-f: forward-char
-Control-b: backward-char
-Control-d: delete-char
