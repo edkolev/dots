@@ -11,7 +11,10 @@ HISTSIZE=1000
 SAVEHIST=1000
 ZLE_RPROMPT_INDENT=0
 [ $SHLVL -eq 1 ] && [ -d "$HOME/perl5/lib/perl5" ]  && eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)"
+
 [ -d "/usr/local/bin" ] && PATH="/usr/local/bin:$PATH"
+[ -d ~/bin ] && export PATH="~/bin:$PATH"
+[ -f ~/.promptline.sh ] && source ~/.promptline.sh
 
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
