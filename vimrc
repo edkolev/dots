@@ -299,6 +299,7 @@ xnoremap in :<c-u>call <SID>NextTextObject('i')<cr>
 function! s:NextTextObject(motion)
   echo
   let c = nr2char(getchar())
+  let c = c ==# "b" ? "(" : c
   exe "normal! f".c."v".a:motion.c
 endfunction
 
@@ -355,6 +356,13 @@ augroup fast_quit
   au BufReadPost fugitive://* nnoremap <buffer> q :q<cr>
 augroup END
 
+" highlight ExtraWhitespace only after entering insert mode
+augroup extra_whitespace
+   au!
+   au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+   au InsertLeave * match ExtraWhitespace /\s\+$/
+augroup END
+
 " }}}
 
 " Per-language config {{{
@@ -364,8 +372,9 @@ augroup filetype_options
   au FileType perl compiler perl
   au FileType perl
         \ let b:endwise_addition = '}' |
-        \ let b:endwise_words = 'if,else,sub,while,for,foreach' |
+        \ let b:endwise_words = 'if,else,sub,while,for,foreach,unless' |
         \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
+  au FileType perl let b:dispatch = 'perl -wc %'
 
   au FileType r set commentstring=#%s
   au FileType r
@@ -381,5 +390,3 @@ augroup filetype_options
   au BufReadPost *vimrc* setlocal foldmethod=marker
 augroup END
 " }}}
-
-
