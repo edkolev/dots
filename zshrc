@@ -16,6 +16,8 @@ ZLE_RPROMPT_INDENT=0
 [ -d ~/bin ] && export PATH="~/bin:$PATH"
 [ -f ~/.promptline.sh ] && source ~/.promptline.sh
 
+alias vi=vim
+
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 
