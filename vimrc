@@ -35,7 +35,7 @@ function! Pl(...) abort
 endfunction
 
 command! -nargs=+ Pl call Pl(<f-args>)
-command! -bang -nargs=0 UpdatePlugins if len("<bang>") == 0 | call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | else | execute "Start! vim -c UpdatePlugin -c qa" | endif
+command! -bang -nargs=0 UpdatePlugins if len("<bang>") == 0 | call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | else | execute "Start! vim -c UpdatePlugins -c Helptags -c qa" | endif
 " }}}
 
 Pl 'w0ng/vim-hybrid'
