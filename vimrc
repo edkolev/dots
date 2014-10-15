@@ -278,7 +278,7 @@ function! ChompWhitespace()
 endfunction
 command! -nargs=0 ChompWhitespace call ChompWhitespace()
 
-command! DiffOrig lefta vnew | set bt=nofile bh=delete | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
+command! DiffOrig lefta vnew | setlocal bt=nofile bh=delete noswf | r ++edit # | 0d_ | setlocal noma | diffthis | nnoremap <buffer> q :q<cr>:diffoff<cr> | wincmd p | diffthis
 
 if executable('tidyp')
   command! TidyHTML :%!tidyp -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
