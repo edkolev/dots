@@ -58,7 +58,6 @@ Pl 'kien/ctrlp.vim'
 Pl 'vim-scripts/tracwiki'
 Pl 'gregsexton/gitv'
 Pl 'christoomey/vim-tmux-navigator'
-Pl 'bogado/file-line'
 Pl 'michaeljsmith/vim-indent-object'
 Pl 'majutsushi/tagbar'
 Pl 'vim-scripts/ReplaceWithRegister'
@@ -79,6 +78,7 @@ Pl 'tpope/vim-scriptease'
 Pl 'nelstrom/vim-markdown-folding'
 Pl 'AndrewRadev/writable_search.vim'
 Pl 'AndrewRadev/inline_edit.vim'
+" Pl 'vim-scripts/DirDiff.vim'
 
 set nocompatible
 syntax on
@@ -372,7 +372,7 @@ augroup filetype_options
   au FileType perl compiler perl
   au FileType perl
         \ let b:endwise_addition = '}' |
-        \ let b:endwise_words = 'if,else,sub,while,for,foreach,unless' |
+        \ let b:endwise_words = 'if,else,sub,while,for,foreach,unless,elsif' |
         \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
   au FileType perl let b:dispatch = 'perl -wc %'
 
