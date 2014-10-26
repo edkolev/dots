@@ -54,7 +54,6 @@ Pl 'tpope/vim-endwise'   'tpope/vim-abolish'
 
 Pl 'edkolev/promptline.vim'
 Pl 'jeetsukumaran/vim-filebeagle'
-Pl 'kien/ctrlp.vim'
 Pl 'vim-scripts/tracwiki'
 Pl 'gregsexton/gitv'
 Pl 'christoomey/vim-tmux-navigator'
@@ -72,7 +71,6 @@ Pl 'tommcdo/vim-lion'
 Pl 'tommcdo/vim-exchange'
 Pl 'junegunn/vader.vim'
 Pl 'nelstrom/vim-visual-star-search'
-Pl 'AndrewRadev/splitjoin.vim'
 Pl 'AndrewRadev/linediff.vim'
 Pl 'pydave/renamer.vim'
 Pl 'tpope/vim-scriptease'
@@ -98,31 +96,6 @@ runtime macros/matchit.vim
 
 " Plugin Config {{{
 
-let g:tagbar_autoclose = 1
-
-let g:ctrlp_max_height = 45
-let g:ctrlp_switch_buffer = 2
-let g:ctrlp_working_path_mode = 2
-let g:ctrlp_open_multiple_files = '0vt'
-let g:ctrlp_dotfiles = 1
-let g:ctrlp_custom_ignore = 'Img$\|^Images$\|Files$\|\.svn$\|\.jpg$\|\.png$\|\.gif$\|\.txt$\|\.swf$\|\.css$'
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching = 0
-endif
-
-nmap <leader>t :CtrlPBufTag<CR>
-nmap <leader>r :CtrlPMRUFiles<CR>
-nmap <leader>T :CtrlPTag<CR>
-
-let g:ctrlp_prompt_mappings = {
-      \ 'PrtHistory(-1)':       ['<c-j>'],
-      \ 'PrtHistory(1)':        ['<c-k>'],
-      \ 'PrtSelectMove("j")':   ['<c-n>', '<down>'],
-      \ 'PrtSelectMove("k")':   ['<c-p>', '<up>'],
-      \ }
-
 let g:Gitv_DoNotMapCtrlKey = 1
 
 let g:promptline_preset = {
@@ -138,11 +111,6 @@ let g:tmuxline_preset = {
       \ 'win' : ['[#I] #W'],
       \ 'cwin': ['[#I] #W'],
       \ 'y'   : '%R'}
-
-let g:splitjoin_split_mapping = ''
-let g:splitjoin_join_mapping = ''
-nmap gS :SplitjoinSplit<cr>
-nmap gJ :SplitjoinJoin<cr>
 
 let g:rsi_no_meta = 1
 
