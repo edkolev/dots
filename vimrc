@@ -92,7 +92,6 @@ execute pathogen#infect(g:plugin_dir . '/{}')
 
 let mapleader = ","
 
-runtime ftplugin/man.vim
 runtime macros/matchit.vim
 
 " }}}
@@ -231,6 +230,10 @@ set wrapscan
 set lazyredraw
 
 set foldopen-=block
+
+" change cursor in INSERT
+let &t_SI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\" : "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\" : "\<Esc>]50;CursorShape=0\x7"
 
 " }}}
 
