@@ -35,7 +35,7 @@ function! Pl(...) abort
 endfunction
 
 command! -nargs=+ Pl call Pl(<f-args>)
-command! -bang -nargs=0 UpdatePlugins if len("<bang>") == 0 | call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | else | execute "Start! vim -c UpdatePlugins -c Helptags -c qa" | endif
+command! -bang -nargs=0 UpdatePlugins if len("<bang>") == 0 | call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | Helptags | else | execute "Start! vim -c UpdatePlugins -c Helptags -c qa" | endif
 " }}}
 
 Pl 'w0ng/vim-hybrid'
@@ -66,6 +66,7 @@ Pl 'elzr/vim-json'
 Pl 'edkolev/tmuxline.vim'
 Pl 'mbbill/undotree'
 Pl 'junegunn/goyo.vim'
+Pl 'junegunn/limelight.vim'
 " Pl 'wellle/targets.vim'
 Pl 'tommcdo/vim-lion'
 Pl 'tommcdo/vim-exchange'
@@ -79,6 +80,7 @@ Pl 'nelstrom/vim-markdown-folding'
 Pl 'AndrewRadev/writable_search.vim'
 Pl 'AndrewRadev/inline_edit.vim'
 " Pl 'vim-scripts/DirDiff.vim'
+Pl 'vim-scripts/fish-syntax'
 
 set nocompatible
 syntax on
@@ -131,7 +133,7 @@ let g:promptline_preset = {
           \'left_sections' : [ 'a', 'c' ],
           \'left_only_sections' : [ 'a', 'c' ]}}
 
-let g:tmuxline_powerline_separators = 1
+let g:tmuxline_powerline_separators = 0
 let g:tmuxline_preset = {
       \ 'b'   : '[#S] #h',
       \ 'win' : ['[#I] #W'],
