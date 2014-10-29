@@ -74,11 +74,12 @@ Pl 'nelstrom/vim-visual-star-search'
 Pl 'AndrewRadev/linediff.vim'
 Pl 'pydave/renamer.vim'
 Pl 'tpope/vim-scriptease'
-Pl 'nelstrom/vim-markdown-folding'
 Pl 'AndrewRadev/writable_search.vim'
 Pl 'AndrewRadev/inline_edit.vim'
 " Pl 'vim-scripts/DirDiff.vim'
 Pl 'vim-scripts/fish-syntax'
+Pl 'junegunn/vim-pseudocl'
+Pl 'junegunn/vim-oblique'
 
 set nocompatible
 syntax on
@@ -113,6 +114,9 @@ let g:tmuxline_preset = {
       \ 'y'   : '%R'}
 
 let g:rsi_no_meta = 1
+
+let g:oblique#incsearch_highlight_all = 1
+let g:oblique#clear_highlight = 0
 
 " }}}
 
