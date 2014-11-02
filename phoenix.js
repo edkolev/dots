@@ -1,4 +1,32 @@
 
+api.bind( 'f', [ 'cmd', 'alt' ], function() {
+  fullScreen()
+});
+
+api.bind( 'e', [ 'cmd' ], function() {
+  focusApplicationIfRunning('Google Chrome')
+});
+
+api.bind( 'i', [ 'cmd' ], function() {
+  focusApplicationIfRunning('iTerm')
+});
+
+api.bind( 'u', [ 'cmd' ], function() {
+  focusApplicationIfRunning('MacVim')
+});
+
+api.bind( 'm', [ 'cmd' ], function() {
+  focusApplicationIfRunning('Mail')
+});
+
+api.bind( 'o', [ 'cmd' ], function() {
+  focusApplicationIfRunning('Sequel Pro')
+});
+
+api.bind( 'd', [ 'cmd' ], function() {
+  focusApplicationIfRunning('VLC')
+});
+
 function fullScreen() {
   var win = Window.focusedWindow();
   var screenFrame = Window.focusedWindow().screen().frameWithoutDockOrMenu();
@@ -13,44 +41,20 @@ function switchToLastUsedWindow(app_title) {
   last_used_window.focusWindow();
 }
 
-api.bind( 'f', [ 'cmd', 'alt' ], function() {
-  fullScreen()
-});
-
-api.bind( 'e', [ 'cmd' ], function() {
-  App.focusIfRunning('Google Chrome')
-});
-
-api.bind( 'i', [ 'cmd' ], function() {
-  App.focusIfRunning('iTerm')
-});
-
-api.bind( 'u', [ 'cmd' ], function() {
-  App.focusIfRunning('MacVim')
-});
-
-api.bind( 'm', [ 'cmd' ], function() {
-  App.focusIfRunning('Mail')
-});
-
-api.bind( 'o', [ 'cmd' ], function() {
-  App.focusIfRunning('Sequel Pro')
-});
-
-api.bind( 'd', [ 'cmd' ], function() {
-  App.focusIfRunning('VLC')
-});
-
-App.focusIfRunning = function ( title ) {
-  if ( Window.focusedWindow().app().title() == title) {
-    switchToLastUsedWindow( title)
-  } else if (App.findByTitle( title )) {
-    api.launch( title );
-  }
-}
-
-App.findByTitle = function( title ) {
-  return _( this.runningApps() ).find( function( app ) {
+function isApplicationRunning( title ) {
+  return _( App.runningApps() ).find( function( app ) {
     return app.title() === title;
   });
 };
+
+function isApplicationFocused( title ) {
+  return Window.focusedWindow() && Window.focusedWindow().app().title() == title
+}
+
+function focusApplicationIfRunning ( title ) {
+  if ( isApplicationFocused( title )) {
+    switchToLastUsedWindow( title)
+  } else if (isApplicationRunning( title )) {
+    api.launch( title );
+  }
+}
