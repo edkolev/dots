@@ -5,6 +5,14 @@ function fullScreen() {
   win.setFrame(screenFrame);
 }
 
+function switchToLastUsedWindow(app_title) {
+  var last_used_window = _.find( Window.visibleWindowsMostRecentFirst().reverse(), function(w) {
+    if ( w.app().title() == app_title) return true;
+  });
+
+  last_used_window.focusWindow();
+}
+
 api.bind( 'f', [ 'cmd', 'alt' ], function() {
   fullScreen()
 });
@@ -34,11 +42,15 @@ api.bind( 'd', [ 'cmd' ], function() {
 });
 
 App.focusIfRunning = function ( title ) {
-  if ( App.findByTitle( title ) ) api.launch( title );
+  if ( Window.focusedWindow().app().title() == title) {
+    switchToLastUsedWindow( title)
+  } else if (App.findByTitle( title )) {
+    api.launch( title );
+  }
 }
 
 App.findByTitle = function( title ) {
   return _( this.runningApps() ).find( function( app ) {
-    if ( app.title() === title ) return true;
+    return app.title() === title;
   });
 };
