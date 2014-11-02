@@ -307,7 +307,11 @@ augroup cline
     au WinLeave * setlocal nocursorline
 augroup END
 
-au VimResized * :wincmd =
+augroup vim_tweaks
+  au VimResized * :wincmd =
+  au CmdwinEnter * nnoremap <buffer> <CR> <CR>
+  au BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+augroup END
 
 " source .vimrc on save
 augroup vimrc
@@ -320,16 +324,10 @@ if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
 
-autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
-autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
-
 augroup diff_update
   au!
   au BufWritePost * if &diff == 1 | diffupdate | endif
 augroup END
-
-au BufWinEnter *.md set ft=markdown
-au BufWinEnter *.conf set ft=conf
 
 augroup fast_quit
   au!
@@ -343,7 +341,6 @@ augroup END
 " highlight ExtraWhitespace only after entering insert mode
 augroup extra_whitespace
    au!
-   au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
    au InsertLeave * match ExtraWhitespace /\s\+$/
 augroup END
 
@@ -372,5 +369,7 @@ augroup filetype_options
   au BufReadPost fugitive://* set bufhidden=delete
   au FileType gitcommit setlocal spell
   au BufReadPost *vimrc* setlocal foldmethod=marker
+  au BufWinEnter *.md set ft=markdown
+  au BufWinEnter *.conf set ft=conf
 augroup END
 " }}}
