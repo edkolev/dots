@@ -116,7 +116,8 @@ let g:tmuxline_preset = {
 let g:rsi_no_meta = 1
 
 let g:oblique#incsearch_highlight_all = 1
-let g:oblique#clear_highlight = 0
+hi! def link ObliqueCurrentIncSearch Search
+hi! def link ObliqueCurrentMatch Search
 
 " }}}
 
@@ -206,6 +207,10 @@ set foldopen-=block
 " change cursor in INSERT
 let &t_SI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\" : "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\" : "\<Esc>]50;CursorShape=0\x7"
+
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
 
 " }}}
 
