@@ -14,10 +14,11 @@ PS1='$(last_error)$(box_name):$(cwd)$(vcs_branch)$(job_count \j) \$ '
 alias vi=vim
 alias -- -='cd -'
 alias -- ..='cd ..'
+alias -- ...='cd ../..'
 
 # better history
 HISTTIMEFORMAT='%F %T '
-HISTIGNORE='ls:bg:fg:history'
+HISTIGNORE='ls:bg:fg:history:..:...:-'
 HISTCONTROL=ignoreboth
 shopt -s histappend
 
