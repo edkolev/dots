@@ -119,6 +119,8 @@ let g:oblique#incsearch_highlight_all = 1
 hi! def link ObliqueCurrentIncSearch Search
 hi! def link ObliqueCurrentMatch Search
 
+let g:vim_json_syntax_conceal = 0
+
 " }}}
 
 " UI {{{
