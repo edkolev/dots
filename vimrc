@@ -44,6 +44,7 @@ Pl 'jnurmine/Zenburn'
 Pl 'vim-scripts/jellybeans.vim'
 Pl 'vim-scripts/wombat256.vim'
 Pl 'junegunn/seoul256.vim'
+Pl 'chriskempson/base16-vim'
 
 Pl 'tpope/vim-sensible'  'tpope/vim-commentary' 'tpope/vim-eunuch'
 Pl 'tpope/vim-obsession' 'tpope/vim-tbone'      'tpope/vim-unimpaired'
@@ -138,7 +139,7 @@ endif
 
 let g:seoul256_background = 235
 let g:seoul256_light_background = 253
-colo seoul256
+colo base16-paraiso
 
 set statusline=\ 
 set statusline+=[%n%H%R%W]%*\ 
