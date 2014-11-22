@@ -71,6 +71,7 @@ Pl 'junegunn/limelight.vim'
 Pl 'tommcdo/vim-lion'
 Pl 'tommcdo/vim-exchange'
 Pl 'junegunn/vader.vim'
+Pl 'ironhouzi/vim-stim'
 Pl 'nelstrom/vim-visual-star-search'
 Pl 'AndrewRadev/linediff.vim'
 Pl 'pydave/renamer.vim'
@@ -79,8 +80,6 @@ Pl 'AndrewRadev/writable_search.vim'
 Pl 'AndrewRadev/inline_edit.vim'
 " Pl 'vim-scripts/DirDiff.vim'
 Pl 'vim-scripts/fish-syntax'
-Pl 'junegunn/vim-pseudocl'
-Pl 'junegunn/vim-oblique'
 
 set nocompatible
 syntax on
@@ -115,12 +114,8 @@ let g:tmuxline_preset = {
       \ 'y'   : '%R'}
 
 let g:rsi_no_meta = 1
-
-let g:oblique#incsearch_highlight_all = 1
-hi! def link ObliqueCurrentIncSearch Search
-hi! def link ObliqueCurrentMatch Search
-
 let g:vim_json_syntax_conceal = 0
+let g:Gitv_DoNotMapCtrlKey = 1
 
 " }}}
 
@@ -340,6 +335,9 @@ augroup fast_quit
 augroup END
 
 " highlight ExtraWhitespace only after entering insert mode
+if hlID('ExtraWhitespace') == 0
+  hi link ExtraWhitespace StatusLineNC
+endif
 augroup extra_whitespace
    au!
    au InsertLeave * match ExtraWhitespace /\s\+$/

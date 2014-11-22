@@ -1,2 +1,3 @@
 Control-n: history-search-forward
 Control-p: history-search-backward
+set completion-ignore-case on
