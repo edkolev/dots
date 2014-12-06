@@ -27,6 +27,15 @@ function! UpdatePlugin(plugin) abort
   echo "UpdatePlugin: " . command | echo system(command)
 endfunction
 
+function! UpdatePluginInBackground(plugin) abort
+  let output_dir = g:plugin_dir . '/' . fnamemodify(a:plugin, ":t")
+  if !isdirectory(output_dir) || !executable('git')
+    return
+  endif
+  let command = printf("cd %s && git pull -q", output_dir)
+  execute "Start! -title=" . a:plugin . " " . command
+endfunction
+
 function! Pl(...) abort
   for plugin in map(copy(a:000), 'substitute(v:val, ''''''\|"'', "", "g")')
     let g:plugin_hash[ fnamemodify(plugin, ':t') ] = 1
@@ -36,6 +45,7 @@ endfunction
 
 command! -nargs=+ Pl call Pl(<f-args>)
 command! -bang -nargs=0 UpdatePlugins if len("<bang>") == 0 | call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | Helptags | else | execute "Start! vim -c UpdatePlugins -c Helptags -c qa" | endif
+command! -bang -nargs=0 UpdatePluginsInBackground call map( keys(g:plugin_hash), 'UpdatePluginInBackground( v:val )' )
 " }}}
 
 Pl 'w0ng/vim-hybrid'
