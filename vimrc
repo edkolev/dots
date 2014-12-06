@@ -58,10 +58,10 @@ Pl 'chriskempson/base16-vim'
 
 Pl 'tpope/vim-sensible'  'tpope/vim-commentary' 'tpope/vim-eunuch'
 Pl 'tpope/vim-obsession' 'tpope/vim-tbone'      'tpope/vim-unimpaired'
-Pl 'tpope/vim-git'       'tpope/vim-markdown'   'tpope/vim-fugitive'
+Pl 'tpope/vim-git'       'tpope/vim-fugitive'   'tpope/vim-abolish'
 Pl 'tpope/vim-dispatch'  'tpope/vim-rsi'        'tpope/vim-repeat'
 Pl 'tpope/vim-jdaddy'    'tpope/vim-surround'   'tpope/vim-projectionist'
-Pl 'tpope/vim-endwise'   'tpope/vim-abolish'
+Pl 'tpope/vim-endwise'
 
 Pl 'edkolev/promptline.vim'
 Pl 'jeetsukumaran/vim-filebeagle'
@@ -77,12 +77,10 @@ Pl 'edkolev/tmuxline.vim'
 Pl 'mbbill/undotree'
 Pl 'junegunn/goyo.vim'
 Pl 'junegunn/limelight.vim'
-" Pl 'wellle/targets.vim'
 Pl 'tommcdo/vim-lion'
 Pl 'tommcdo/vim-exchange'
 Pl 'junegunn/vader.vim'
 Pl 'ironhouzi/vim-stim'
-Pl 'nelstrom/vim-visual-star-search'
 Pl 'AndrewRadev/linediff.vim'
 Pl 'pydave/renamer.vim'
 Pl 'tpope/vim-scriptease'
@@ -107,8 +105,6 @@ runtime macros/matchit.vim
 
 " Plugin Config {{{
 
-let g:Gitv_DoNotMapCtrlKey = 1
-
 let g:promptline_preset = {
         \'a' : [ promptline#slices#vcs_branch(), promptline#slices#git_status() ],
         \'c' : [ promptline#slices#cwd() ],
@@ -118,10 +114,13 @@ let g:promptline_preset = {
 
 let g:tmuxline_powerline_separators = 0
 let g:tmuxline_preset = {
-      \ 'b'   : '[#S] #h',
-      \ 'win' : ['[#I] #W'],
-      \ 'cwin': ['[#I] #W'],
-      \ 'y'   : '%R'}
+        \ 'a': '#S',
+        \ 'win': '#I #W',
+        \ 'cwin': '#I #W',
+        \ 'z': '%R',
+        \ 'options': {
+          \'status-justify': 'center'}
+        \}
 
 let g:rsi_no_meta = 1
 let g:vim_json_syntax_conceal = 0
