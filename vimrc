@@ -80,7 +80,6 @@ Pl 'junegunn/limelight.vim'
 Pl 'tommcdo/vim-lion'
 Pl 'tommcdo/vim-exchange'
 Pl 'junegunn/vader.vim'
-Pl 'ironhouzi/vim-stim'
 Pl 'AndrewRadev/linediff.vim'
 Pl 'pydave/renamer.vim'
 Pl 'tpope/vim-scriptease'
@@ -169,7 +168,6 @@ set tabstop=2
 set softtabstop=2
 set expandtab
 
-set scrolloff=25
 set sidescrolloff=5
 
 set nowrap
@@ -255,7 +253,39 @@ inoremap <c-l> <c-x><c-l>
 
 nmap Y y$
 
-nmap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  call s:SetSearch(@@)
+  let @@ = temp
+endfunction
+
+function! s:SetSearch(pattern)
+  let @/ = '\V' . substitute(escape(a:pattern, '\'), '\n', '\\n', 'g')
+  set hls
+endfunction
+
+function! s:SetGrepSearch(pattern)
+  if &grepprg =~# '^ag'
+    execute "grep! -Q " . shellescape(a:pattern)
+  else
+    execute "grep! -R -F " . shellescape(a:pattern) . ' .'
+  endif
+  copen
+  call s:SetSearch(a:pattern)
+endfunction
+
+function! s:VSetGrepSearch()
+  let temp = @@
+  norm! gvy
+  call s:SetGrepSearch(@@)
+  let @@ = temp
+endfunction
+
+vmap * :<C-u>call <SID>VSetSearch()<CR>
+vmap K :<C-u>call <SID>VSetGrepSearch()<CR>
+nmap * :call <SID>SetSearch(expand("<cword>"))<CR>
+nmap K :call <SID>SetGrepSearch(expand("<cword>"))<CR>
 
 function! ChompWhitespace()
     let _s=@/
@@ -381,3 +411,30 @@ augroup filetype_options
   au BufWinEnter *.conf set ft=conf
 augroup END
 " }}}
+
+" Experimental {{{
+aug scrollfix
+    au!
+    au CursorMoved,CursorMovedI * :call <SID>MyScrollOff()
+aug END
+
+let g:scrolloff_top_percent = 20
+let g:scrolloff_bottom_percent = 40
+
+function! s:MyScrollOff()
+  if &scrolloff!=0 | set scrolloff=0 | endif
+
+  let winheight        = winheight(0)
+  let scrolloff_top    = ( winheight * g:scrolloff_top_percent ) / 100 + 1
+  let scrolloff_bottom = ( winheight * g:scrolloff_bottom_percent ) / 100 + 1
+
+  let winline = winline()
+  if winline < scrolloff_top
+    execute "normal! " . (scrolloff_top - winline) . ""
+  elseif winheight - winline < scrolloff_bottom
+    execute "normal! " . (scrolloff_bottom - winheight + winline) . ""
+  endif
+
+endfunction
+" }}}
+
