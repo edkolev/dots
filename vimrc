@@ -413,13 +413,8 @@ augroup END
 " }}}
 
 " Experimental {{{
-aug scrollfix
-    au!
-    au CursorMoved,CursorMovedI * :call <SID>MyScrollOff()
-aug END
-
 let g:scrolloff_top_percent = 20
-let g:scrolloff_bottom_percent = 40
+let g:scrolloff_bottom_percent = 50
 
 function! s:MyScrollOff()
   if &scrolloff!=0 | set scrolloff=0 | endif
@@ -436,5 +431,13 @@ function! s:MyScrollOff()
   endif
 
 endfunction
+
+function! s:RegisterMyScrollOff(from, to)
+  execute 'map <silent> ' . a:from . ' ' . a:to . ':call <SID>MyScrollOff()<CR>'
+endfunction
+
+call s:RegisterMyScrollOff('j', 'gj')
+call s:RegisterMyScrollOff('k', 'gk')
+
 " }}}
 
