@@ -257,13 +257,17 @@ nmap Y y$
 function! s:VSetSearch()
   let temp = @@
   norm! gvy
-  call s:SetSearch(@@)
+  call s:SetSearch(@@, 0)
   let @@ = temp
 endfunction
 
-function! s:SetSearch(pattern)
-  let @/ = '\V' . substitute(escape(a:pattern, '\'), '\n', '\\n', 'g')
-  set hls
+function! s:SetSearch(pattern, match_whole_words)
+
+  if a:match_whole_words
+    let @/ = "\\<". a:pattern ."\\>"
+  else
+    let @/ = '\V' . substitute(escape(a:pattern, '\'), '\n', '\\n', 'g')
+  endif
 endfunction
 
 function! s:SetGrepSearch(pattern)
@@ -273,7 +277,7 @@ function! s:SetGrepSearch(pattern)
     execute "grep! -R -F " . shellescape(a:pattern) . ' .'
   endif
   copen
-  call s:SetSearch(a:pattern)
+  call s:SetSearch(a:pattern, 0)
 endfunction
 
 function! s:VSetGrepSearch()
@@ -283,10 +287,10 @@ function! s:VSetGrepSearch()
   let @@ = temp
 endfunction
 
-vmap * :<C-u>call <SID>VSetSearch()<CR>
-vmap K :<C-u>call <SID>VSetGrepSearch()<CR>
-nmap * :call <SID>SetSearch(expand("<cword>"))<CR>
-nmap K :call <SID>SetGrepSearch(expand("<cword>"))<CR>
+vmap <silent> * :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>
+vmap <silent> K :<C-u>call <SID>VSetGrepSearch()<CR>: set hlsearch<CR>
+nmap <silent> * :call <SID>SetSearch(expand("<cword>"), 1)<CR>:set hlsearch<CR>
+nmap <silent> K :call <SID>SetGrepSearch(expand("<cword>"))<CR>: set hlsearch<CR>
 
 function! ChompWhitespace()
     let _s=@/
