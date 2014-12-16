@@ -33,3 +33,5 @@
   user = edkolev
 [init]
 	templatedir = ~/.git_template
+[include]
+   path = .gitconfig.local
