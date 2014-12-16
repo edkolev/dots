@@ -187,6 +187,7 @@ set completeopt=longest,menuone,preview
 set complete=.,b,u,t
 set wildmode=list:longest,full
 set path=**
+set shortmess=a
 
 if !isdirectory($HOME . '/.vim/undo')
   call mkdir($HOME . '/.vim/undo')
@@ -338,7 +339,7 @@ augroup END
 " cursorline on active windows only
 augroup cline
     au!
-    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    au WinEnter * setlocal cursorline
     au WinLeave * setlocal nocursorline
 augroup END
 
@@ -412,32 +413,4 @@ augroup filetype_options
 augroup END
 " }}}
 
-" Experimental {{{
-let g:scrolloff_top_percent = 20
-let g:scrolloff_bottom_percent = 50
-
-function! s:MyScrollOff()
-  if &scrolloff!=0 | set scrolloff=0 | endif
-
-  let winheight        = winheight(0)
-  let scrolloff_top    = ( winheight * g:scrolloff_top_percent ) / 100 + 1
-  let scrolloff_bottom = ( winheight * g:scrolloff_bottom_percent ) / 100 + 1
-
-  let winline = winline()
-  if winline < scrolloff_top
-    execute "normal! " . (scrolloff_top - winline) . ""
-  elseif winheight - winline < scrolloff_bottom
-    execute "normal! " . (scrolloff_bottom - winheight + winline) . ""
-  endif
-
-endfunction
-
-function! s:RegisterMyScrollOff(from, to)
-  execute 'map <silent> ' . a:from . ' ' . a:to . ':call <SID>MyScrollOff()<CR>'
-endfunction
-
-call s:RegisterMyScrollOff('j', 'gj')
-call s:RegisterMyScrollOff('k', 'gk')
-
-" }}}
 
