@@ -1,53 +1,13 @@
 
 " Plugins {{{
+if !isdirectory(expand("~/.vim/bundle/poor-mans-plugin-downloader.vim"))
+  !git clone -q https://github.com/edkolev/poor-mans-plugin-downloader.vim ~/.vim/bundle/poor-mans-plugin-downloader.vim
+endif
+set rtp+=~/.vim/bundle/poor-mans-plugin-downloader.vim
 
-let g:plugin_dir = expand('~/.vim/bundle', ':p')
-let g:plugin_hash = {}
-let g:pathogen_blacklist = []
+call plugins#begin()
 
-" Poor man's plugin downloader {{{
-if !isdirectory(g:plugin_dir) | call mkdir(g:plugin_dir, "p") | endif
-
-function! DownloadPluginIfMissing(plugin) abort
-  let output_dir = g:plugin_dir . '/' . fnamemodify(a:plugin, ":t")
-  if isdirectory(output_dir) || !executable('git')
-    return
-  endif
-  let command = printf("git clone -q %s %s", "https://github.com/" . a:plugin . '.git', output_dir)
-  echo "DownloadPluginIfMissing: " . command | echo system(command)
-  silent! execute 'helptags ' . output_dir . '/doc'
-endfunction
-
-function! UpdatePlugin(plugin) abort
-  let output_dir = g:plugin_dir . '/' . fnamemodify(a:plugin, ":t")
-  if !isdirectory(output_dir) || !executable('git')
-    return
-  endif
-  let command = printf("cd %s && git pull -q", output_dir)
-  echo "UpdatePlugin: " . command | echo system(command)
-endfunction
-
-function! UpdatePluginInBackground(plugin) abort
-  let output_dir = g:plugin_dir . '/' . fnamemodify(a:plugin, ":t")
-  if !isdirectory(output_dir) || !executable('git')
-    return
-  endif
-  let command = printf("cd %s && git pull -q", output_dir)
-  execute "Start! -title=" . a:plugin . " " . command
-endfunction
-
-function! Pl(...) abort
-  for plugin in map(copy(a:000), 'substitute(v:val, ''''''\|"'', "", "g")')
-    let g:plugin_hash[ fnamemodify(plugin, ':t') ] = 1
-    call DownloadPluginIfMissing(plugin)
-  endfor
-endfunction
-
-command! -nargs=+ Pl call Pl(<f-args>)
-command! -bang -nargs=0 UpdatePlugins if len("<bang>") == 0 | call map( keys(g:plugin_hash), 'UpdatePlugin( v:val )' ) | Helptags | else | execute "Start! vim -c UpdatePlugins -c Helptags -c qa" | endif
-command! -bang -nargs=0 UpdatePluginsInBackground call map( keys(g:plugin_hash), 'UpdatePluginInBackground( v:val )' )
-" }}}
-
+Pl 'edkolev/poor-mans-plugin-downloader.vim'
 Pl 'w0ng/vim-hybrid'
 Pl 'jonathanfilip/vim-lucius'
 Pl 'jnurmine/Zenburn'
@@ -88,13 +48,10 @@ Pl 'AndrewRadev/inline_edit.vim'
 " Pl 'vim-scripts/DirDiff.vim'
 Pl 'vim-scripts/fish-syntax'
 
-set nocompatible
+call plugins#end()
+
 syntax on
-filetype plugin indent on
-Pl 'tpope/vim-pathogen'
-execute "source " . g:plugin_dir . '/vim-pathogen/autoload/pathogen.vim'
-let g:pathogen_blacklist = filter(map(split(glob(g:plugin_dir . '/*', 1), "\n"),'fnamemodify(v:val,":t")'), '!has_key(g:plugin_hash, v:val)')
-execute pathogen#infect(g:plugin_dir . '/{}')
+filetype indent on
 
 let mapleader = ","
 
