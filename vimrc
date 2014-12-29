@@ -47,6 +47,7 @@ Pl 'Wolfy87/vim-enmasse'
 Pl 'AndrewRadev/inline_edit.vim'
 " Pl 'vim-scripts/DirDiff.vim'
 Pl 'vim-scripts/fish-syntax'
+Pl 'Wolfy87/vim-expand'
 
 call plugins#end()
 
@@ -245,8 +246,10 @@ function! s:VSetGrepSearch()
 endfunction
 
 vmap <silent> * :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>
+vmap <silent> g* :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>
 vmap <silent> K :<C-u>call <SID>VSetGrepSearch()<CR>: set hlsearch<CR>
 nmap <silent> * :call <SID>SetSearch(expand("<cword>"), 1)<CR>:set hlsearch<CR>
+nmap <silent> g* :call <SID>SetSearch(expand("<cword>"), 0)<CR>:set hlsearch<CR>
 nmap <silent> K :call <SID>SetGrepSearch(expand("<cword>"))<CR>: set hlsearch<CR>
 
 function! ChompWhitespace()
