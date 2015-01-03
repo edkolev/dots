@@ -48,6 +48,7 @@ Pl 'AndrewRadev/inline_edit.vim'
 " Pl 'vim-scripts/DirDiff.vim'
 Pl 'vim-scripts/fish-syntax'
 Pl 'Wolfy87/vim-expand'
+Pl 'shime/vim-livedown'
 
 call plugins#end()
 
@@ -98,8 +99,6 @@ if has('gui_running')
 else
 endif
 
-let g:seoul256_background = 235
-let g:seoul256_light_background = 253
 colo base16-paraiso
 
 set statusline=\ 
@@ -126,6 +125,7 @@ set tabstop=2
 set softtabstop=2
 set expandtab
 
+set scrolloff=25
 set sidescrolloff=5
 
 set nowrap
