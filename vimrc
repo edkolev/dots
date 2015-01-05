@@ -99,7 +99,7 @@ if has('gui_running')
 else
 endif
 
-colo base16-paraiso
+colo base16-default
 
 set statusline=\ 
 set statusline+=[%n%H%R%W]%*\ 
@@ -226,6 +226,12 @@ function! s:SetSearch(pattern, match_whole_words)
   else
     let @/ = '\V' . substitute(escape(a:pattern, '\'), '\n', '\\n', 'g')
   endif
+
+endfunction
+
+function! s:EchoMatchCount()
+  %s///gne
+  normal ``
 endfunction
 
 function! s:SetGrepSearch(pattern)
@@ -245,12 +251,12 @@ function! s:VSetGrepSearch()
   let @@ = temp
 endfunction
 
-vmap <silent> * :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>
-vmap <silent> g* :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>
-vmap <silent> K :<C-u>call <SID>VSetGrepSearch()<CR>: set hlsearch<CR>
-nmap <silent> * :call <SID>SetSearch(expand("<cword>"), 1)<CR>:set hlsearch<CR>
-nmap <silent> g* :call <SID>SetSearch(expand("<cword>"), 0)<CR>:set hlsearch<CR>
-nmap <silent> K :call <SID>SetGrepSearch(expand("<cword>"))<CR>: set hlsearch<CR>
+vmap <silent> *  :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
+vmap <silent> g* :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
+vmap <silent> K  :<C-u>call <SID>VSetGrepSearch()<CR>: set hlsearch<CR>
+nmap <silent> *  :call <SID>SetSearch(expand("<cword>"), 1)<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
+nmap <silent> g* :call <SID>SetSearch(expand("<cword>"), 0)<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
+nmap <silent> K  :call <SID>SetGrepSearch(expand("<cword>"))<CR>: set hlsearch<CR>
 
 function! ChompWhitespace()
     let _s=@/
@@ -293,8 +299,8 @@ endfunction
 
 " return to same line on reopen, unless diff-ing
 augroup line_return
-    au!
-    au BufReadPost *
+  au!
+  au BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") && !&diff |
         \     execute 'normal! g`"zvzz' |
         \ endif
@@ -302,9 +308,9 @@ augroup END
 
 " cursorline on active windows only
 augroup cline
-    au!
-    au WinEnter * setlocal cursorline
-    au WinLeave * setlocal nocursorline
+  au!
+  au WinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
 augroup END
 
 augroup vim_tweaks
@@ -313,15 +319,14 @@ augroup vim_tweaks
   au BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 augroup END
 
-" source .vimrc on save
+" source vimrc on save
 augroup vimrc
   au!
-  au! bufwritepost *vimrc source $MYVIMRC
-  au! bufwritepost *vimrc.local source $MYVIMRC
+  au BufWritePost *vimrc{,.local} if filereadable(expand('%'))|execute 'source ' . expand('%')|endif
 augroup END
 
 if filereadable(glob("~/.vimrc.local"))
-    source ~/.vimrc.local
+  source ~/.vimrc.local
 endif
 
 augroup diff_update
