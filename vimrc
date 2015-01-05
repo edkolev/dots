@@ -230,7 +230,7 @@ endfunction
 
 function! s:SetGrepSearch(pattern)
   if &grepprg =~# '^ag'
-    execute "grep! -Q " . shellescape(a:pattern)
+    execute "grep! -Q -- " . shellescape(a:pattern)
   else
     execute "grep! -R -F " . shellescape(a:pattern) . ' .'
   endif

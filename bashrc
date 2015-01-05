@@ -18,7 +18,7 @@ alias -- ...='cd ../..'
 
 # better history
 HISTTIMEFORMAT='%F %T '
-HISTIGNORE='ls:bg:fg:history:..:...:-'
+HISTIGNORE='ls:bg:fg:history:clear:..:...:-'
 HISTCONTROL=ignoreboth
 shopt -s histappend
 
