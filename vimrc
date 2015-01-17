@@ -42,7 +42,7 @@ Pl 'tommcdo/vim-exchange'
 Pl 'junegunn/vader.vim'
 Pl 'AndrewRadev/linediff.vim'
 Pl 'pydave/renamer.vim'
-Pl 'tpope/vim-scriptease'
+" Pl 'tpope/vim-scriptease'
 Pl 'Wolfy87/vim-enmasse'
 Pl 'AndrewRadev/inline_edit.vim'
 " Pl 'vim-scripts/DirDiff.vim'
@@ -77,7 +77,7 @@ let g:tmuxline_preset = {
         \ 'cwin': '#I #W',
         \ 'z': '%R',
         \ 'options': {
-          \'status-justify': 'center'}
+          \'status-justify': 'centre'}
         \}
 
 let g:rsi_no_meta = 1
