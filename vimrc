@@ -189,7 +189,7 @@ map \| g,
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
-nmap <leader># :%s///ng<CR>
+nmap # :%s///ng<CR>
 nmap <leader>D :%s///g<CR>
 
 nnoremap <leader>w :vsplit<cr>
@@ -325,8 +325,8 @@ augroup vimrc
   au BufWritePost *vimrc{,.local} if filereadable(expand('%'))|execute 'source ' . expand('%')|endif
 augroup END
 
-if filereadable(glob("~/.vimrc.local"))
-  source ~/.vimrc.local
+if filereadable($MYVIMRC . ".local")
+  source $MYVIMRC.local
 endif
 
 augroup diff_update
