@@ -49,6 +49,7 @@ Pl 'AndrewRadev/inline_edit.vim'
 Pl 'vim-scripts/fish-syntax'
 Pl 'Wolfy87/vim-expand'
 Pl 'shime/vim-livedown'
+Pl 'thinca/vim-ref'
 
 call plugins#end()
 
@@ -341,6 +342,8 @@ augroup fast_quit
   au FileType man nnoremap <buffer> q :q<cr>
   au CmdwinEnter * nnoremap <buffer> q :q<cr>
   au BufReadPost fugitive://* nnoremap <buffer> q :q<cr>
+  " vim-ref
+  au FileType ref nnoremap <buffer> q :q<cr>
 augroup END
 
 " highlight ExtraWhitespace only after entering insert mode

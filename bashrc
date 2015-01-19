@@ -54,3 +54,6 @@ function man {
     man "$@"
 }
 
+function ffind {
+  find . -name "$@"
+}
