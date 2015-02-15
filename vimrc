@@ -21,7 +21,7 @@ Pl 'tpope/vim-obsession' 'tpope/vim-tbone'      'tpope/vim-unimpaired'
 Pl 'tpope/vim-git'       'tpope/vim-fugitive'   'tpope/vim-abolish'
 Pl 'tpope/vim-dispatch'  'tpope/vim-rsi'        'tpope/vim-repeat'
 Pl 'tpope/vim-jdaddy'    'tpope/vim-surround'   'tpope/vim-projectionist'
-Pl 'tpope/vim-endwise'
+Pl 'tpope/vim-endwise'   'tpope/vim-haystack'
 
 Pl 'edkolev/promptline.vim'
 Pl 'jeetsukumaran/vim-filebeagle'
@@ -50,6 +50,7 @@ Pl 'vim-scripts/fish-syntax'
 Pl 'Wolfy87/vim-expand'
 Pl 'shime/vim-livedown'
 Pl 'thinca/vim-ref'
+Pl 'vim-scripts/LargeFile'
 
 call plugins#end()
 
@@ -63,6 +64,8 @@ runtime macros/matchit.vim
 " }}}
 
 " Plugin Config {{{
+
+let g:inline_edit_autowrite = 1
 
 let g:promptline_preset = {
         \'a' : [ promptline#slices#host({'only_if_ssh': 1}), promptline#slices#vcs_branch(), promptline#slices#git_status() ],
@@ -126,7 +129,9 @@ set softtabstop=2
 set expandtab
 
 set scrolloff=25
+set scrolljump=5
 set sidescrolloff=5
+set history=2000
 
 set nowrap
 set linebreak
@@ -274,6 +279,10 @@ if executable('tidyp')
   command! TidyHTML :%!tidyp -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
 endif
 
+if executable('python')
+  command! TidyJSON :%!python -m json.tool
+endif
+
 nmap gn :%normal 
 
 " 'entire' text object
@@ -358,6 +367,7 @@ augroup END
 " }}}
 
 " Per-language config {{{
+let g:perl_compiler_force_warnings = 0
 augroup filetype_options
   au!
   au BufReadPost * setlocal path=**
@@ -367,6 +377,11 @@ augroup filetype_options
         \ let b:endwise_words = 'if,else,sub,while,for,foreach,unless,elsif' |
         \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
   au FileType perl let b:dispatch = 'perl -wc %'
+
+  " shell-style comments in json
+  au FileType json set commentstring=#%s
+  au FileType json syn match jsonComment /#.*/
+  au FileType json hi link jsonComment Comment
 
   au FileType r set commentstring=#%s
   au FileType r

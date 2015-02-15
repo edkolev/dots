@@ -19,6 +19,10 @@ HISTTIMEFORMAT='%F %T '
 HISTIGNORE='ls:bg:fg:history:clear:..:...:-'
 HISTCONTROL=ignoreboth
 shopt -s histappend
+HISTSIZE=10000
+HISTFILESIZE=10000
+
+shopt -s globstar
 
 function git_branch {
    hash git 2>/dev/null || return 1
