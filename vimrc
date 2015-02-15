@@ -92,13 +92,9 @@ let g:Gitv_DoNotMapCtrlKey = 1
 
 " UI {{{
 if has('gui_running')
-   set guioptions-=T " no toolbar
-   set guioptions-=M " no menu
-   set guioptions-=r " no right scrollbar
-   set guioptions-=L " no left scrollbar
+   set guioptions=egm
    set guitablabel=%m\ %t
    set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
-
    set gcr=a:blinkon0
 else
 endif
@@ -315,6 +311,25 @@ augroup line_return
         \ endif
 augroup END
 
+
+augroup enter_to_save
+   au!
+   au BufReadPost,BufNewFile *
+            \ if &modifiable |
+            \   nnoremap <buffer> <cr> :update<cr>|
+            \ endif
+augroup END
+
+augroup q_to_quit
+   au!
+   au BufReadPost,BufNewFile *
+            \ if !&modifiable |
+            \   nnoremap <buffer> q :q<cr>|
+            \ endif
+  au BufReadPost fugitive://* nnoremap <buffer> q :q<cr>
+augroup END
+
+
 " cursorline on active windows only
 augroup cline
   au!
@@ -341,17 +356,6 @@ endif
 augroup diff_update
   au!
   au BufWritePost * if &diff == 1 | diffupdate | endif
-augroup END
-
-augroup fast_quit
-  au!
-  au FileType help nnoremap <buffer> q :q<cr>
-  au FileType qf nnoremap <buffer> q :q<cr>
-  au FileType man nnoremap <buffer> q :q<cr>
-  au CmdwinEnter * nnoremap <buffer> q :q<cr>
-  au BufReadPost fugitive://* nnoremap <buffer> q :q<cr>
-  " vim-ref
-  au FileType ref nnoremap <buffer> q :q<cr>
 augroup END
 
 " highlight ExtraWhitespace only after entering insert mode
