@@ -65,7 +65,7 @@ runtime macros/matchit.vim
 " Plugin Config {{{
 
 let g:promptline_preset = {
-        \'a' : [ promptline#slices#vcs_branch(), promptline#slices#git_status() ],
+        \'a' : [ promptline#slices#host({'only_if_ssh': 1}), promptline#slices#vcs_branch(), promptline#slices#git_status() ],
         \'c' : [ promptline#slices#cwd() ],
         \'options': {
           \'left_sections' : [ 'a', 'c' ],
@@ -100,7 +100,6 @@ if has('gui_running')
 else
 endif
 
-colo base16-default
 
 set statusline=\ 
 set statusline+=[%n%H%R%W]%*\ 
@@ -352,6 +351,7 @@ if hlID('ExtraWhitespace') == 0
 endif
 augroup extra_whitespace
    au!
+   au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
    au InsertLeave * match ExtraWhitespace /\s\+$/
 augroup END
 
