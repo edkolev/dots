@@ -54,7 +54,7 @@ function job_count {
 
 function man {
   env \
-    MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma ls=0' -\"" \
+    MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma ls=0' -c 'map q :quit<cr>' -\"" \
     man "$@"
 }
 
