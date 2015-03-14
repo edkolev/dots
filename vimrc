@@ -169,12 +169,15 @@ set lazyredraw
 
 set foldopen-=block
 
+set spellfile=~/.vim/en.utf-8.add
+
 " change cursor in INSERT
 let &t_SI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\" : "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\" : "\<Esc>]50;CursorShape=0\x7"
 
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
+  set grepprg=ag\ --vimgrep\ $*
+  set grepformat=%f:%l:%c:%m
 endif
 
 " }}}
@@ -194,7 +197,7 @@ nmap # :%s///ng<CR>
 nmap <leader>D :%s///g<CR>
 
 nnoremap <leader>w :vsplit<cr>
-nnoremap <cr> :update<cr>
+nnoremap <expr> <cr> &modified>0?":update<cr>":"\<Lt>cr>"
 nmap <leader>v :e <c-r>=resolve($MYVIMRC)<CR><CR>
 nmap <leader>V :e $MYVIMRC.local<CR>
 
@@ -311,15 +314,6 @@ augroup line_return
         \ endif
 augroup END
 
-
-augroup enter_to_save
-   au!
-   au BufReadPost,BufNewFile *
-            \ if &modifiable |
-            \   nnoremap <buffer> <cr> :update<cr>|
-            \ endif
-augroup END
-
 augroup q_to_quit
    au!
    au BufReadPost,BufNewFile *
@@ -396,12 +390,13 @@ augroup filetype_options
 
   au FileType tracwiki setlocal shiftwidth=2 tabstop=2
   au FileType erlang set commentstring=%\ %s
+  au FileType mail set noexpandtab
   au BufReadPost fugitive://* set bufhidden=delete
   au FileType gitcommit setlocal spell
   au BufReadPost *vimrc* setlocal foldmethod=marker
   au BufWinEnter *.md set ft=markdown
+  au FileType markdown syn clear markdownItalic | syn clear markdownError
   au BufWinEnter *.conf set ft=conf
 augroup END
 " }}}
-
 
