@@ -50,6 +50,7 @@ Pl 'vim-scripts/fish-syntax'
 Pl 'Wolfy87/vim-expand'
 Pl 'shime/vim-livedown'
 Pl 'thinca/vim-ref'
+Pl 'nicwest/QQ.vim'
 Pl 'vim-scripts/LargeFile'
 
 call plugins#end()
@@ -64,8 +65,6 @@ runtime macros/matchit.vim
 " }}}
 
 " Plugin Config {{{
-
-let g:inline_edit_autowrite = 1
 
 let g:promptline_preset = {
         \'a' : [ promptline#slices#host({'only_if_ssh': 1}), promptline#slices#vcs_branch(), promptline#slices#git_status() ],
@@ -87,6 +86,8 @@ let g:tmuxline_preset = {
 let g:rsi_no_meta = 1
 let g:vim_json_syntax_conceal = 0
 let g:Gitv_DoNotMapCtrlKey = 1
+let g:inline_edit_autowrite = 1
+
 
 " }}}
 
@@ -190,6 +191,8 @@ map Q gwap
 nmap \ g;
 map \| g,
 
+nnoremap !! :!!<cr>
+
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
@@ -262,6 +265,8 @@ nmap <silent> *  :call <SID>SetSearch(expand("<cword>"), 1)<CR>:set hlsearch<CR>
 nmap <silent> g* :call <SID>SetSearch(expand("<cword>"), 0)<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
 nmap <silent> K  :call <SID>SetGrepSearch(expand("<cword>"))<CR>: set hlsearch<CR>
 
+nmap L :lgrep! "<C-R><C-W>"<CR>:lw<CR>
+
 function! ChompWhitespace()
     let _s=@/
     let l = line(".")
@@ -321,6 +326,8 @@ augroup q_to_quit
             \   nnoremap <buffer> q :q<cr>|
             \ endif
   au BufReadPost fugitive://* nnoremap <buffer> q :q<cr>
+  au FileType qf nnoremap <buffer> q :q<cr>
+  au FileType ref-* nnoremap <buffer> q :q<cr>
 augroup END
 
 
@@ -375,6 +382,7 @@ augroup filetype_options
         \ let b:endwise_words = 'if,else,sub,while,for,foreach,unless,elsif' |
         \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
   au FileType perl let b:dispatch = 'perl -wc %'
+  au FileType perl set iskeyword-=:
 
   " shell-style comments in json
   au FileType json set commentstring=#%s
