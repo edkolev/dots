@@ -13,9 +13,10 @@
   editor = vim
 [alias]
   st = status -sb
-  one = log --pretty=oneline --decorate --reverse -20
-  ahead = log --pretty=oneline --reverse @{u}..
-  behind = log --pretty=oneline --reverse ..@{u}
+  one = log --pretty=oneline --decorate -20
+  ahead-of-master = log --oneline --graph master..
+  ahead = log --pretty=oneline @{u}..
+  behind = log --pretty=oneline ..@{u}
   vst = !vim -c Gstatus .
   vdiff = !vim -c Gdiff $1
   tags = tag -l
