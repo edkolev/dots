@@ -147,7 +147,7 @@ set completeopt=longest,menuone,preview
 set complete=.,b,u,t
 set wildmode=list:longest,full
 set path=**
-set shortmess=a
+set shortmess=ao
 
 if !isdirectory($HOME . '/.vim/undo')
   call mkdir($HOME . '/.vim/undo')
