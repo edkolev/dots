@@ -15,6 +15,7 @@ Pl 'vim-scripts/jellybeans.vim'
 Pl 'vim-scripts/wombat256.vim'
 Pl 'junegunn/seoul256.vim'
 Pl 'chriskempson/base16-vim'
+Pl 'morhetz/gruvbox'
 
 Pl 'tpope/vim-sensible'  'tpope/vim-commentary' 'tpope/vim-eunuch'
 Pl 'tpope/vim-obsession' 'tpope/vim-tbone'      'tpope/vim-unimpaired'
@@ -52,6 +53,7 @@ Pl 'shime/vim-livedown'
 Pl 'thinca/vim-ref'
 Pl 'nicwest/QQ.vim'
 Pl 'vim-scripts/LargeFile'
+Pl 'itchyny/vim-haskell-indent'
 
 call plugins#end()
 
@@ -216,6 +218,8 @@ noremap 0 ^
 
 inoremap <c-]> <c-x><c-]>
 inoremap <c-l> <c-x><c-l>
+inoremap <c-x><c-x> <c-x><c-p>
+
 
 nmap Y y$
 
@@ -280,7 +284,7 @@ command! -nargs=0 ChompWhitespace call ChompWhitespace()
 command! DiffOrig lefta vnew | setlocal bt=nofile bh=delete noswf | r ++edit # | 0d_ | setlocal noma | diffthis | nnoremap <buffer> q :q<cr>:diffoff<cr> | wincmd p | diffthis
 
 if executable('tidyp')
-  command! TidyHTML :%!tidyp -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
+  command! TidyHTML :silent! %!tidyp --indent-attributes 1 --sort-attributes alpha -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
 endif
 
 if executable('python')
@@ -288,6 +292,9 @@ if executable('python')
 endif
 
 nmap gn :%normal 
+
+nnoremap gm :silent make \| cw \| redraw!<cr>
+nnoremap gM :silent make! \| cw \| redraw!<cr>
 
 " 'entire' text object
 onoremap ie :<c-u>normal! ggvG$<cr>
