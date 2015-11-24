@@ -15,6 +15,9 @@ alias -- -='cd -'
 alias -- ..='cd ..'
 alias -- ...='cd ../..'
 
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
 alias gcd='if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then cd $(git rev-parse --show-toplevel); else echo "not in a git repository"; fi'
 
 HISTTIMEFORMAT='%F %T '
