@@ -4,7 +4,7 @@
 export CLICOLOR=1
 export EDITOR=vim
 
-PS1='\h: \W/$(git_branch)$(job_count \j) ❯ '
+PS1='\w/$(job_count \j) ❯ '
 
 [ -d ~/bin ] && export PATH="~/bin:$PATH"
 [ -f ~/.bashrc.local ] && source ~/.bashrc.local
@@ -15,8 +15,12 @@ alias -- -='cd -'
 alias -- ..='cd ..'
 alias -- ...='cd ../..'
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
+if [[ $OSTYPE == darwin* ]]; then
+   alias ls='ls -G'
+else
+   alias ls='ls --color=auto'
+fi
+alias grep='grep -I --color=auto'
 
 alias gcd='if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then cd $(git rev-parse --show-toplevel); else echo "not in a git repository"; fi'
 
@@ -65,4 +69,8 @@ function man {
 
 function ffind {
   find . -name "$@"
+}
+
+function vgrep {
+   vim -c "grep '$1'"
 }
