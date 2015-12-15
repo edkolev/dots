@@ -54,6 +54,7 @@ Pl 'thinca/vim-ref'
 Pl 'nicwest/QQ.vim'
 Pl 'vim-scripts/LargeFile'
 Pl 'itchyny/vim-haskell-indent'
+Pl 'dhruvasagar/vim-buffer-history'
 
 call plugins#end()
 
@@ -90,6 +91,9 @@ let g:vim_json_syntax_conceal = 0
 let g:Gitv_DoNotMapCtrlKey = 1
 let g:inline_edit_autowrite = 1
 
+let g:buffer_history_disable_mappings=1
+nmap gb <Plug>(buffer-history-back)
+nmap gB <Plug>(buffer-history-forward)
 
 " }}}
 
@@ -117,7 +121,7 @@ set statusline+=%c:%l\ of\ %L\
 set formatoptions=
 set noshowcmd
 set noshowmode
-set cursorline
+set nocursorline
 set encoding=utf-8
 
 set smartindent
