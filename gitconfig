@@ -20,7 +20,7 @@
   tags = tag -l
   branches = branch -a
   graph = log --graph --decorate --all --oneline
-	ctags = !.git/hooks/ctags
+  ctags = !.git/hooks/ctags
 [color]
   ui = auto
 [github]
@@ -28,4 +28,4 @@
 [init]
 	templatedir = ~/.git_template
 [include]
-   path = .gitconfig.local
+   path = ~/.gitconfig.local
