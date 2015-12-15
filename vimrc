@@ -55,6 +55,8 @@ Pl 'nicwest/QQ.vim'
 Pl 'vim-scripts/LargeFile'
 Pl 'itchyny/vim-haskell-indent'
 Pl 'dhruvasagar/vim-buffer-history'
+Pl 'ledger/vim-ledger'
+Pl 'reedes/vim-colors-pencil'
 
 call plugins#end()
 
@@ -420,7 +422,6 @@ augroup filetype_options
         \ let b:endwise_addition = '}' |
         \ let b:endwise_words = 'function,for' |
         \ let b:endwise_syngroups = 'rType,rRepeat'
-
 
   au FileType tracwiki setlocal shiftwidth=2 tabstop=2
   au FileType erlang set commentstring=%\ %s
