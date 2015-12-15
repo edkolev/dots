@@ -103,6 +103,7 @@ else
 endif
 
 
+set laststatus=1
 set statusline=\ 
 set statusline+=[%n%H%R%W]%*\ 
 set statusline+=%f%m\ 
@@ -127,8 +128,8 @@ set tabstop=2
 set softtabstop=2
 set expandtab
 
-set scrolloff=25
-set scrolljump=5
+set scrolloff=0
+set scrolljump=-15
 set sidescrolloff=5
 set history=2000
 
@@ -179,7 +180,7 @@ let &t_SI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc
 let &t_EI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\" : "\<Esc>]50;CursorShape=0\x7"
 
 if executable('ag')
-  set grepprg=ag\ --vimgrep\ $*
+  set grepprg=ag\ -s\ \ --vimgrep\ $*
   set grepformat=%f:%l:%c:%m
 endif
 
@@ -208,6 +209,8 @@ nmap <leader>V :e $MYVIMRC.local<CR>
 
 " jump to tag if one, show list otherwise
 nmap <C-]> g<C-]>
+
+nmap <C-f> <Nop>
 
 nnoremap j gj
 nnoremap k gk
@@ -283,6 +286,12 @@ command! -nargs=0 ChompWhitespace call ChompWhitespace()
 
 command! DiffOrig lefta vnew | setlocal bt=nofile bh=delete noswf | r ++edit # | 0d_ | setlocal noma | diffthis | nnoremap <buffer> q :q<cr>:diffoff<cr> | wincmd p | diffthis
 
+function! s:FilterQuickfixList(bang, pattern)
+  let cmp = a:bang ? '!~#' : '=~#'
+  call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
+endfunction
+command! -bang -nargs=1 -complete=file FilterQuickfix call s:FilterQuickfixList(<bang>0, <q-args>)
+
 if executable('tidyp')
   command! TidyHTML :silent! %!tidyp --indent-attributes 1 --sort-attributes alpha -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
 endif
@@ -294,7 +303,7 @@ endif
 nmap gn :%normal 
 
 nnoremap gm :silent make \| cw \| redraw!<cr>
-nnoremap gM :silent make! \| cw \| redraw!<cr>
+nnoremap gM :make!<cr>
 
 " 'entire' text object
 onoremap ie :<c-u>normal! ggvG$<cr>
@@ -374,6 +383,12 @@ augroup extra_whitespace
    au!
    au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
    au InsertLeave * match ExtraWhitespace /\s\+$/
+augroup END
+
+augroup auto_open_quickfix
+    autocmd!
+    autocmd QuickFixCmdPost [^l]* below cwindow
+    autocmd QuickFixCmdPost    l* below lwindow
 augroup END
 
 " }}}
