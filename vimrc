@@ -372,7 +372,7 @@ augroup vimrc
   au BufWritePost *vimrc{,.local} if filereadable(expand('%'))|execute 'source ' . expand('%')|endif
 augroup END
 
-if filereadable($MYVIMRC . ".local")
+if filereadable(expand($MYVIMRC . ".local"))
   source $MYVIMRC.local
 endif
 
