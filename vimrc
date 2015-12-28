@@ -352,14 +352,6 @@ augroup q_to_quit
   au FileType ref-* nnoremap <buffer> q :q<cr>
 augroup END
 
-
-" cursorline on active windows only
-augroup cline
-  au!
-  au WinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup END
-
 augroup vim_tweaks
   au VimResized * :wincmd =
   au CmdwinEnter * nnoremap <buffer> <CR> <CR>
@@ -418,6 +410,7 @@ let g:perl_compiler_force_warnings = 0
 augroup filetype_options
   au!
   au BufReadPost * setlocal path=**
+  au FileType ledger set commentstring=;%s
   au FileType perl compiler perl
   au FileType perl
         \ let b:endwise_addition = '}' |
@@ -430,6 +423,8 @@ augroup filetype_options
   au FileType json set commentstring=#%s
   au FileType json syn match jsonComment /#.*/
   au FileType json hi link jsonComment Comment
+
+  au FileType tracwiki syn clear tracDefList
 
   au FileType r set commentstring=#%s
   au FileType r
