@@ -410,6 +410,18 @@ let g:perl_compiler_force_warnings = 0
 augroup filetype_options
   au!
   au BufReadPost * setlocal path=**
+
+  au FileType haskell setlocal makeprg=ghc\ -e\ :q\ %
+  au FileType haskell setlocal errorformat=
+                    \%-G,
+                    \%-Z\ %#,
+                    \%W%f:%l:%c:\ Warning:\ %m,
+                    \%E%f:%l:%c:\ %m,
+                    \%E%>%f:%l:%c:,
+                    \%+C\ \ %#%m,
+                    \%W%>%f:%l:%c:,
+                    \%+C\ \ %#%tarning:\ %m,
+
   au FileType ledger set commentstring=;%s
   au FileType perl compiler perl
   au FileType perl
