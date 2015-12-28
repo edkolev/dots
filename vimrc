@@ -397,6 +397,20 @@ augroup auto_open_quickfix
     autocmd QuickFixCmdPost    l* below lwindow
 augroup END
 
+" promp to source Session.vim if exists
+if argc() == 0 && filereadable('Session.vim')
+  fun! s:CheckForSessionFile()
+    echo "Source Session.vim? del/no/Yes:"
+    let input = getchar() | echo ""
+    if input ==? char2nr('y') || input == 13 " y or <cr>
+      source Session.vim
+    elseif input ==? char2nr('d')
+      call delete('Session.vim')
+    endif
+  endfun
+  au VimEnter * nested :call s:CheckForSessionFile()
+endif
+
 " }}}
 
 " Per-language config {{{
