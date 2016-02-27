@@ -21,6 +21,7 @@
   branches = branch -a
   graph = log --graph --decorate --all --oneline
   ctags = !.git/hooks/ctags
+  unstage = reset HEAD --
 [color]
   ui = auto
 [github]
@@ -29,3 +30,5 @@
 	templatedir = ~/.git_template
 [include]
    path = ~/.gitconfig.local
+[advice]
+  statusHints = false
