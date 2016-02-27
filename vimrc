@@ -25,9 +25,7 @@ Pl 'tpope/vim-jdaddy'    'tpope/vim-surround'   'tpope/vim-projectionist'
 Pl 'tpope/vim-endwise'   'tpope/vim-haystack'
 
 Pl 'edkolev/promptline.vim'
-Pl 'jeetsukumaran/vim-filebeagle'
 Pl 'vim-scripts/tracwiki'
-Pl 'gregsexton/gitv'
 Pl 'christoomey/vim-tmux-navigator'
 Pl 'michaeljsmith/vim-indent-object'
 Pl 'majutsushi/tagbar'
@@ -44,7 +42,7 @@ Pl 'junegunn/vader.vim'
 Pl 'AndrewRadev/linediff.vim'
 Pl 'pydave/renamer.vim'
 " Pl 'tpope/vim-scriptease'
-Pl 'Wolfy87/vim-enmasse'
+Pl 'thinca/vim-qfreplace'
 Pl 'AndrewRadev/inline_edit.vim'
 " Pl 'vim-scripts/DirDiff.vim'
 Pl 'vim-scripts/fish-syntax'
@@ -54,9 +52,9 @@ Pl 'thinca/vim-ref'
 Pl 'nicwest/QQ.vim'
 Pl 'vim-scripts/LargeFile'
 Pl 'itchyny/vim-haskell-indent'
-Pl 'dhruvasagar/vim-buffer-history'
 Pl 'ledger/vim-ledger'
 Pl 'reedes/vim-colors-pencil'
+Pl 'justinmk/vim-dirvish'
 
 call plugins#end()
 
@@ -71,31 +69,34 @@ runtime macros/matchit.vim
 
 " Plugin Config {{{
 
-let g:promptline_preset = {
-        \'a' : [ promptline#slices#host({'only_if_ssh': 1}), promptline#slices#vcs_branch(), promptline#slices#git_status() ],
-        \'c' : [ promptline#slices#cwd() ],
-        \'options': {
-          \'left_sections' : [ 'a', 'c' ],
-          \'left_only_sections' : [ 'a', 'c' ]}}
+" let g:promptline_preset = {
+"         \'a' : [ promptline#slices#host({'only_if_ssh': 1}), promptline#slices#vcs_branch(), promptline#slices#git_status() ],
+"         \'c' : [ promptline#slices#cwd() ],
+"         \'options': {
+"           \'left_sections' : [ 'a', 'c' ],
+"           \'left_only_sections' : [ 'a', 'c' ]}}
 
-let g:tmuxline_powerline_separators = 0
-let g:tmuxline_preset = {
-        \ 'a': '#S',
-        \ 'win': '#I #W',
-        \ 'cwin': '#I #W',
-        \ 'z': '%R',
-        \ 'options': {
-          \'status-justify': 'centre'}
-        \}
+" let g:tmuxline_powerline_separators = 0
+" let g:tmuxline_preset = {
+"         \ 'a': '#S',
+"         \ 'win': '#I #W',
+"         \ 'cwin': '#I #W',
+"         \ 'z': '%R',
+"         \ 'options': {
+"           \'status-justify': 'centre'}
+"         \}
 
 let g:rsi_no_meta = 1
 let g:vim_json_syntax_conceal = 0
-let g:Gitv_DoNotMapCtrlKey = 1
 let g:inline_edit_autowrite = 1
 
-let g:buffer_history_disable_mappings=1
-nmap gb <Plug>(buffer-history-back)
-nmap gB <Plug>(buffer-history-forward)
+nnoremap <silent> - :execute ":Dirvish " . expand("%")<CR>
+autocmd FileType dirvish call fugitive#detect(@%)
+
+augroup customize_dirvish
+   autocmd!
+   autocmd FileType dirvish :sort r /[^\/]$/
+augroup END
 
 " }}}
 
@@ -108,7 +109,6 @@ if has('gui_running')
 else
 endif
 
-
 set laststatus=1
 set statusline=\ 
 set statusline+=[%n%H%R%W]%*\ 
@@ -120,6 +120,9 @@ set statusline+=%c:%l\ of\ %L\
 " }}}
 
 " Set's {{{
+set report=0
+set nojoinspaces
+
 set formatoptions=
 set noshowcmd
 set noshowmode
@@ -260,7 +263,6 @@ function! s:SetGrepSearch(pattern)
   else
     execute "grep! -R -F " . shellescape(a:pattern) . ' .'
   endif
-  copen
   call s:SetSearch(a:pattern, 0)
 endfunction
 
@@ -278,7 +280,7 @@ nmap <silent> *  :call <SID>SetSearch(expand("<cword>"), 1)<CR>:set hlsearch<CR>
 nmap <silent> g* :call <SID>SetSearch(expand("<cword>"), 0)<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
 nmap <silent> K  :call <SID>SetGrepSearch(expand("<cword>"))<CR>: set hlsearch<CR>
 
-nmap L :lgrep! "<C-R><C-W>"<CR>:lw<CR>
+nmap <silent> gK :lgrep! "<C-R><C-W>"<CR>:lw<CR>
 
 function! ChompWhitespace()
     let _s=@/
@@ -292,11 +294,31 @@ command! -nargs=0 ChompWhitespace call ChompWhitespace()
 
 command! DiffOrig lefta vnew | setlocal bt=nofile bh=delete noswf | r ++edit # | 0d_ | setlocal noma | diffthis | nnoremap <buffer> q :q<cr>:diffoff<cr> | wincmd p | diffthis
 
-function! s:FilterQuickfixList(bang, pattern)
-  let cmp = a:bang ? '!~#' : '=~#'
-  call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
+command! -bang -range=% -nargs=1 JoinWith <line1>,<line2>-1s/$/<args>/|<line1>,<line2>join<bang>
+
+function! QffilterFunction(pat)
+  let qf_lines = getqflist()
+  let pattern = len(a:pat) > 1 ? a:pat : getreg('/')
+  for qf_line in qf_lines
+    if qf_line['text'] !~ pattern
+        call remove(qf_lines, index(qf_lines, qf_line))
+    endif
+  endfor
+  call setqflist(qf_lines)
 endfunction
-command! -bang -nargs=1 -complete=file FilterQuickfix call s:FilterQuickfixList(<bang>0, <q-args>)
+
+function! QfremoveFunction(pat)
+  let qf_lines = getqflist()
+  let pattern = len(a:pat) > 1 ? a:pat : getreg('/')
+  for qf_line in qf_lines
+    if qf_line['text'] =~ pattern
+        call remove(qf_lines, index(qf_lines, qf_line))
+    endif
+  endfor
+  call setqflist(qf_lines)
+endfunction
+command! -nargs=* Qffilter call QffilterFunction(<q-args>)
+command! -nargs=* Qfremove call QfremoveFunction(<q-args>)
 
 if executable('tidyp')
   command! TidyHTML :silent! %!tidyp --indent-attributes 1 --sort-attributes alpha -q -i --show-errors 0 --tidy-mark 0 --show-body-only 1
@@ -308,7 +330,7 @@ endif
 
 nmap gn :%normal 
 
-nnoremap gm :silent make \| cw \| redraw!<cr>
+nnoremap <silent> gm :silent make \| redraw!<cr>
 nnoremap gM :make!<cr>
 
 " 'entire' text object
@@ -349,13 +371,15 @@ augroup q_to_quit
             \ endif
   au BufReadPost fugitive://* nnoremap <buffer> q :q<cr>
   au FileType qf nnoremap <buffer> q :q<cr>
+  au FileType qf set nowinfixheight
+
+  au FileType qf setlocal stl=%t%{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=\ %l\ of\ %L
   au FileType ref-* nnoremap <buffer> q :q<cr>
 augroup END
 
 augroup vim_tweaks
   au VimResized * :wincmd =
   au CmdwinEnter * nnoremap <buffer> <CR> <CR>
-  au BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 augroup END
 
 " source vimrc on save
@@ -377,6 +401,7 @@ augroup END
 if hlID('ExtraWhitespace') == 0
   hi link ExtraWhitespace StatusLineNC
 endif
+
 augroup extra_whitespace
    au!
    au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
@@ -385,23 +410,9 @@ augroup END
 
 augroup auto_open_quickfix
     autocmd!
-    autocmd QuickFixCmdPost [^l]* below cwindow
-    autocmd QuickFixCmdPost    l* below lwindow
+    autocmd QuickFixCmdPost [^l]* nested below cwindow
+    autocmd QuickFixCmdPost    l* nested below lwindow
 augroup END
-
-" promp to source Session.vim if exists
-if argc() == 0 && filereadable('Session.vim')
-  fun! s:CheckForSessionFile()
-    echo "Source Session.vim? del/no/Yes:"
-    let input = getchar() | echo ""
-    if input ==? char2nr('y') || input == 13 " y or <cr>
-      source Session.vim
-    elseif input ==? char2nr('d')
-      call delete('Session.vim')
-    endif
-  endfun
-  au VimEnter * nested :call s:CheckForSessionFile()
-endif
 
 " }}}
 
@@ -424,6 +435,8 @@ augroup filetype_options
 
   au FileType ledger set commentstring=;%s
   au FileType perl compiler perl
+  au FileType perl setlocal makeprg=perl\ -w\ -Mstrict\ -c\ %
+
   au FileType perl
         \ let b:endwise_addition = '}' |
         \ let b:endwise_words = 'if,else,sub,while,for,foreach,unless,elsif' |
@@ -436,7 +449,10 @@ augroup filetype_options
   au FileType json syn match jsonComment /#.*/
   au FileType json hi link jsonComment Comment
 
-  au FileType tracwiki syn clear tracDefList
+  if executable('jshint')
+     au FileType javascript setlocal errorformat=%f:\ line\ %l\\,\ col\ %c\\,\ %m,%-G%.%#
+     au FileType javascript setlocal makeprg=jshint\ %
+  endif
 
   au FileType r set commentstring=#%s
   au FileType r
