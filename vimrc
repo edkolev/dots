@@ -353,6 +353,7 @@ endfunction
 " }}}
 
 " Auto Commands {{{
+inoreabbrev <expr> #!! "#!/usr/bin/env" . (empty(&filetype) ? '' : ' '.&filetype)
 
 " return to same line on reopen, unless diff-ing
 augroup line_return
@@ -453,6 +454,13 @@ augroup filetype_options
      au FileType javascript setlocal errorformat=%f:\ line\ %l\\,\ col\ %c\\,\ %m,%-G%.%#
      au FileType javascript setlocal makeprg=jshint\ %
   endif
+  au FileType javascript syntax region  javaScriptStringT start=+`+ skip=+\\\(`\|$\)+  end=+`\|$+
+  au FileType javascript hi link javaScriptStringT		String
+  au FileType javascript
+        \ let b:endwise_addition = '}' |
+        \ let b:endwise_words = '{' |
+        \ let b:endwise_pattern = '{$' |
+        \ let b:endwise_syngroups = 'javaScriptBraces'
 
   au FileType r set commentstring=#%s
   au FileType r
@@ -461,6 +469,7 @@ augroup filetype_options
         \ let b:endwise_syngroups = 'rType,rRepeat'
 
   au FileType tracwiki setlocal shiftwidth=2 tabstop=2
+  au FileType tracwiki set commentstring={{{#!comment#%s}}}
   au FileType erlang set commentstring=%\ %s
   au FileType mail set noexpandtab
   au BufReadPost fugitive://* set bufhidden=delete

@@ -1,29 +1,33 @@
 
-api.bind( 'f', [ 'cmd', 'alt' ], function() {
+var handler1 = Phoenix.bind( 'f', [ 'cmd', 'alt' ], function() {
   fullScreen()
 });
 
-api.bind( 'e', [ 'cmd' ], function() {
+var handler2 = Phoenix.bind( 'e', [ 'cmd' ], function() {
   focusApplicationIfRunning('Google Chrome')
 });
 
-api.bind( 'i', [ 'cmd' ], function() {
+var handler3 = Phoenix.bind( 'i', [ 'cmd' ], function() {
   focusApplicationIfRunning('iTerm')
 });
 
-api.bind( 'u', [ 'cmd' ], function() {
+var handler4 = Phoenix.bind( 'u', [ 'cmd' ], function() {
   focusApplicationIfRunning('MacVim')
 });
 
-api.bind( 'm', [ 'cmd' ], function() {
+var handler5 = Phoenix.bind( 'm', [ 'cmd' ], function() {
   focusApplicationIfRunning('Mail')
 });
 
-api.bind( 'o', [ 'cmd' ], function() {
+var handler6 = Phoenix.bind( 'o', [ 'cmd' ], function() {
   focusApplicationIfRunning('Sequel Pro')
 });
 
-api.bind( 'd', [ 'cmd' ], function() {
+var handler7 = Phoenix.bind( 'd', [ 'cmd' ], function() {
+  focusApplicationIfRunning('VLC')
+});
+
+var handler8 = Phoenix.bind( 'д', [ 'cmd' ], function() {
   focusApplicationIfRunning('VLC')
 });
 
@@ -52,9 +56,9 @@ function isApplicationFocused( title ) {
 }
 
 function focusApplicationIfRunning ( title ) {
-  if ( isApplicationFocused( title )) {
-    switchToLastUsedWindow( title)
-  } else if (isApplicationRunning( title )) {
-    api.launch( title );
+  var app = App.get( title );
+  if ( app ) {
+    // app.focus();
+    App.launch( title ).focus();
   }
 }
