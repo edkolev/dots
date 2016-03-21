@@ -90,7 +90,7 @@ let g:rsi_no_meta = 1
 let g:vim_json_syntax_conceal = 0
 let g:inline_edit_autowrite = 1
 
-nnoremap <silent> - :execute ":Dirvish " . expand("%")<CR>
+nnoremap <silent> - :execute ":Dirvish " . fnameescape(expand("%"))<CR>
 autocmd FileType dirvish call fugitive#detect(@%)
 
 augroup customize_dirvish
@@ -232,7 +232,6 @@ inoremap <c-]> <c-x><c-]>
 inoremap <c-l> <c-x><c-l>
 inoremap <c-x><c-x> <c-x><c-p>
 
-
 nmap Y y$
 
 function! s:VSetSearch()
@@ -350,6 +349,34 @@ function! s:NextTextObject(motion)
   exe "normal! f".c."v".a:motion.c
 endfunction
 
+" fuzzy buffer completion
+function! GetBufferFileNames() abort
+  let buffers = range(1, bufnr('$'))
+  call filter(buffers, 'buflisted(v:val)')
+  call map(buffers, "fnamemodify(bufname(v:val), ':.')")
+  return buffers
+endfunction
+
+function! GetOldFileNames() abort
+  let oldfiles = deepcopy(v:oldfiles)
+  call filter( oldfiles, 'filereadable( v:val )' )
+  call map( oldfiles, 'fnamemodify( v:val, ":." )' )
+  call filter( oldfiles, 'v:val !~ "^/" && v:val !~ "^\\."' )
+  return oldfiles
+endfunction
+
+function! BufferCompletionFunction(lead, cmdline, _) abort
+  let buffers = GetBufferFileNames()
+  let old_buffers = GetOldFileNames()
+  call extend(buffers, old_buffers)
+  call uniq(sort(buffers))
+
+  return haystack#filter(buffers, a:lead)
+endfunction
+
+command! -bar -bang -nargs=* -complete=customlist,BufferCompletionFunction B :silent! edit <args>
+nmap <space> :B <c-d>
+
 " }}}
 
 " Auto Commands {{{
@@ -435,6 +462,7 @@ augroup filetype_options
                     \%+C\ \ %#%tarning:\ %m,
 
   au FileType ledger set commentstring=;%s
+  au FileType ledger set foldmethod=manual
   au FileType perl compiler perl
   au FileType perl setlocal makeprg=perl\ -w\ -Mstrict\ -c\ %
 

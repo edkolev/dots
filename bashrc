@@ -26,7 +26,7 @@ alias gcd='if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; 
 
 HISTTIMEFORMAT='%F %T '
 HISTIGNORE='ls:bg:fg:history:clear:..:...:-'
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth:erasedups
 shopt -s histappend
 HISTSIZE=10000
 HISTFILESIZE=10000
