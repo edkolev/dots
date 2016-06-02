@@ -89,15 +89,6 @@ runtime macros/matchit.vim
 let g:rsi_no_meta = 1
 let g:vim_json_syntax_conceal = 0
 let g:inline_edit_autowrite = 1
-
-nnoremap <silent> - :execute ":Dirvish " . fnameescape(expand("%"))<CR>
-autocmd FileType dirvish call fugitive#detect(@%)
-
-augroup customize_dirvish
-   autocmd!
-   autocmd FileType dirvish :sort r /[^\/]$/
-augroup END
-
 " }}}
 
 " UI {{{
@@ -181,6 +172,7 @@ set wrapscan
 set lazyredraw
 
 set foldopen-=block
+set foldlevelstart=99
 
 set spellfile=~/.vim/en.utf-8.add
 
@@ -192,6 +184,7 @@ if executable('ag')
   set grepprg=ag\ -s\ \ --vimgrep\ $*
   set grepformat=%f:%l:%c:%m
 endif
+set sessionoptions-=options
 
 " }}}
 
@@ -328,6 +321,7 @@ if executable('python')
 endif
 
 nmap gn :%normal 
+vmap gn :normal 
 
 nnoremap <silent> gm :silent make \| redraw!<cr>
 nnoremap gM :make!<cr>
@@ -432,8 +426,8 @@ endif
 
 augroup extra_whitespace
    au!
-   au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-   au InsertLeave * match ExtraWhitespace /\s\+$/
+  au BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
+  au InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
 augroup END
 
 augroup auto_open_quickfix
@@ -473,6 +467,12 @@ augroup filetype_options
   au FileType perl let b:dispatch = 'perl -wc %'
   au FileType perl set iskeyword-=:
 
+  au FileType perl nnoremap <silent><buffer> ]m m':call search('^\s*sub\>', "W")<CR>
+  au FileType perl nnoremap <silent><buffer> ]] m':call search('^\s*sub\>', "W")<CR>
+  au FileType perl nnoremap <silent><buffer> [m m':call search('^\s*sub\>', "bW")<CR>
+  au FileType perl nnoremap <silent><buffer> [[ m':call search('^\s*sub\>', "bW")<CR>
+  au FileType perl set foldmethod=indent
+
   " shell-style comments in json
   au FileType json set commentstring=#%s
   au FileType json syn match jsonComment /#.*/
@@ -498,6 +498,9 @@ augroup filetype_options
 
   au FileType tracwiki setlocal shiftwidth=2 tabstop=2
   au FileType tracwiki set commentstring={{{#!comment#%s}}}
+  au FileType tracwiki syn clear tracDefList
+  au FileType tracwiki syn match tracDefList "^\s.\+::$"
+
   au FileType erlang set commentstring=%\ %s
   au FileType mail set noexpandtab
   au BufReadPost fugitive://* set bufhidden=delete
