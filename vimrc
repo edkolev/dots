@@ -190,6 +190,23 @@ set sessionoptions-=options
 
 " Mappings & Commands {{{
 
+fun! s:CycleBuffers(go_forward) abort
+   let bnr1 = bufnr('%')
+   let bnr2 = bnr1
+
+   while bnr1 == bnr2 && bnr2 > 0
+      if a:go_forward
+         execute "normal! \<c-v>\<c-i>"
+      else
+         execute "normal! \<c-o>"
+      endif
+      let bnr2 = bufnr('%')
+   endwhile
+endfun
+
+nmap ]b :call s:CycleBuffers(1)<cr>
+nmap [b :call s:CycleBuffers(0)<cr>
+
 vnoremap . :normal .<CR>
 
 map Q gwap
@@ -205,7 +222,8 @@ nmap # :%s///ng<CR>
 nmap <leader>D :%s///g<CR>
 
 nnoremap <leader>w :vsplit<cr>
-nnoremap <expr> <cr> &modified>0?":update<cr>":"\<Lt>cr>"
+nnoremap <expr> <silent> <cr> &modifiable ? ":update<cr>" : "<cr>"
+
 nmap <leader>v :e <c-r>=resolve($MYVIMRC)<CR><CR>
 nmap <leader>V :e $MYVIMRC.local<CR>
 
@@ -375,6 +393,12 @@ nmap <space> :B <c-d>
 
 " Auto Commands {{{
 inoreabbrev <expr> #!! "#!/usr/bin/env" . (empty(&filetype) ? '' : ' '.&filetype)
+
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
 
 " return to same line on reopen, unless diff-ing
 augroup line_return
