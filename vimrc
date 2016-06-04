@@ -1,65 +1,74 @@
 
 " Plugins {{{
-if !isdirectory(expand("~/.vim/bundle/poor-mans-plugin-downloader.vim"))
-  !git clone -q https://github.com/edkolev/poor-mans-plugin-downloader.vim ~/.vim/bundle/poor-mans-plugin-downloader.vim
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
-set rtp+=~/.vim/bundle/poor-mans-plugin-downloader.vim
 
-call plugins#begin()
+call plug#begin('~/.vim/plugged')
 
-Pl 'edkolev/poor-mans-plugin-downloader.vim'
-Pl 'w0ng/vim-hybrid'
-Pl 'jonathanfilip/vim-lucius'
-Pl 'jnurmine/Zenburn'
-Pl 'vim-scripts/jellybeans.vim'
-Pl 'vim-scripts/wombat256.vim'
-Pl 'junegunn/seoul256.vim'
-Pl 'chriskempson/base16-vim'
-Pl 'morhetz/gruvbox'
+Plug 'w0ng/vim-hybrid'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'jnurmine/Zenburn'
+Plug 'vim-scripts/jellybeans.vim'
+Plug 'vim-scripts/wombat256.vim'
+Plug 'junegunn/seoul256.vim'
+Plug 'chriskempson/base16-vim'
+Plug 'morhetz/gruvbox'
+Plug 'reedes/vim-colors-pencil'
 
-Pl 'tpope/vim-sensible'  'tpope/vim-commentary' 'tpope/vim-eunuch'
-Pl 'tpope/vim-obsession' 'tpope/vim-tbone'      'tpope/vim-unimpaired'
-Pl 'tpope/vim-git'       'tpope/vim-fugitive'   'tpope/vim-abolish'
-Pl 'tpope/vim-dispatch'  'tpope/vim-rsi'        'tpope/vim-repeat'
-Pl 'tpope/vim-jdaddy'    'tpope/vim-surround'   'tpope/vim-projectionist'
-Pl 'tpope/vim-endwise'   'tpope/vim-haystack'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-obsession', { 'on': 'Obsession' }
+Plug 'tpope/vim-tbone', { 'on': [ 'Tyank', 'Tput', 'Twrite' ] }
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-jdaddy'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-haystack'
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
-Pl 'edkolev/promptline.vim'
-Pl 'vim-scripts/tracwiki'
-Pl 'christoomey/vim-tmux-navigator'
-Pl 'michaeljsmith/vim-indent-object'
-Pl 'majutsushi/tagbar'
-Pl 'vim-scripts/ReplaceWithRegister'
-Pl 'moll/vim-bbye'
-Pl 'elzr/vim-json'
-Pl 'edkolev/tmuxline.vim'
-Pl 'mbbill/undotree'
-Pl 'junegunn/goyo.vim'
-Pl 'junegunn/limelight.vim'
-Pl 'tommcdo/vim-lion'
-Pl 'tommcdo/vim-exchange'
-Pl 'junegunn/vader.vim'
-Pl 'AndrewRadev/linediff.vim'
-Pl 'pydave/renamer.vim'
-" Pl 'tpope/vim-scriptease'
-Pl 'thinca/vim-qfreplace'
-Pl 'AndrewRadev/inline_edit.vim'
-" Pl 'vim-scripts/DirDiff.vim'
-Pl 'vim-scripts/fish-syntax'
-Pl 'Wolfy87/vim-expand'
-Pl 'shime/vim-livedown'
-Pl 'thinca/vim-ref'
-Pl 'nicwest/QQ.vim'
-Pl 'vim-scripts/LargeFile'
-Pl 'itchyny/vim-haskell-indent'
-Pl 'ledger/vim-ledger'
-Pl 'reedes/vim-colors-pencil'
-Pl 'justinmk/vim-dirvish'
+Plug 'edkolev/promptline.vim', { 'on': 'PromptlineSnapshot' }
+Plug 'vim-scripts/tracwiki', { 'for': 'tracwiki' }
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'majutsushi/tagbar'
+Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'moll/vim-bbye'
+Plug 'elzr/vim-json'
+Plug 'edkolev/tmuxline.vim', { 'on': 'Tmuxline' }
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'tommcdo/vim-lion'
+Plug 'tommcdo/vim-exchange'
+Plug 'junegunn/vader.vim'
+Plug 'AndrewRadev/linediff.vim'
+Plug 'pydave/renamer.vim'
+" Plug 'tpope/vim-scriptease'
+Plug 'thinca/vim-qfreplace'
+Plug 'AndrewRadev/inline_edit.vim'
+Plug 'vim-scripts/DirDiff.vim', { 'on': 'DirDiff' }
+Plug 'vim-scripts/fish-syntax'
+Plug 'Wolfy87/vim-expand'
+Plug 'shime/vim-livedown', { 'for': 'markdown' }
+Plug 'thinca/vim-ref'
+Plug 'nicwest/QQ.vim', { 'on': 'QQ' }
+Plug 'vim-scripts/LargeFile'
+Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
+Plug 'ledger/vim-ledger', { 'for': 'ledger' }
+Plug 'justinmk/vim-dirvish'
 
-call plugins#end()
-
-syntax on
-filetype indent on
+call plug#end()
 
 let mapleader = ","
 
