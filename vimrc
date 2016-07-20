@@ -403,11 +403,25 @@ endfunction
 
 command! -bar -bang -nargs=* -complete=customlist,BufferCompletionFunction B :silent! edit <args>
 nmap <space> :B <c-d>
+nmap g<space> :Files 
 
-nmap <silent> <c-w>h :call ExchangeWindows('h')<cr>
-nmap <silent> <c-w>j :call ExchangeWindows('j')<cr>
-nmap <silent> <c-w>k :call ExchangeWindows('k')<cr>
-nmap <silent> <c-w>l :call ExchangeWindows('l')<cr>
+fun! s:ExchangeWindows(direction) abort
+   let wnr1 = winnr()
+   exec "wincmd " . a:direction
+   let wnr2 = winnr()
+
+   if wnr1 != wnr2
+      wincmd p
+      exec wnr2 . "wincmd x"
+      exec "wincmd " . a:direction
+
+   endif
+endfun
+
+nmap <silent> <c-w>h :call <sid>ExchangeWindows('h')<cr>
+nmap <silent> <c-w>j :call <sid>ExchangeWindows('j')<cr>
+nmap <silent> <c-w>k :call <sid>ExchangeWindows('k')<cr>
+nmap <silent> <c-w>l :call <sid>ExchangeWindows('l')<cr>
 
 " syntax group under the cursor
 nmap zS :echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')<cr>
