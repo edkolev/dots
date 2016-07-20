@@ -6,7 +6,7 @@ export EDITOR=vim
 
 PS1='\w/$(job_count \j) ❯ '
 
-[ -d ~/bin ] && export PATH="~/bin:$PATH"
+[ -d ~/bin ] && export PATH="$HOME/bin:$PATH"
 [ -f ~/.bashrc.local ] && source ~/.bashrc.local
 [ -f ~/.promptline.sh ] && source ~/.promptline.sh
 

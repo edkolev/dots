@@ -17,6 +17,10 @@ Plug 'junegunn/seoul256.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
 Plug 'reedes/vim-colors-pencil'
+Plug 'owickstrom/vim-colors-paramount'
+Plug 'robertmeta/nofrils'
+Plug 'ewilazarus/preto'
+Plug 'JarrodCTaylor/spartan'
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
@@ -98,6 +102,10 @@ runtime macros/matchit.vim
 let g:rsi_no_meta = 1
 let g:vim_json_syntax_conceal = 0
 let g:inline_edit_autowrite = 1
+
+let g:goyo_width = '40%'
+let g:goyo_height = '100%'
+
 " }}}
 
 " UI {{{
@@ -156,8 +164,8 @@ set showmatch
 set autowrite
 set synmaxcol=500
 set completeopt=longest,menuone,preview
-set complete=.,b,u,t
-set wildmode=list:longest,full
+set complete=.,b,u
+set wildmode=list:full,full
 set path=**
 set shortmess=ao
 
@@ -205,22 +213,18 @@ fun! s:CycleBuffers(go_forward) abort
 
    while bnr1 == bnr2 && bnr2 > 0
       if a:go_forward
-         execute "normal! \<c-v>\<c-i>"
+         normal! "\<c-v>\<c-i>"
       else
-         execute "normal! \<c-o>"
+         normal! "\<c-o>"
       endif
       let bnr2 = bufnr('%')
    endwhile
 endfun
 
-nmap ]b :call s:CycleBuffers(1)<cr>
-nmap [b :call s:CycleBuffers(0)<cr>
+nmap <silent> ]b :call <SID>CycleBuffers(1)<cr>
+nmap <silent> [b :call <SID>CycleBuffers(0)<cr>
 
 vnoremap . :normal .<CR>
-
-map Q gwap
-nmap \ g;
-map \| g,
 
 nnoremap !! :!!<cr>
 
@@ -253,6 +257,8 @@ inoremap <c-l> <c-x><c-l>
 inoremap <c-x><c-x> <c-x><c-p>
 
 nmap Y y$
+
+map Q gq
 
 function! s:VSetSearch()
   let temp = @@
@@ -397,6 +403,14 @@ endfunction
 
 command! -bar -bang -nargs=* -complete=customlist,BufferCompletionFunction B :silent! edit <args>
 nmap <space> :B <c-d>
+
+nmap <silent> <c-w>h :call ExchangeWindows('h')<cr>
+nmap <silent> <c-w>j :call ExchangeWindows('j')<cr>
+nmap <silent> <c-w>k :call ExchangeWindows('k')<cr>
+nmap <silent> <c-w>l :call ExchangeWindows('l')<cr>
+
+" syntax group under the cursor
+nmap zS :echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')<cr>
 
 " }}}
 
