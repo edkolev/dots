@@ -401,7 +401,13 @@ function! BufferCompletionFunction(lead, cmdline, _) abort
   return haystack#filter(buffers, a:lead)
 endfunction
 
+function! s:filesCompletionFunction(lead, cmdline, _) abort
+  let files = systemlist('ag -l')
+  return haystack#filter(files, a:lead)
+endfunction
+
 command! -bar -bang -nargs=* -complete=customlist,BufferCompletionFunction B :silent! edit <args>
+command! -bar -bang -nargs=* -complete=customlist,<sid>filesCompletionFunction Files :silent! edit <args>
 nmap <space> :B <c-d>
 nmap g<space> :Files 
 
