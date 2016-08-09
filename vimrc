@@ -21,6 +21,7 @@ Plug 'owickstrom/vim-colors-paramount'
 Plug 'robertmeta/nofrils'
 Plug 'ewilazarus/preto'
 Plug 'JarrodCTaylor/spartan'
+Plug 'fxn/vim-monochrome'
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
@@ -359,6 +360,8 @@ vmap gn :normal
 nnoremap <silent> gm :silent make \| redraw!<cr>
 nnoremap gM :make!<cr>
 
+nnoremap <silent> c* :set hls<cr>*Ncgn
+
 " 'entire' text object
 onoremap ie :<c-u>normal! ggvG$<cr>
 xnoremap ie :<c-u>normal! ggvG$<cr>
@@ -408,19 +411,31 @@ endfunction
 
 command! -bar -bang -nargs=* -complete=customlist,BufferCompletionFunction B :silent! edit <args>
 command! -bar -bang -nargs=* -complete=customlist,<sid>filesCompletionFunction Files :silent! edit <args>
-nmap <space> :B <c-d>
+nmap <space> :B 
 nmap g<space> :Files 
 
 fun! s:ExchangeWindows(direction) abort
    let wnr1 = winnr()
+   let bnr1 = bufnr('%')
+   let pos1 = getpos('.')
+
    exec "wincmd " . a:direction
    let wnr2 = winnr()
+   let bnr2 = bufnr('%')
+   let pos2 = getpos('.')
 
-   if wnr1 != wnr2
+   if wnr1 == wnr2
+      return
+   endif
+
+   if bnr1 == bnr2
+      call setpos('.', pos1)
       wincmd p
-      exec wnr2 . "wincmd x"
-      exec "wincmd " . a:direction
-
+      call setpos('.', pos2)
+      wincmd p
+   else
+      execute ":" . wnr1 . "windo buffer " . bnr2
+      execute ":" . wnr2 . "windo buffer " . bnr1
    endif
 endfun
 
@@ -570,7 +585,6 @@ augroup filetype_options
 
   au FileType erlang set commentstring=%\ %s
   au FileType mail set noexpandtab
-  au BufReadPost fugitive://* set bufhidden=delete
   au FileType gitcommit setlocal spell
   au BufReadPost *vimrc* setlocal foldmethod=marker
   au BufWinEnter *.md set ft=markdown
