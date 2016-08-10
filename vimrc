@@ -225,6 +225,32 @@ endfun
 nmap <silent> ]b :call <SID>CycleBuffers(1)<cr>
 nmap <silent> [b :call <SID>CycleBuffers(0)<cr>
 
+fun! s:jumpToPreviousEdit(go_forward) abort
+   let jump_command = "norm! " . (a:go_forward ? "g," : "g;")
+   let line = line('.')
+
+   try
+      execute jump_command
+      let line2 = line('.')
+      while (abs(line2 - line) < 5)
+         execute jump_command
+         let line2 = line('.')
+      endwhile
+      echo
+   catch /^Vim\%((\a\+)\)\=:E662/
+		echohl WarningMsg | echo "At start of changelist"| echohl None
+   catch /^Vim\%((\a\+)\)\=:E663/
+		echohl WarningMsg | echo "At end of changelist"| echohl None
+   catch /^Vim\%((\a\+)\)\=:E664/
+		echohl WarningMsg | echo "Changelist is empty"| echohl None
+   catch
+		echohl ErrorMsg | echo v:exception | echohl None
+   endtry
+endfun
+
+nnoremap <expr> [c &diff ? "[c" : ":call <sid>jumpToPreviousEdit(0)<cr>"
+nnoremap <expr> ]c &diff ? "]c" : ":call <sid>jumpToPreviousEdit(1)<cr>"
+
 vnoremap . :normal .<CR>
 
 nnoremap !! :!!<cr>
