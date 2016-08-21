@@ -22,6 +22,8 @@ Plug 'robertmeta/nofrils'
 Plug 'ewilazarus/preto'
 Plug 'JarrodCTaylor/spartan'
 Plug 'fxn/vim-monochrome'
+Plug 'pbrisbin/vim-colors-off'
+Plug 'zeis/vim-kolor'
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
@@ -167,7 +169,6 @@ set synmaxcol=500
 set completeopt=longest,menuone,preview
 set complete=.,b,u
 set wildmode=list:full,full
-set path=**
 set shortmess=ao
 
 if !isdirectory($HOME . '/.vim/undo')
@@ -443,25 +444,31 @@ nmap g<space> :Files
 fun! s:ExchangeWindows(direction) abort
    let wnr1 = winnr()
    let bnr1 = bufnr('%')
-   let pos1 = getpos('.')
+   let wview1 = winsaveview()
 
    exec "wincmd " . a:direction
    let wnr2 = winnr()
    let bnr2 = bufnr('%')
-   let pos2 = getpos('.')
+   let wview2 = winsaveview()
 
    if wnr1 == wnr2
       return
    endif
 
    if bnr1 == bnr2
-      call setpos('.', pos1)
+      call winrestview(wview1)
       wincmd p
-      call setpos('.', pos2)
-      wincmd p
+      call winrestview(wview2)
    else
-      execute ":" . wnr1 . "windo buffer " . bnr2
-      execute ":" . wnr2 . "windo buffer " . bnr1
+      exec wnr1 . "wincmd w"
+      exec 'hide buf' bnr2
+      call winrestview(wview2)
+
+      exec wnr2 . "wincmd w"
+      exec 'hide buf' bnr1
+      call winrestview(wview1)
+
+      exec wnr1 . "wincmd w"
    endif
 endfun
 
@@ -550,8 +557,6 @@ augroup END
 let g:perl_compiler_force_warnings = 0
 augroup filetype_options
   au!
-  au BufReadPost * setlocal path=**
-
   au FileType haskell setlocal makeprg=ghc\ -e\ :q\ %
   au FileType haskell setlocal errorformat=
                     \%-G,
