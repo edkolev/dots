@@ -487,7 +487,7 @@ inoreabbrev <expr> #!! "#!/usr/bin/env" . (empty(&filetype) ? '' : ' '.&filetype
 
 augroup CursorLine
   au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au VimEnter,WinEnter,BufWinEnter * if !&diff | setlocal cursorline | endif
   au WinLeave * setlocal nocursorline
 augroup END
 
@@ -547,14 +547,14 @@ augroup END
 
 augroup auto_open_quickfix
     autocmd!
-    autocmd QuickFixCmdPost [^l]* nested below cwindow
-    autocmd QuickFixCmdPost    l* nested below lwindow
+    autocmd QuickFixCmdPost grep,make,lmake nested below cwindow
 augroup END
 
 " }}}
 
 " Per-language config {{{
 let g:perl_compiler_force_warnings = 0
+let g:perl_sub_signatures=1
 augroup filetype_options
   au!
   au FileType haskell setlocal makeprg=ghc\ -e\ :q\ %
