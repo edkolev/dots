@@ -48,7 +48,6 @@ Plug 'edkolev/promptline.vim', { 'on': 'PromptlineSnapshot' }
 Plug 'vim-scripts/tracwiki', { 'for': 'tracwiki' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'michaeljsmith/vim-indent-object'
-Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'moll/vim-bbye'
 Plug 'elzr/vim-json'
@@ -58,16 +57,13 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'tommcdo/vim-lion'
 Plug 'tommcdo/vim-exchange'
-Plug 'junegunn/vader.vim'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'pydave/renamer.vim'
 " Plug 'tpope/vim-scriptease'
 Plug 'thinca/vim-qfreplace'
 Plug 'AndrewRadev/inline_edit.vim'
 Plug 'vim-scripts/DirDiff.vim', { 'on': 'DirDiff' }
-Plug 'vim-scripts/fish-syntax'
 Plug 'Wolfy87/vim-expand'
-Plug 'shime/vim-livedown', { 'for': 'markdown' }
 Plug 'thinca/vim-ref'
 Plug 'nicwest/QQ.vim', { 'on': 'QQ' }
 Plug 'vim-scripts/LargeFile'
@@ -75,7 +71,10 @@ Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
 Plug 'ledger/vim-ledger', { 'for': 'ledger' }
 Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
+Plug 'vim-perl/vim-perl'
+
 Plug '~/.vim/src/vim-curry', { 'for': 'haskell' }
+Plug '~/.vim/src/vim-funs'
 
 call plug#end()
 
