@@ -19,7 +19,7 @@
   behind = log --pretty=oneline ..@{u}
   tags = tag -l
   branches = branch -a
-  graph = log --graph --decorate --all --oneline
+  graph = log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset- %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order
   ctags = !.git/hooks/ctags
   unstage = reset HEAD --
 [color]
