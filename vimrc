@@ -421,8 +421,8 @@ endfunction
 
 function! GetOldFileNames() abort
   let oldfiles = deepcopy(v:oldfiles)
-  call filter( oldfiles, 'filereadable( v:val )' )
   call map( oldfiles, 'fnamemodify( v:val, ":." )' )
+  call filter( oldfiles, 'filereadable( v:val )' )
   call filter( oldfiles, 'v:val !~ "^/" && v:val !~ "^\\."' )
   return oldfiles
 endfunction
