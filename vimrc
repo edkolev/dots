@@ -184,8 +184,12 @@ endif
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.beam
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
-set showbreak=+++\ 
+let &showbreak='⤷ '
 set fillchars=""
+if has('linebreak')
+   set breakindent
+   set breakindentopt=shift:2
+endif
 
 set exrc
 set secure
