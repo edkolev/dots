@@ -74,6 +74,8 @@ Plug 'vim-scripts/LargeFile'
 Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
 Plug 'ledger/vim-ledger', { 'for': 'ledger' }
 Plug 'justinmk/vim-dirvish'
+Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
+Plug '~/.vim/src/vim-curry', { 'for': 'haskell' }
 
 call plug#end()
 
@@ -557,6 +559,9 @@ let g:perl_compiler_force_warnings = 0
 let g:perl_sub_signatures=1
 augroup filetype_options
   au!
+
+  au FileType haskell iabbrev <buffer> undef undefined
+  au FileType haskell iabbrev <buffer> und undefined
   au FileType haskell setlocal makeprg=ghc\ -e\ :q\ %
   au FileType haskell setlocal errorformat=
                     \%-G,
