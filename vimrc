@@ -427,11 +427,17 @@ function! GetOldFileNames() abort
   return oldfiles
 endfunction
 
+function! s:CompareFileModTime(a, b)
+  let a = getftime(a:a)
+  let b = getftime(a:b)
+  return a == b ? 0 : a < b ? 1 : -1
+endfunc
+
 function! BufferCompletionFunction(lead, cmdline, _) abort
   let buffers = GetBufferFileNames()
   let old_buffers = GetOldFileNames()
   call extend(buffers, old_buffers)
-  call uniq(sort(buffers))
+  call uniq(sort(buffers, 's:CompareFileModTime'))
 
   return haystack#filter(buffers, a:lead)
 endfunction
