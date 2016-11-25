@@ -105,7 +105,6 @@ runtime macros/matchit.vim
 
 let g:rsi_no_meta = 1
 let g:vim_json_syntax_conceal = 0
-let g:inline_edit_autowrite = 1
 
 let g:goyo_width = '40%'
 let g:goyo_height = '100%'
@@ -197,6 +196,7 @@ set lazyredraw
 
 set foldopen-=block
 set foldlevelstart=99
+set foldminlines=0
 
 set spellfile=~/.vim/en.utf-8.add
 
@@ -264,6 +264,9 @@ nnoremap !! :!!<cr>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
+" like <c-w>, but for the whole line
+cnoremap <C-l> <C-r>=getline('.')<CR>
+
 nmap # :%s///ng<CR>
 nmap <leader>D :%s///g<CR>
 
@@ -289,6 +292,10 @@ inoremap <c-]> <c-x><c-]>
 inoremap <c-l> <c-x><c-l>
 inoremap <c-x><c-x> <c-x><c-p>
 
+" <c-r>/ in insert and command mode should not insert encolsing <\...\> and \V
+inoremap <silent> <c-r>/ <c-r>=substitute(substitute(@/, '\v^\\\<(.+)\\\>$', '\1', ''), '\\V', '', '')<cr>
+cnoremap <silent> <c-r>/ <c-r>=substitute(substitute(@/, '\v^\\\<(.+)\\\>$', '\1', ''), '\\V', '', '')<cr>
+
 nmap Y y$
 
 map Q gq
@@ -301,13 +308,11 @@ function! s:VSetSearch()
 endfunction
 
 function! s:SetSearch(pattern, match_whole_words)
-
   if a:match_whole_words
     let @/ = "\\<". a:pattern ."\\>"
   else
     let @/ = '\V' . substitute(escape(a:pattern, '\'), '\n', '\\n', 'g')
   endif
-
 endfunction
 
 function! s:EchoMatchCount()
@@ -331,24 +336,15 @@ function! s:VSetGrepSearch()
   let @@ = temp
 endfunction
 
-vmap <silent> *  :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
-vmap <silent> g* :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
-vmap <silent> K  :<C-u>call <SID>VSetGrepSearch()<CR>: set hlsearch<CR>
-nmap <silent> *  :call <SID>SetSearch(expand("<cword>"), 1)<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
-nmap <silent> g* :call <SID>SetSearch(expand("<cword>"), 0)<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
-nmap <silent> K  :call <SID>SetGrepSearch(expand("<cword>"))<CR>: set hlsearch<CR>
+vnoremap <silent> *  :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
+vnoremap <silent> g* :<C-u>call <SID>VSetSearch()<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
+vnoremap <silent> K  :<C-u>call <SID>VSetGrepSearch()<CR>: set hlsearch<CR>
+nnoremap <silent> *  :call <SID>SetSearch(expand("<cword>"), 1)<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
+nnoremap <silent> g* :call <SID>SetSearch(expand("<cword>"), 0)<CR>:set hlsearch<CR>:call <SID>EchoMatchCount()<CR>
+nnoremap <silent> K  :call <SID>SetGrepSearch(expand("<cword>"))<CR>: set hlsearch<CR>
 
-nmap <silent> gK :lgrep! "<C-R><C-W>"<CR>:lw<CR>
-
-function! ChompWhitespace()
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
-endfunction
-command! -nargs=0 ChompWhitespace call ChompWhitespace()
+nnoremap <silent> gK :lgrep! "<C-R><C-W>"<CR>:lw<CR>
+command! -range=% -nargs=0 ChompWhitespace mark ` | execute <line1> . ',' . <line2> . 's/\s\+$//' | normal! ``
 
 command! DiffOrig lefta vnew | setlocal bt=nofile bh=delete noswf | r ++edit # | 0d_ | setlocal noma | diffthis | nnoremap <buffer> q :q<cr>:diffoff<cr> | wincmd p | diffthis
 
@@ -387,7 +383,7 @@ if executable('python')
 endif
 
 nmap gn :%normal 
-vmap gn :normal 
+vnoremap gn :normal 
 
 nnoremap <silent> gm :silent make \| redraw!<cr>
 nnoremap gM :make!<cr>
@@ -395,8 +391,8 @@ nnoremap gM :make!<cr>
 nnoremap <silent> c* :set hls<cr>*Ncgn
 
 " 'entire' text object
-onoremap ie :<c-u>normal! ggvG$<cr>
-xnoremap ie :<c-u>normal! ggvG$<cr>
+xnoremap ie GoggV
+onoremap ie :<C-u>normal vie<CR>
 
 " 'next' text object, by https://gist.github.com/AndrewRadev/1171559
 onoremap an :<c-u>call <SID>NextTextObject('a')<cr>
@@ -433,13 +429,18 @@ function! s:CompareFileModTime(a, b)
   return a == b ? 0 : a < b ? 1 : -1
 endfunc
 
-function! BufferCompletionFunction(lead, cmdline, _) abort
+function! s:bufferCompletionFunction(lead, cmdline, _) abort
   let buffers = GetBufferFileNames()
   let old_buffers = GetOldFileNames()
   call extend(buffers, old_buffers)
-  call uniq(sort(buffers, 's:CompareFileModTime'))
 
-  return haystack#filter(buffers, a:lead)
+  let cfile = fnamemodify( bufname(bufnr('%')), ":." )
+  call uniq(sort(filter(buffers, 'v:val !=# "' . cfile . '"' ), 's:CompareFileModTime'))
+
+  let filtered = haystack#filter(buffers, a:lead)
+
+  call sort(buffers, 's:CompareFileModTime')
+  return filtered
 endfunction
 
 function! s:filesCompletionFunction(lead, cmdline, _) abort
@@ -447,7 +448,7 @@ function! s:filesCompletionFunction(lead, cmdline, _) abort
   return haystack#filter(files, a:lead)
 endfunction
 
-command! -bar -bang -nargs=* -complete=customlist,BufferCompletionFunction B :silent! edit <args>
+command! -bar -bang -nargs=* -complete=customlist,<sid>bufferCompletionFunction B :silent! edit <args>
 command! -bar -bang -nargs=* -complete=customlist,<sid>filesCompletionFunction Files :silent! edit <args>
 nmap <space> :B 
 nmap g<space> :Files 
@@ -558,7 +559,8 @@ augroup END
 
 augroup auto_open_quickfix
     autocmd!
-    autocmd QuickFixCmdPost grep,make,lmake nested below cwindow
+    autocmd QuickFixCmdPost grep,make nested below cwindow
+    autocmd QuickFixCmdPost lgrep,lmake nested below lwindow
 augroup END
 
 " }}}
@@ -583,7 +585,7 @@ augroup filetype_options
                     \%+C\ \ %#%tarning:\ %m,
 
   au FileType ledger set commentstring=;%s
-  au FileType ledger set foldmethod=manual
+  au FileType ledger setlocal foldmethod=manual
   au FileType perl compiler perl
   au FileType perl setlocal makeprg=perl\ -w\ -Mstrict\ -c\ %
 
@@ -591,7 +593,6 @@ augroup filetype_options
         \ let b:endwise_addition = '}' |
         \ let b:endwise_words = 'if,else,sub,while,for,foreach,unless,elsif' |
         \ let b:endwise_syngroups = 'perlConditional,perlFunction,perlRepeat'
-  au FileType perl let b:dispatch = 'perl -wc %'
   au FileType perl set iskeyword-=:
 
   au FileType perl nnoremap <silent><buffer> ]m m':call search('^\s*sub\>', "W")<CR>
