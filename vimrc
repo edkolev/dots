@@ -58,6 +58,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'tommcdo/vim-lion'
 Plug 'tommcdo/vim-exchange'
 Plug 'AndrewRadev/linediff.vim'
+let g:linediff_buffer_type = 'scratch'
 Plug 'pydave/renamer.vim'
 " Plug 'tpope/vim-scriptease'
 Plug 'thinca/vim-qfreplace'
@@ -294,7 +295,10 @@ inoremap <c-x><c-x> <c-x><c-p>
 
 " <c-r>/ in insert and command mode should not insert encolsing <\...\> and \V
 inoremap <silent> <c-r>/ <c-r>=substitute(substitute(@/, '\v^\\\<(.+)\\\>$', '\1', ''), '\\V', '', '')<cr>
-cnoremap <silent> <c-r>/ <c-r>=substitute(substitute(@/, '\v^\\\<(.+)\\\>$', '\1', ''), '\\V', '', '')<cr>
+cnoremap <c-r>/ <c-r>=substitute(substitute(@/, '\v^\\\<(.+)\\\>$', '\1', ''), '\\V', '', '')<cr>
+
+" toggle iwhite diffopt
+nnoremap co<space> :set <C-R>=(&diffopt =~# 'iwhite') ? 'diffopt-=iwhite' : 'diffopt+=iwhite'<CR><CR>
 
 nmap Y y$
 
@@ -573,6 +577,7 @@ augroup filetype_options
 
   au FileType haskell iabbrev <buffer> undef undefined
   au FileType haskell iabbrev <buffer> und undefined
+  au FileType haskell setlocal iskeyword+='
   au FileType haskell setlocal makeprg=ghc\ -e\ :q\ %
   au FileType haskell setlocal errorformat=
                     \%-G,
