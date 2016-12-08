@@ -1,4 +1,8 @@
 Control-n: history-search-forward
 Control-p: history-search-backward
 "\C-x\C-x":  glob-expand-word
+
+set bind-tty-special-chars off
+Control-w: backward-kill-word
+
 set completion-ignore-case on
