@@ -51,7 +51,7 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'moll/vim-bbye'
 Plug 'elzr/vim-json'
-Plug 'edkolev/tmuxline.vim', { 'on': 'Tmuxline' }
+Plug 'edkolev/tmuxline.vim', { 'on': [ 'Tmuxline', 'TmuxlineSimpe' ] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
@@ -204,6 +204,7 @@ set spellfile=~/.vim/en.utf-8.add
 " change cursor in INSERT
 let &t_SI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\" : "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\" : "\<Esc>]50;CursorShape=0\x7"
+let &t_SR = exists('$TMUX') ? "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\" : "\<Esc>]50;CursorShape=2\x7"
 
 if executable('ag')
   set grepprg=ag\ -s\ \ --vimgrep\ $*
@@ -531,6 +532,7 @@ augroup q_to_quit
 augroup END
 
 augroup vim_tweaks
+  au!
   au VimResized * :wincmd =
   au CmdwinEnter * nnoremap <buffer> <CR> <CR>
 augroup END
@@ -563,7 +565,7 @@ augroup END
 
 augroup auto_open_quickfix
     autocmd!
-    autocmd QuickFixCmdPost grep,make nested below cwindow
+    autocmd QuickFixCmdPost grep,make,cgetfile nested below cwindow
     autocmd QuickFixCmdPost lgrep,lmake nested below lwindow
 augroup END
 
