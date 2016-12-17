@@ -15,7 +15,6 @@ Plug 'jnurmine/Zenburn'
 Plug 'vim-scripts/jellybeans.vim'
 Plug 'vim-scripts/wombat256.vim'
 Plug 'junegunn/seoul256.vim'
-Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
 Plug 'reedes/vim-colors-pencil'
 Plug 'owickstrom/vim-colors-paramount'
@@ -116,6 +115,14 @@ let g:vim_json_syntax_conceal = 0
 
 let g:goyo_width = '40%'
 let g:goyo_height = '100%'
+
+" vim-fugitive
+nnoremap Ucvc :Gco -v<cr>
+nnoremap Ucc  :Gco<cr>
+nnoremap Ucf  :Gco -v %<cr>
+nnoremap UU   :Gstatus<cr>
+nnoremap Ud   :Gdiff<cr>
+nnoremap Uw   :Gwrite<cr>
 
 " }}}
 
@@ -487,6 +494,11 @@ nmap <silent> <c-w>l :call <sid>ExchangeWindows('l')<cr>
 
 " syntax group under the cursor
 nmap zS :echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')<cr>
+
+" :o => :on
+cnoreabbrev <expr> o ((getcmdtype() is# ':' && getcmdline() is# 'o')?('on'):('o'))
+
+inoremap <expr> <C-N> pumvisible()?"\<C-N>":"\<C-P>"
 
 " }}}
 
