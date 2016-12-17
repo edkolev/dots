@@ -6,6 +6,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
+let g:plug_shallow = 0
 call plug#begin('~/.vim/plugged')
 
 Plug 'w0ng/vim-hybrid'
@@ -24,6 +25,11 @@ Plug 'JarrodCTaylor/spartan'
 Plug 'fxn/vim-monochrome'
 Plug 'pbrisbin/vim-colors-off'
 Plug 'zeis/vim-kolor'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'freeo/vim-kalisi'
+Plug 'noahfrederick/vim-hemisu'
+Plug 'whatyouhide/vim-gotham'
+Plug 'KabbAmine/yowish.vim'
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
@@ -44,6 +50,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-haystack'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
+Plug 'edkolev/vim-amake'
 Plug 'edkolev/promptline.vim', { 'on': 'PromptlineSnapshot' }
 Plug 'vim-scripts/tracwiki', { 'for': 'tracwiki' }
 Plug 'christoomey/vim-tmux-navigator'
@@ -121,13 +128,14 @@ if has('gui_running')
 else
 endif
 
-set laststatus=1
+set laststatus=2
 set statusline=\ 
 set statusline+=[%n%H%R%W]%*\ 
 set statusline+=%f%m\ 
 set statusline+=%{fugitive#head()}
+set statusline+=\ %{AmakeStatusline()}
 set statusline+=%=
-set statusline+=%c:%l\ of\ %L\ 
+set statusline+=%l\ \/\ %L,\ %c\ 
 
 " }}}
 
@@ -136,7 +144,7 @@ set report=0
 set nojoinspaces
 
 set formatoptions=
-set noshowcmd
+set showcmd
 set noshowmode
 set nocursorline
 set encoding=utf-8
@@ -168,7 +176,7 @@ set showmatch
 set autowrite
 set synmaxcol=500
 set completeopt=longest,menuone,preview
-set complete=.,b,u
+set complete=.,b
 set wildmode=list:full,full
 set shortmess=ao
 
@@ -216,23 +224,6 @@ set sessionoptions-=options
 
 " Mappings & Commands {{{
 
-fun! s:CycleBuffers(go_forward) abort
-   let bnr1 = bufnr('%')
-   let bnr2 = bnr1
-
-   while bnr1 == bnr2 && bnr2 > 0
-      if a:go_forward
-         normal! "\<c-v>\<c-i>"
-      else
-         normal! "\<c-o>"
-      endif
-      let bnr2 = bufnr('%')
-   endwhile
-endfun
-
-nmap <silent> ]b :call <SID>CycleBuffers(1)<cr>
-nmap <silent> [b :call <SID>CycleBuffers(0)<cr>
-
 fun! s:jumpToPreviousEdit(go_forward) abort
    let jump_command = "norm! " . (a:go_forward ? "g," : "g;")
    let line = line('.')
@@ -269,7 +260,7 @@ cnoremap <C-n> <Down>
 " like <c-w>, but for the whole line
 cnoremap <C-l> <C-r>=getline('.')<CR>
 
-nmap # :%s///ng<CR>
+nmap # :%s///ng<bar>normal``<CR>
 nmap <leader>D :%s///g<CR>
 
 nnoremap <leader>w :vsplit<cr>
@@ -484,9 +475,9 @@ fun! s:ExchangeWindows(direction) abort
       exec wnr2 . "wincmd w"
       exec 'hide buf' bnr1
       call winrestview(wview1)
-
-      exec wnr1 . "wincmd w"
    endif
+
+   exec wnr2 . "wincmd w"
 endfun
 
 nmap <silent> <c-w>h :call <sid>ExchangeWindows('h')<cr>
@@ -542,10 +533,6 @@ augroup vimrc
   au!
   au BufWritePost *vimrc{,.local} if filereadable(expand('%'))|execute 'source ' . expand('%')|endif
 augroup END
-
-if filereadable(expand($MYVIMRC . ".local"))
-  source $MYVIMRC.local
-endif
 
 augroup diff_update
   au!
@@ -645,4 +632,8 @@ augroup filetype_options
   au BufWinEnter *.conf set ft=conf
 augroup END
 " }}}
+
+if filereadable(expand($MYVIMRC . ".local"))
+  source $MYVIMRC.local
+endif
 
