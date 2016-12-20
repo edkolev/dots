@@ -8,7 +8,7 @@
 [merge]
   tool = vimdiff
 [push]
-  default = simple
+  default = upstream
 [core]
   editor = vim
 [alias]
@@ -32,3 +32,5 @@
    path = ~/.gitconfig.local
 [advice]
   statusHints = false
+[pull]
+  rebase = true
