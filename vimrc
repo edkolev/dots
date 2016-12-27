@@ -186,7 +186,7 @@ set splitbelow splitright
 set showmatch
 set autowrite
 set synmaxcol=500
-set completeopt=longest,menuone,preview
+set completeopt=menuone,preview
 set complete=.,b
 set wildmode=list:full,full
 set shortmess=ao
