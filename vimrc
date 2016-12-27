@@ -117,12 +117,15 @@ let g:goyo_width = '40%'
 let g:goyo_height = '100%'
 
 " vim-fugitive
-nnoremap Ucvc :Gco -v<cr>
-nnoremap Ucc  :Gco<cr>
-nnoremap Ucf  :Gco -v %<cr>
+nnoremap Ucc  :Gcommit<cr>
+nnoremap Ucvc :Gcommit -v<cr>
+nnoremap Ucf  :Gcommit -v %<cr>
+nnoremap Uca  :Gcommit -v --ammend<cr>
+nnoremap Ucva :Gcommit -v --ammend --reuse-message=HEAD<cr>
 nnoremap UU   :Gstatus<cr>
 nnoremap Ud   :Gdiff<cr>
 nnoremap Uw   :Gwrite<cr>
+nnoremap Ur   :Gread<cr>
 
 " }}}
 
@@ -165,8 +168,9 @@ set softtabstop=2
 set expandtab
 
 set scrolloff=0
-set scrolljump=-15
-set sidescrolloff=5
+set sidescroll=1
+set scrolljump=1
+set sidescrolloff=1
 set history=2000
 
 set nowrap
@@ -410,6 +414,10 @@ function! s:NextTextObject(motion)
   exe "normal! f".c."v".a:motion.c
 endfunction
 
+" line text object
+xnoremap <silent> il <Esc>^vg_
+onoremap <silent> il :<C-U>normal! ^vg_<CR>
+
 " fuzzy buffer completion
 function! GetBufferFileNames() abort
   let buffers = range(1, bufnr('$'))
@@ -618,11 +626,6 @@ augroup filetype_options
   endif
   au FileType javascript syntax region  javaScriptStringT start=+`+ skip=+\\\(`\|$\)+  end=+`\|$+
   au FileType javascript hi link javaScriptStringT		String
-  au FileType javascript
-        \ let b:endwise_addition = '}' |
-        \ let b:endwise_words = '{' |
-        \ let b:endwise_pattern = '{$' |
-        \ let b:endwise_syngroups = 'javaScriptBraces'
 
   au FileType r set commentstring=#%s
   au FileType r
