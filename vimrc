@@ -235,6 +235,10 @@ set sessionoptions-=options
 
 " Mappings & Commands {{{
 
+fun! s:local_vimrc()
+  return expand(resolve($MYVIMRC) . ".local")
+endfun
+
 fun! s:jumpToPreviousEdit(go_forward) abort
    let jump_command = "norm! " . (a:go_forward ? "g," : "g;")
    let line = line('.')
@@ -278,7 +282,7 @@ nnoremap <leader>w :vsplit<cr>
 nnoremap <expr> <silent> <cr> &modifiable ? ":update<cr>" : "<cr>"
 
 nmap <leader>v :e <c-r>=resolve($MYVIMRC)<CR><CR>
-nmap <leader>V :e $MYVIMRC.local<CR>
+nmap <leader>V :e <c-r>=<sid>local_vimrc()<CR><CR>
 
 " jump to tag if one, show list otherwise
 nmap <C-]> g<C-]>
@@ -506,7 +510,36 @@ nmap zS :echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'
 " :o => :on
 cnoreabbrev <expr> o ((getcmdtype() is# ':' && getcmdline() is# 'o')?('on'):('o'))
 
-inoremap <expr> <C-N> pumvisible()?"\<C-N>":"\<C-P>"
+" completion
+inoremap <expr> <tab> <SID>tab()
+inoremap <expr> <s-tab> <SID>shift_tab()
+inoremap <expr> <c-n> pumvisible()?"\<c-n>":"\<c-p>"
+
+function! s:shift_tab()
+  if pumvisible()
+    return "\<c-p>"
+  endif
+  return "\<tab>"
+endfunction
+
+function! s:tab()
+  if pumvisible()
+    return "\<c-n>"
+  endif
+
+  let line = getline('.')
+  let col = col('.') - 2
+  if line[col] !~ '\k\|[/~.]'
+    return "\<tab>"
+  endif
+
+  let prefix = expand(matchstr(line[0:col], '\S*$'))
+  if prefix =~ '^[~/.]'
+    return "\<c-x>\<c-f>"
+  endif
+
+  return "\<c-p>"
+endfunction
 
 " }}}
 
@@ -648,7 +681,7 @@ augroup filetype_options
 augroup END
 " }}}
 
-if filereadable(expand($MYVIMRC . ".local"))
-  source $MYVIMRC.local
+if filereadable(s:local_vimrc())
+  execute "source " . s:local_vimrc()
 endif
 
