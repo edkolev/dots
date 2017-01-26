@@ -363,6 +363,7 @@ command! -bang -range=% -nargs=1 JoinWith <line1>,<line2>-1s/$/<args>/|<line1>,<
 
 function! QffilterFunction(pat)
   let qf_lines = getqflist()
+  let title = getqflist({'title':1}).title
   let pattern = len(a:pat) > 1 ? a:pat : getreg('/')
   for qf_line in qf_lines
     if qf_line['text'] !~ pattern
@@ -370,10 +371,12 @@ function! QffilterFunction(pat)
     endif
   endfor
   call setqflist(qf_lines)
+  call setqflist([], 'r', {'title': title . ' *filtered ' . pattern . '*'})
 endfunction
 
 function! QfremoveFunction(pat)
   let qf_lines = getqflist()
+  let title = getqflist({'title':1}).title
   let pattern = len(a:pat) > 1 ? a:pat : getreg('/')
   for qf_line in qf_lines
     if qf_line['text'] =~ pattern
@@ -381,6 +384,7 @@ function! QfremoveFunction(pat)
     endif
   endfor
   call setqflist(qf_lines)
+  call setqflist([], 'r', {'title': title . ' *removed ' . pattern . '*'})
 endfunction
 command! -nargs=* Qffilter call QffilterFunction(<q-args>)
 command! -nargs=* Qfremove call QfremoveFunction(<q-args>)
