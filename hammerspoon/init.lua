@@ -21,21 +21,19 @@ for key, appName in pairs(appShortcuts) do
 end
 
 function launch_or_focus(appName)
-  if not is_app_running(appName) then
-    hs.alert('Launching ' .. appName)
-    return
-  end
-
   focusedWin = hs.window.focusedWindow()
-  focusedAppName = focusedWin:application():name()
 
   -- return nothing if already focused
-  if focusedAppName == appName then
+  if focusedWin and focusedWin:application():name() == appName then
      -- HACK: reload Chrome if already focused
      if appName == 'Google Chrome' then
         reload_chrome()
      end
      return
+  end
+
+  if not is_app_running(appName) then
+    hs.alert('Launching ' .. appName)
   end
 
   hs.application.launchOrFocus(appName)
