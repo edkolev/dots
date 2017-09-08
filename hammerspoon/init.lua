@@ -1,9 +1,9 @@
-keyCodes = { e=14, i=34, u=32, m=46, o=31, d=2, }
+keyCodes = { e=14, i=34, u=32, m=46, o=31, d=2, s=1 } -- hs.keycodes.map
 
 appShortcuts = {
   [keyCodes.e] = 'Google Chrome',
   [keyCodes.i] = 'iTerm',
-  [keyCodes.u] = 'MacVim',
+  [keyCodes.u] = 'Emacs',
   [keyCodes.m] = 'Mail',
   [keyCodes.o] = 'Sequel Pro',
   [keyCodes.d] = 'VLC',
@@ -21,8 +21,21 @@ for key, appName in pairs(appShortcuts) do
 end
 
 function launch_or_focus(appName)
-  if not is_app_running( appName) then
+  if not is_app_running(appName) then
     hs.alert('Launching ' .. appName)
+    return
+  end
+
+  focusedWin = hs.window.focusedWindow()
+  focusedAppName = focusedWin:application():name()
+
+  -- return nothing if already focused
+  if focusedAppName == appName then
+     -- HACK: reload Chrome if already focused
+     if appName == 'Google Chrome' then
+        reload_chrome()
+     end
+     return
   end
 
   hs.application.launchOrFocus(appName)
@@ -35,18 +48,6 @@ function is_app_running(appName)
   return false
 end
 
--- local log = hs.logger.new('mymodule','debug')
--- function reloadConfig(files)
---   doReload = false
---   for _,file in pairs(files) do
---     if file:sub(-4) == ".lua" then
---       doReload = true
---     end
---   end
---   if doReload then
---     hs.alert("Config will be reloaded")
---     hs.reload()
---   end
--- end
--- local myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-
+function reload_chrome()
+   hs.osascript.applescript("tell application \"Google Chrome\" to reload active tab of window 1")
+end
