@@ -21,22 +21,11 @@ for key, appName in pairs(appShortcuts) do
 end
 
 function launch_or_focus(appName)
-  focusedWin = hs.window.focusedWindow()
-
-  -- return nothing if already focused
-  if focusedWin and focusedWin:application():name() == appName then
-     -- HACK: reload Chrome if already focused
-     if appName == 'Google Chrome' then
-        reload_chrome()
-     end
-     return
-  end
-
   if not is_app_running(appName) then
     hs.alert('Launching ' .. appName)
   end
 
-  hs.application.launchOrFocus(appName)
+  hs.application.open(appName)
 end
 
 function is_app_running(appName)
@@ -44,8 +33,4 @@ function is_app_running(appName)
     return true
   end
   return false
-end
-
-function reload_chrome()
-   hs.osascript.applescript("tell application \"Google Chrome\" to reload active tab of window 1")
 end

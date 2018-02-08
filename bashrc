@@ -1,5 +1,6 @@
 [ -z "$PS1" ] && return
 [[ $- != *i* ]] && return
+[ $TERM = "dumb" ] && return
 
 export CLICOLOR=1
 export EDITOR=vim
