@@ -1,17 +1,26 @@
+
 [ -z "$PS1" ] && return
 [[ $- != *i* ]] && return
-[ $TERM = "dumb" ] && return
+
+case "$TERM" in
+xterm*|rxvt*|eterm*|screen*)
+    # PS1='\w ❯ '
+    PS1='\w $ '
+    ;;
+*)
+    PS1="> "
+    ;;
+esac
 
 export CLICOLOR=1
 export EDITOR=vim
-
-PS1='\w/$(job_count \j) ❯ '
 
 [ -d ~/bin ] && export PATH="$HOME/bin:$PATH"
 [ -f ~/.bashrc.local ] && source ~/.bashrc.local
 [ -f ~/.promptline.sh ] && source ~/.promptline.sh
 
 alias vi=vim
+alias e="emacs --no-window-system"
 alias -- -='cd -'
 alias -- ..='cd ..'
 alias -- ...='cd ../..'

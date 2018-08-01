@@ -6,7 +6,7 @@ appShortcuts = {
   [keyCodes.u] = 'Emacs',
   [keyCodes.m] = 'Mail',
   [keyCodes.o] = 'Sequel Pro',
-  [keyCodes.d] = 'VLC',
+  [keyCodes.d] = 'SoundCleod',
 }
 
 -- name before launch => name after launch

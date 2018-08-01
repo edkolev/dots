@@ -48,6 +48,7 @@ Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-haystack'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'tpope/vim-db'
 
 Plug 'edkolev/vim-amake'
 Plug 'edkolev/promptline.vim', { 'on': 'PromptlineSnapshot' }
@@ -61,6 +62,7 @@ Plug 'edkolev/tmuxline.vim', { 'on': [ 'Tmuxline', 'TmuxlineSimpe' ] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
+let g:lion_squeeze_spaces = 1
 Plug 'tommcdo/vim-lion'
 Plug 'tommcdo/vim-exchange'
 Plug 'AndrewRadev/linediff.vim'
@@ -74,7 +76,7 @@ Plug 'Wolfy87/vim-expand'
 Plug 'thinca/vim-ref'
 Plug 'nicwest/QQ.vim', { 'on': 'QQ' }
 Plug 'vim-scripts/LargeFile'
-Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
+" Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
 Plug 'ledger/vim-ledger', { 'for': 'ledger' }
 Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
@@ -133,7 +135,7 @@ nnoremap Ur   :Gread<cr>
 if has('gui_running')
    set guioptions=egm
    set guitablabel=%m\ %t
-   set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
+   set guifont=Source\ Code\ Pro:h13
    set gcr=a:blinkon0
 else
 endif
@@ -186,7 +188,7 @@ set splitbelow splitright
 set showmatch
 set autowrite
 set synmaxcol=500
-set completeopt=menuone,preview
+set completeopt=menu,preview
 set complete=.,b
 set wildmode=list:full,full
 set shortmess=ao
@@ -624,16 +626,7 @@ augroup filetype_options
   au FileType haskell iabbrev <buffer> undef undefined
   au FileType haskell iabbrev <buffer> und undefined
   au FileType haskell setlocal iskeyword+='
-  au FileType haskell setlocal makeprg=ghc\ -e\ :q\ %
-  au FileType haskell setlocal errorformat=
-                    \%-G,
-                    \%-Z\ %#,
-                    \%W%f:%l:%c:\ Warning:\ %m,
-                    \%E%f:%l:%c:\ %m,
-                    \%E%>%f:%l:%c:,
-                    \%+C\ \ %#%m,
-                    \%W%>%f:%l:%c:,
-                    \%+C\ \ %#%tarning:\ %m,
+  au FileType haskell compiler stack-ghc
 
   au FileType ledger set commentstring=;%s
   au FileType ledger setlocal foldmethod=manual
