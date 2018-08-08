@@ -1,7 +1,4 @@
 
-# Allow text selection in Quick Look
-defaults write com.apple.finder QLEnableTextSelection -bool true
-
 # Avoid creating .DS_Store files on network volumes
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
@@ -16,3 +13,12 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 0
+
+# use C-w to delete word and C-u to delete to beginning of line
+mkdir -p ~/Library/Keybindings/
+echo '
+{
+    "^w" = deleteWordBackward:;
+    "^u" = deleteToBeginningOfLine:;
+}
+' > ~/Library/Keybindings/DefaultKeyBinding.dict
