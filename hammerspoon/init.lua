@@ -4,9 +4,8 @@ appShortcuts = {
   [keyCodes.e] = 'Google Chrome',
   [keyCodes.i] = 'iTerm',
   [keyCodes.u] = 'Emacs',
-  [keyCodes.m] = 'Mail',
-  [keyCodes.o] = 'Sequel Pro',
-  [keyCodes.d] = 'SoundCleod',
+  [keyCodes.o] = 'TablePlus',
+  [keyCodes.d] = 'Amazon Music',
 }
 
 -- name before launch => name after launch
@@ -34,3 +33,29 @@ function is_app_running(appName)
   end
   return false
 end
+
+hs.hotkey.bind({"cmd", "shift"}, "H", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w / 2
+  f.h = max.h
+  win:setFrame(f)
+end)
+
+hs.hotkey.bind({"cmd", "shift"}, "L", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x + (max.w / 2)
+  f.y = max.y
+  f.w = max.w / 2
+  f.h = max.h
+  win:setFrame(f)
+end)
