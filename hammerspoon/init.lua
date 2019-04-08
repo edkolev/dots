@@ -1,37 +1,19 @@
-keyCodes = { e=14, i=34, u=32, m=46, o=31, d=2, s=1 } -- hs.keycodes.map
-
-appShortcuts = {
-  [keyCodes.e] = 'Google Chrome',
-  [keyCodes.i] = 'iTerm',
-  [keyCodes.u] = 'Emacs',
-  [keyCodes.o] = 'TablePlus',
-  [keyCodes.d] = 'Amazon Music',
+apps = {
+   e = 'Google Chrome',
+   i = 'iTerm',
+   u = 'Emacs',
+   o = 'TablePlus',
+   d = 'Amazon Music',
 }
 
--- name before launch => name after launch
-appDualNames = {
-  iTerm = 'iTerm2'
-}
+for key, app in pairs(apps) do
+   hs.hotkey.bind({"cmd"}, key, function()
+         if not hs.application.find(app) then
+            hs.alert('Launching ' .. app)
+         end
 
-for key, appName in pairs(appShortcuts) do
-  hs.hotkey.bind({"cmd"}, key, function()
-    launch_or_focus(appName)
-  end)
-end
-
-function launch_or_focus(appName)
-  if not is_app_running(appName) then
-    hs.alert('Launching ' .. appName)
-  end
-
-  hs.application.open(appName)
-end
-
-function is_app_running(appName)
-  if hs.appfinder.appFromName(appDualNames[appName] or appName) then
-    return true
-  end
-  return false
+         hs.application.launchOrFocus(app)
+   end)
 end
 
 hs.hotkey.bind({"cmd", "shift"}, "H", function()
