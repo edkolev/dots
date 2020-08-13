@@ -3,7 +3,7 @@ apps = {
    i = 'iTerm',
    u = 'Emacs',
    o = 'TablePlus',
-   d = 'Amazon Music',
+   d = 'Youtube Music',
 }
 
 for key, app in pairs(apps) do
@@ -40,4 +40,8 @@ hs.hotkey.bind({"cmd", "shift"}, "L", function()
   f.w = max.w / 2
   f.h = max.h
   win:setFrame(f)
+end)
+
+hs.hotkey.bind({"cmd", "shift"}, "f", function()
+  hs.window.focusedWindow():maximize()
 end)

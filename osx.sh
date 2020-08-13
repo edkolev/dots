@@ -11,8 +11,9 @@ defaults write com.apple.finder QuitMenuItem -bool true
 # Disable press-and-hold for keys in favor of key repeat
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
-# Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 0
+# Set a fast keyboard repeat rate
+defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 
 # use C-w to delete word and C-u to delete to beginning of line
 mkdir -p ~/Library/Keybindings/
