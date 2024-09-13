@@ -50,7 +50,6 @@ Plug 'tpope/vim-haystack'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tpope/vim-db'
 
-Plug 'edkolev/vim-amake'
 Plug 'edkolev/promptline.vim', { 'on': 'PromptlineSnapshot' }
 Plug 'vim-scripts/tracwiki', { 'for': 'tracwiki' }
 Plug 'christoomey/vim-tmux-navigator'
@@ -145,7 +144,6 @@ set statusline=\
 set statusline+=[%n%H%R%W]%*\ 
 set statusline+=%f%m\ 
 set statusline+=%{fugitive#head()}
-set statusline+=\ %{AmakeStatusline()}
 set statusline+=%=
 set statusline+=%l\ \/\ %L,\ %c\ 
 

@@ -16,3 +16,6 @@ link "$PWD/vimrc"         ~/.vimrc
 link "$PWD/gitconfig"     ~/.gitconfig
 link "$PWD/git_template"  ~/.git_template
 link "$PWD/tmux.conf"     ~/.tmux.conf
+link "$PWD/ripgreprc"     ~/.ripgreprc
+link "$PWD/hammerspoon"   ~/.hammerspoon
+mkdir -p ~/.docker && link "docker_config" ~/.docker/config.json

@@ -4,8 +4,7 @@
 
 case "$TERM" in
 xterm*|rxvt*|eterm*|screen*)
-    # PS1='\w ❯ '
-    PS1='\w $ '
+    PS1="\w \$ "
     ;;
 *)
     PS1="> "
@@ -14,6 +13,8 @@ esac
 
 export CLICOLOR=1
 export EDITOR=vim
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+export COLORTERM=truecolor
 
 [ -d ~/bin ] && export PATH="$HOME/bin:$PATH"
 [ -f ~/.bashrc.local ] && source ~/.bashrc.local
@@ -25,14 +26,18 @@ alias -- -='cd -'
 alias -- ..='cd ..'
 alias -- ...='cd ../..'
 
+alias tpaste="tmux save-buffer -"
+alias tcopy="tmux load-buffer -"
+# for consistency with :Tyank / :Tcopy in vim/emacs
+alias tput="tmux save-buffer -"
+alias tyank="tmux load-buffer -"
+
 if [[ $OSTYPE == darwin* ]]; then
    alias ls='ls -G'
 else
    alias ls='ls --color=auto'
 fi
 alias grep='grep -I --color=auto'
-
-alias gcd='if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then cd $(git rev-parse --show-toplevel); else echo "not in a git repository"; fi'
 
 HISTTIMEFORMAT='%F %T '
 HISTIGNORE='ls:bg:fg:history:clear:..:...:-'
@@ -84,3 +89,40 @@ function ffind {
 function vgrep {
    vim -c "grep '$1'"
 }
+
+function evgeni_project_root {
+  local prj_root=""
+  d="$PWD"
+  while [ "$d" != "/" ]; do
+    d=$(dirname "$d")
+    if [ -e "$d/.projectile" ]; then
+      prj_root="$d"
+      break
+    fi
+  done
+
+  local git_root=""
+  if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
+    git_root=$(git rev-parse --show-toplevel)
+    if [ "$git_root" = "$PWD" ]; then
+      git_root=""
+    fi
+  fi
+
+  local root="."
+  if [ "$prj_root" = "" ] && [ "$git_root" = "" ]; then
+    echo 1>&2 "no upper project"
+  elif [[ -n "$prj_root" && -n "$git_root" && "$git_root" = $prj_root* ]]; then
+    root="$git_root"
+  elif [[ -n "$prj_root" && -n "$git_root" && "$prj_root" = $git_root* ]]; then
+    root="$prj_root"
+  elif [ "$prj_root" != "" ]; then
+    root="$prj_root"
+  elif [ "$git_root" != "" ]; then
+    root="$git_root"
+  fi
+
+  echo "$root"
+}
+
+alias gcd='cd "$(evgeni_project_root)"'

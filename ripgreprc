@@ -1,0 +1,2 @@
+--type-add
+gotest:*_test.go
