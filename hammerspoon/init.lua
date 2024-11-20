@@ -1,6 +1,6 @@
 apps = {
    e = 'Google Chrome',
-   i = 'iTerm',
+   i = 'Alacritty',
    u = 'Emacs',
    o = 'TablePlus',
    d = 'Youtube Music',
