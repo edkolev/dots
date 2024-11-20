@@ -27,3 +27,4 @@ link "$PWD/ripgreprc"          ~/.ripgreprc
 link "$PWD/hammerspoon"        ~/.hammerspoon
 link "$PWD/docker_config.json" ~/.docker/config.json
 link "$PWD/alacritty.toml"     ~/.config/alacritty/alacritty.toml
+link "$PWD/karabiner.json"     ~/.config/karabiner/karabiner.json
