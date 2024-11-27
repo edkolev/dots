@@ -4,41 +4,18 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "New Rule (change left_shift+caps_lock to page_down, right_shift+caps_lock to left_command+mission_control,ctrl-w to delete word)",
+                        "description": "ctrl-w to delete word",
                         "manipulators": [
                             {
-                                "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": {
-                                        "mandatory": ["left_shift"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [
+                                "conditions": [
                                     {
-                                        "key_code": "page_down",
-                                        "modifiers": []
+                                        "bundle_identifiers": [
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.alacritty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": {
-                                        "mandatory": ["right_shift"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "apple_vendor_keyboard_key_code": "mission_control",
-                                        "modifiers": ["left_command"]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
                                 "from": {
                                     "key_code": "w",
                                     "modifiers": {
