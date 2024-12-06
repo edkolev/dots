@@ -1,15 +1,11 @@
-
 [ -z "$PS1" ] && return
 [[ $- != *i* ]] && return
 
-case "$TERM" in
-xterm*|rxvt*|eterm*|screen*)
-    PS1="\w \$ "
-    ;;
-*)
-    PS1="> "
-    ;;
-esac
+PS1="\w \$ "
+
+# support shell prompt markers OSC-133
+function prompt_marker { printf '\e]133;A\e\\'; }
+PROMPT_COMMAND=prompt_marker
 
 export CLICOLOR=1
 export EDITOR=vim
