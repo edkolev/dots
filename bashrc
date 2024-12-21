@@ -122,3 +122,17 @@ function evgeni_project_root {
 }
 
 alias gcd='cd "$(evgeni_project_root)"'
+
+function pick_emacs_project() {
+  local PS3="project: "
+  select file in $(cat ~/.emacs.d/var/project-list.el | grep -v '^;' | tr -d '()" ') ; do
+    if [ "$file" ]; then
+      echo "${file/#\~/$HOME}"
+      return
+    else
+       >&2 echo "Bad choice"
+    fi
+  done
+}
+
+alias j='cd $(pick_emacs_project)'
