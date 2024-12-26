@@ -15,3 +15,5 @@ style.blinking = "Never"
 [window]
 option_as_alt = "Both"
 
+[mouse]
+hide_when_typing = true
