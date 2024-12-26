@@ -91,7 +91,7 @@ function evgeni_project_root {
   d="$PWD"
   while [ "$d" != "/" ]; do
     d=$(dirname "$d")
-    if [ -e "$d/.projectile" ]; then
+    if [ -e "$d/.project" ]; then
       prj_root="$d"
       break
     fi
