@@ -45,3 +45,7 @@ end)
 hs.hotkey.bind({"cmd", "shift"}, "f", function()
   hs.window.focusedWindow():maximize()
 end)
+
+-- uncomment to reload config on file change
+-- myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/init.lua", hs.reload):start()
+-- hs.alert.show("Config loaded")
