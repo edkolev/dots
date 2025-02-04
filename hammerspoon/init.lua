@@ -1,4 +1,4 @@
-apps = {
+local apps = {
    e = 'Google Chrome',
    i = 'Alacritty',
    u = 'Emacs',
