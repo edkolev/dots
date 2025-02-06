@@ -4,17 +4,29 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "remap shift enter to pipe",
+                        "description": "ctrl-u to delete to beginning of line",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.alacritty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": {
-                                    "key_code": "return_or_enter",
-                                    "modifiers": { "mandatory": ["left_shift"] }
+                                    "key_code": "u",
+                                    "modifiers": {
+                                        "mandatory": ["left_control"],
+                                        "optional": ["any"]
+                                    }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "backslash",
-                                        "modifiers": ["left_shift"]
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": ["command"]
                                     }
                                 ],
                                 "type": "basic"
@@ -45,6 +57,24 @@
                                     {
                                         "key_code": "delete_or_backspace",
                                         "modifiers": ["left_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "remap shift enter to pipe",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "return_or_enter",
+                                    "modifiers": { "mandatory": ["left_shift"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "backslash",
+                                        "modifiers": ["left_shift"]
                                     }
                                 ],
                                 "type": "basic"
