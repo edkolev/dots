@@ -17,14 +17,16 @@ function link {
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-link "$PWD/bashrc"             ~/.bashrc
-link "$PWD/inputrc"            ~/.inputrc
-link "$PWD/vimrc"              ~/.vimrc
-link "$PWD/gitconfig"          ~/.gitconfig
-link "$PWD/git_template"       ~/.git_template
-link "$PWD/tmux.conf"          ~/.tmux.conf
-link "$PWD/ripgreprc"          ~/.ripgreprc
-link "$PWD/hammerspoon"        ~/.hammerspoon
-link "$PWD/docker_config.json" ~/.docker/config.json
-link "$PWD/alacritty.toml"     ~/.config/alacritty/alacritty.toml
-link "$PWD/karabiner.json"     ~/.config/karabiner/karabiner.json
+link "$PWD/bashrc"              ~/.bashrc
+link "$PWD/inputrc"             ~/.inputrc
+link "$PWD/vimrc"               ~/.vimrc
+link "$PWD/gitconfig"           ~/.gitconfig
+link "$PWD/git_template"        ~/.git_template
+link "$PWD/tmux.conf"           ~/.tmux.conf
+link "$PWD/ripgreprc"           ~/.ripgreprc
+link "$PWD/hammerspoon"         ~/.hammerspoon
+link "$PWD/docker_config.json"  ~/.docker/config.json
+link "$PWD/alacritty.toml"      ~/.config/alacritty/alacritty.toml
+link "$PWD/ghostty_base.config" ~/.config/ghostty/config
+link "$PWD/ghostty.config"      ~/.config/ghostty/ghostty.config
+link "$PWD/karabiner.json"      ~/.config/karabiner/karabiner.json

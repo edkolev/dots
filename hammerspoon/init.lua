@@ -1,6 +1,6 @@
 local apps = {
    e = 'Google Chrome',
-   i = 'Alacritty',
+   i = 'Ghostty',
    u = 'Emacs',
    o = 'TablePlus',
    d = 'Youtube Music',
