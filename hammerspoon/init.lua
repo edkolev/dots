@@ -36,11 +36,11 @@ local function moveWindowToUnit(win, rs)
 end
 
 hs.hotkey.bind({"cmd", "shift"}, "H", function()
-      moveWindowToUnit(hs.window.focusedWindow(), {hs.layout.left50, hs.layout.left70, hs.layout.left30})
+      moveWindowToUnit(hs.window.focusedWindow(), {hs.layout.left70, hs.layout.left50, hs.layout.left30})
 end)
 
 hs.hotkey.bind({"cmd", "shift"}, "L", function()
-      moveWindowToUnit(hs.window.focusedWindow(), {hs.layout.right50, hs.layout.right70, hs.layout.right30})
+      moveWindowToUnit(hs.window.focusedWindow(), {hs.layout.right70, hs.layout.right50, hs.layout.right30})
 end)
 
 hs.hotkey.bind({"cmd", "shift"}, "f", function()
