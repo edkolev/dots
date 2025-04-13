@@ -67,6 +67,14 @@
                         "description": "remap shift enter to pipe",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.viber\\.osx"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "return_or_enter",
                                     "modifiers": { "mandatory": ["left_shift"] }
