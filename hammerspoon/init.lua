@@ -16,8 +16,13 @@ for key, app in pairs(apps) do
    end)
 end
 
+local function equalRounded(a, b)
+    return string.format("%.1f", a) == string.format("%.1f", b)
+end
+
 local function equalUnitRect(f1, f2)
-   return f1.x == f2.x and f1.y == f2.y and string.format("%.1f", f1.w) == string.format("%.1f", f2.w)
+    local eq = equalRounded(f1.x, f2.x) and equalRounded(f1.y, f2.y) and equalRounded(f1.w, f2.w) and equalRounded(f1.h, f2.h)
+    return eq
 end
 
 local function nextUnitRect(r, rs)
