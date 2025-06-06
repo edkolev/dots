@@ -49,7 +49,7 @@
                                 "from": {
                                     "key_code": "w",
                                     "modifiers": {
-                                        "mandatory": ["left_control"],
+                                        "mandatory": ["control"],
                                         "optional": ["any"]
                                     }
                                 },
