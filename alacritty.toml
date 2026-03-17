@@ -1,19 +1,18 @@
-import = [
-    "~/.config/alacritty/themes/themes/papercolor_light.toml"
-]
-
-[shell]
-program = "/opt/homebrew/bin/bash"
-
-[font]
-size = 14
-normal.family = "Droid Sans Mono"
-
 [cursor]
 style.blinking = "Never"
 
 [window]
 option_as_alt = "Both"
+decorations = "Buttonless"
+padding = { x = 2, y = 2 }
 
 [mouse]
 hide_when_typing = true
+
+[font]
+size = 14
+
+[general]
+import = [
+    "~/.config/alacritty/alacritty_local.toml"
+]

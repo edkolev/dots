@@ -185,7 +185,7 @@ set numberwidth=1
 set splitbelow splitright
 set showmatch
 set autowrite
-set synmaxcol=500
+set synmaxcol=1000
 set completeopt=menu,preview
 set complete=.,b
 set wildmode=list:full,full

@@ -1,9 +1,9 @@
 local apps = {
    e = 'Google Chrome',
-   i = 'Ghostty',
+   i = 'Alacritty',
    u = 'Emacs',
    o = 'TablePlus',
-   d = 'Youtube Music',
+   m = 'Youtube Music',
 }
 
 for key, app in pairs(apps) do
@@ -50,6 +50,10 @@ end)
 
 hs.hotkey.bind({"cmd", "shift"}, "f", function()
   hs.window.focusedWindow():maximize()
+end)
+
+hs.hotkey.bind({"cmd"}, "d", function()
+  hs.eventtap.keyStrokes(os.date("%b %d %X"))
 end)
 
 -- uncomment to reload config on file change
